@@ -1,14 +1,25 @@
-{% extends "base_styles.html.twig" %}
+{% extends 'RocketExpensesBundle:Default:base.html.twig' %}
 
 {% block body %}
-  <table>
-    {% for expense in expenses %}
-      <tr>
-        <td>{{ expense.id }}</td>
-        <td>{{ expense.amount }}</td>
-        <td>{{ expense.date | date }}</td>
-        <td>{{ expense.description }}</td>
-      </tr>
-    {% endfor %}
-  </table>
+  <div class="container">
+    <div class="row">
+      <table class="striped">
+        <thead>
+          {{ dump(expenses) }}
+        </thead>
+        {% for expense in expenses %}
+          <tr>
+            <td>{{ expense.id }}</td>
+            <td>{{ expense.amount }}</td>
+            <td>{{ expense.date | date }}</td>
+            <td>{{ expense.description }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+  {% if(asset('node_modules/materialize-css/dist/css/materialize.css')) %}
+    <link rel="stylesheet" href="{{ asset('node_modules/materialize-css/dist/css/materialize.css') }}" />
+    <script src="{{ asset('node_modules/materialize-css/dist/js/materialize.js') }}"> </script>
+  {% endif %}
 {% endblock %}
