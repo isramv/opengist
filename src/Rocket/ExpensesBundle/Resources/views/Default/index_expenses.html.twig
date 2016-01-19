@@ -3,15 +3,19 @@
 {% block body %}
   <div class="container">
     <div class="row">
-      <table class="striped">
+      <h1>Expenses</h1>
+      <table class="striped responsive-table">
         <thead>
-          {{ dump(expenses) }}
+          <th>id</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Description</th>
         </thead>
         {% for expense in expenses %}
           <tr>
             <td>{{ expense.id }}</td>
             <td>{{ expense.amount }}</td>
-            <td>{{ expense.date | date }}</td>
+            <td>{{ expense.date | date('H:i -- d M Y') }}</td>
             <td>{{ expense.description }}</td>
           </tr>
         {% endfor %}
