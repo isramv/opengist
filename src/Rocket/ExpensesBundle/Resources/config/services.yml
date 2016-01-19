@@ -1,0 +1,4 @@
+services:
+#    rocket_expenses.example:
+#        class: Rocket\ExpensesBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

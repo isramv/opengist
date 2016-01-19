@@ -1,0 +1,7 @@
+rocket_expenses_homepage:
+    path:     /expenses
+    defaults: { _controller: RocketExpensesBundle:Default:index }
+
+rocket_expenses_create_expense:
+    path:     /expenses/create
+    defaults: { _controller: RocketExpensesBundle:Default:createItem }

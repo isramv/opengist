@@ -1,0 +1,24 @@
+Rocket\ExpensesBundle\Entity\Expense:
+    type: entity
+    table: null
+    repositoryClass: Rocket\ExpensesBundle\Repository\ExpenseRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        amount:
+            type: decimal
+            precision: '15'
+            scale: '2'
+            column: Amount
+        date:
+            type: datetime
+            column: Date
+        description:
+            type: string
+            length: 255
+            column: Description
+    lifecycleCallbacks: {  }

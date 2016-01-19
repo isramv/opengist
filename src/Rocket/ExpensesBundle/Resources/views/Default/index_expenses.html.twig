@@ -1,0 +1,14 @@
+{% extends "base_styles.html.twig" %}
+
+{% block body %}
+  <table>
+    {% for expense in expenses %}
+      <tr>
+        <td>{{ expense.id }}</td>
+        <td>{{ expense.amount }}</td>
+        <td>{{ expense.date | date }}</td>
+        <td>{{ expense.description }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
