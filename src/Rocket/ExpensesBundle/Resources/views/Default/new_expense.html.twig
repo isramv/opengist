@@ -4,12 +4,18 @@
   <div class="container">
     <div class="row s12">
       {{ form_start(form) }}
-      {{ form_widget(form) }}
+      {#{{ form_widget(form) }}#}
+      {#{{ dump(form.date) }}#}
+      {#{{ form_end(form) }}#}
+      {{ form_row(form.date) }}
+      {{ form_row(form.amount) }}
+      {{ form_row(form.description) }}
       {{ form_end(form) }}
     </div>
   </div>
   {% if(asset('node_modules/materialize-css/dist/css/materialize.css')) %}
     <link rel="stylesheet" href="{{ asset('node_modules/materialize-css/dist/css/materialize.css') }}" />
+    <script src="{{ asset('node_modules/jquery/dist/jquery.js') }}"> </script>
     <script src="{{ asset('node_modules/materialize-css/dist/js/materialize.js') }}"> </script>
   {% endif %}
 {% endblock %}
