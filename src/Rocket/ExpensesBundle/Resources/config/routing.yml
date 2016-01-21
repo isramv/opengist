@@ -5,3 +5,7 @@ rocket_expenses_homepage:
 rocket_expenses_create_expense:
     path:     /expenses/create
     defaults: { _controller: RocketExpensesBundle:Default:createItem }
+
+rocket_expenses_api_get:
+    path:    /api/v1/expenses
+    defaults: { _controller: RocketExpensesBundle:Default:indexApi }
