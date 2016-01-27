@@ -1,41 +1,61 @@
-{% extends 'RocketExpensesBundle:Default:base.html.twig' %}
+{% extends 'RocketExpensesBundle:Default:uikit-base.html.twig' %}
 
 {% block body %}
-  <div class="container">
-    <div class="row">
+  <div class="uk-container uk-container-center">
+    <div class="uk-width-1-1">
+      <h1>Expenses</h1>
       {% verbatim %}
-         <div class="ng-app" data-ng-app="expenses">
+         <div data-ng-app="expenses">
             <div class="controller" data-ng-controller="ExpensesController">
-                {{ salute }}
+                <a class="uk-button" href="expenses/create">Create</a>
+                <a class="uk-button" data-ng-click="load_expenses()">Load</a>
+                <table class="uk-table" data-ng-show="expenses">
+                  <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-ng-repeat="expense in expenses">
+                    <td>{{ expense.id }}</td>
+                    <td>{{ expense.description }}</td>
+
+                    <td>
+                    <!--{{ expense }}-->
+                    {{ expense.date.date | date: 'yyyy' }}</td>
+                    <td>{{ expense.amount }}</td>
+                    </tr>
+                  </tbody>
+                </table>
             </div>
         </div>
         {% endverbatim %}
     </div>
-    <div class="row">
-      <h1>Expenses</h1>
-      <table class="striped responsive-table">
-        <thead>
-          <th>id</th>
-          <th>Amount</th>
-          <th>Date</th>
-          <th>Description</th>
-        </thead>
-        {% for expense in expenses %}
-          <tr>
-            <td>{{ expense.id }}</td>
-            <td>{{ expense.amount }}</td>
-            <td>{{ expense.date | date('H:i -- d M Y') }}</td>
-            <td>{{ expense.description }}</td>
-          </tr>
-        {% endfor %}
-      </table>
-    </div>
-  </div>
-  {% if(asset('node_modules/materialize-css/dist/css/materialize.css')) %}
-    {#<link rel="stylesheet" href="{{ asset('node_modules/materialize-css/dist/css/materialize.css') }}" />#}
-    {#<script src="{{ asset('node_modules/materialize-css/dist/js/materialize.js') }}"> </script>#}
+    {#<div class="row">#}
+      {#<h1>Expenses</h1>#}
+      {#<table class="uk-table">#}
+        {#<thead>#}
+          {#<th>id</th>#}
+          {#<th>Amount</th>#}
+          {#<th>Date</th>#}
+          {#<th>Description</th>#}
+        {#</thead>#}
+        {#{% for expense in expenses %}#}
+          {#<tr>#}
+            {#<td>{{ expense.id }}</td>#}
+            {#<td>{{ expense.amount }}</td>#}
+            {#<td>{{ expense.date | date('H:i -- d M Y') }}</td>#}
+            {#<td>{{ expense.description }}</td>#}
+          {#</tr>#}
+        {#{% endfor %}#}
+      {#</table>#}
+    {#</div>#}
+
     <script src="{{ asset('js/angular/angular.js') }}"></script>
     <script src="{{ asset('js/angular/angular-resource.js') }}"></script>
     <script src="{{ asset('RocketApp/expenses.js') }}"></script>
-  {% endif %}
+  </div>
 {% endblock %}
