@@ -1,9 +1,6 @@
 {% extends 'RocketExpensesBundle:Default:base.html.twig' %}
-
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
-
 {#{% form_theme form _self %}#}
-
 {#{%- block button_widget -%}#}
   {#{%- if label is empty -%}#}
     {#{%- if label_format is not empty -%}#}
@@ -17,8 +14,7 @@
   {#{%- endif -%}#}
   {#<button class="btn" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>#}
 {#{%- endblock button_widget -%}#}
-
-{% block body %}
+{% block content %}
   <div class="container">
     <div class="row s12">
       {{ form_start(form) }}
@@ -29,9 +25,4 @@
     </div>
   </div>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  {% if(asset('node_modules/materialize-css/dist/css/materialize.css')) %}
-    {#<link rel="stylesheet" href="{{ asset('node_modules/materialize-css/dist/css/materialize.css') }}" />#}
-    {#<script src="{{ asset('node_modules/jquery/dist/jquery.js') }}"> </script>#}
-    {#<script src="{{ asset('node_modules/materialize-css/dist/js/materialize.js') }}"> </script>#}
-  {% endif %}
 {% endblock %}

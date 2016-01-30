@@ -59,6 +59,27 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        dql:
+            datetime_functions:
+                date: DoctrineExtensions\Query\Mysql\Date
+                date_format: DoctrineExtensions\Query\Mysql\DateFormat
+                dateadd: DoctrineExtensions\Query\Mysql\DateAdd
+                datesub: DoctrineExtensions\Query\Mysql\DateSub
+                datediff: DoctrineExtensions\Query\Mysql\DateDiff
+                day: DoctrineExtensions\Query\Mysql\Day
+                dayname: DoctrineExtensions\Query\Mysql\DayName
+                from_unixtime: DoctrineExtensions\Query\Mysql\FromUnixtime
+                last_day: DoctrineExtensions\Query\Mysql\LastDay
+                minute: DoctrineExtensions\Query\Mysql\Minute
+                second: DoctrineExtensions\Query\Mysql\Second
+                strtodate: DoctrineExtensions\Query\Mysql\StrToDate
+                time: DoctrineExtensions\Query\Mysql\Time
+                timestampadd: DoctrineExtensions\Query\Mysql\TimestampAdd
+                timestampdiff: DoctrineExtensions\Query\Mysql\TimestampDiff
+                week: DoctrineExtensions\Query\Mysql\Week
+                weekday: DoctrineExtensions\Query\Mysql\WeekDay
+                year: DoctrineExtensions\Query\Mysql\Year
+                unix_timestamp: DoctrineExtensions\Query\Mysql\UnixTimestamp
 
 # Swiftmailer Configuration
 swiftmailer:

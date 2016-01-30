@@ -17,6 +17,14 @@ app.factory('Expenses', ['$resource', function($resource) {
     }
 ]);
 
+app.filter('rocketDate', function ($filter) {
+    return function (input) {
+        if (input == null) { return ""; }
+        var newinput = input.replace(" ", "T");
+        return newinput;
+    };
+});
+
 app.controller('ExpensesController', ['$scope', 'Expenses',
     function($scope, Expenses) {
         $scope.name = 'ExpensesController';

@@ -54,12 +54,12 @@ class DefaultController extends Controller {
       $query = $em->createQueryBuilder()
         ->from('RocketExpensesBundle:Expense','e')
         ->select('e')
+        ->select()
         ->where('e.amount > 100');
       $result = $query->getQuery()->getArrayResult();
-      dump($query);
-      dump($result);
-      return new Response($html = $this->container->get('templating')->render('base.html.twig'));
+//      return new Response($html = $this->container->get('templating')->render('base.html.twig'));
       $jsonArray = json_encode($result);
+//      dump($jsonArray);
       $response = new Response($jsonArray);
       $response->headers->set('Content-Type', 'application/json');
       return $response;

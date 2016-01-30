@@ -1,8 +1,10 @@
-{% extends 'base.html.twig' %}
-
-{% block javascripts %}
+{% extends 'RocketExpensesBundle:Default:base.html.twig' %}
+{% block css %}
   <link rel="stylesheet" href="{{ asset('vendor/uikit/css/uikit.css') }}"/>
   <link rel="stylesheet" href="{{ asset('vendor/uikit/css/uikit.gradient.css') }}"/>
+{% endblock %}
+{% block javascripts %}
   <script src="{{ asset('node_modules/jquery/dist/jquery.js') }}"></script>
   <script src="{{ asset('vendor/uikit/js/uikit.js') }}"></script>
+  <script src="{{ asset('js/angular/angular.js') }}"></script>
 {% endblock %}
