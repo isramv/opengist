@@ -9,10 +9,6 @@ Rocket\Clients\ContactsBundle\Entity\Contact:
             generator:
                 strategy: AUTO
     fields:
-        organizations:
-            type: integer
-            nullable: true
-            column: Organizations
         namePrefix:
             type: string
             length: 255
@@ -30,14 +26,6 @@ Rocket\Clients\ContactsBundle\Entity\Contact:
             type: text
             nullable: true
             column: Description
-        assignedTo:
-            type: integer
-            nullable: true
-            column: AssignedTo
-        reportsTo:
-            type: integer
-            nullable: true
-            column: ReportsTo
         emails:
             type: array
             nullable: true
