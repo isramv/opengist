@@ -55,7 +55,7 @@ Rocket\Clients\ContactsBundle\Entity\Contact:
             nullable: true
             column: JobTitle
         birthday:
-            type: datetimetz
+            type: datetime
             nullable: true
             column: Birthday
         gender:
