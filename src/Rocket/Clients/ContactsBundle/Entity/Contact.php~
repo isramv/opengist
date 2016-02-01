@@ -2,6 +2,8 @@
 
 namespace Rocket\Clients\ContactsBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Rocket\Clients\OrganizationsBundle\Entity\Organization;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

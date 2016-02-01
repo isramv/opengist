@@ -3,6 +3,8 @@
 namespace Rocket\Clients\OrganizationsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rocket\Clients\ContactsBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Organization
@@ -38,7 +40,6 @@ class Organization
      * @var
      */
     protected $contacts;
-
 
     /**
      * Get id
@@ -140,5 +141,45 @@ class Organization
     public function getOwner()
     {
         return $this->owner;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add contacts
+     *
+     * @param \Rocket\Clients\ContactsBundle\Entity\Contact $contacts
+     * @return Organization
+     */
+    public function addContact(\Rocket\Clients\ContactsBundle\Entity\Contact $contacts)
+    {
+        $this->contacts[] = $contacts;
+
+        return $this;
+    }
+
+    /**
+     * Remove contacts
+     *
+     * @param \Rocket\Clients\ContactsBundle\Entity\Contact $contacts
+     */
+    public function removeContact(\Rocket\Clients\ContactsBundle\Entity\Contact $contacts)
+    {
+        $this->contacts->removeElement($contacts);
+    }
+
+    /**
+     * Get contacts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
     }
 }

@@ -3,6 +3,8 @@
 namespace Rocket\Clients\OrganizationsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rocket\Clients\ContactsBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Organization
@@ -39,6 +41,9 @@ class Organization
      */
     protected $contacts;
 
+    public function __toString() {
+        return $this->name;
+    }
 
     /**
      * Get id

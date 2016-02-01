@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Contact list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nameprefix</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Description</th>
+                <th>Emails</th>
+                <th>Phones</th>
+                <th>Twitter</th>
+                <th>Facebook</th>
+                <th>Linkedin</th>
+                <th>Jobtitle</th>
+                <th>Birthday</th>
+                <th>Gender</th>
+                <th>Picture</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contact in contacts %}
+            <tr>
+                <td><a href="{{ path('contact_show', { 'id': contact.id }) }}">{{ contact.id }}</a></td>
+                <td>{{ contact.namePrefix }}</td>
+                <td>{{ contact.firstName }}</td>
+                <td>{{ contact.lastName }}</td>
+                <td>{{ contact.description }}</td>
+                <td>{% if contact.emails %}{{ contact.emails|join(', ') }}{% endif %}</td>
+                <td>{% if contact.phones %}{{ contact.phones|join(', ') }}{% endif %}</td>
+                <td>{{ contact.twitter }}</td>
+                <td>{{ contact.facebook }}</td>
+                <td>{{ contact.linkedIn }}</td>
+                <td>{{ contact.jobTitle }}</td>
+                <td>{% if contact.birthday %}{{ contact.birthday|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ contact.gender }}</td>
+                <td>{{ contact.picture }}</td>
+                <td>{% if contact.created %}{{ contact.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('contact_show', { 'id': contact.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('contact_edit', { 'id': contact.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('contact_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

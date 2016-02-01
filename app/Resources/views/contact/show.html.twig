@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Contact</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ contact.id }}</td>
+            </tr>
+            <tr>
+                <th>Nameprefix</th>
+                <td>{{ contact.namePrefix }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ contact.firstName }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ contact.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ contact.description }}</td>
+            </tr>
+            <tr>
+                <th>Emails</th>
+                <td>{% if contact.emails %}{{ contact.emails|join(', ') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Phones</th>
+                <td>{% if contact.phones %}{{ contact.phones|join(', ') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Twitter</th>
+                <td>{{ contact.twitter }}</td>
+            </tr>
+            <tr>
+                <th>Facebook</th>
+                <td>{{ contact.facebook }}</td>
+            </tr>
+            <tr>
+                <th>Linkedin</th>
+                <td>{{ contact.linkedIn }}</td>
+            </tr>
+            <tr>
+                <th>Jobtitle</th>
+                <td>{{ contact.jobTitle }}</td>
+            </tr>
+            <tr>
+                <th>Birthday</th>
+                <td>{% if contact.birthday %}{{ contact.birthday|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ contact.gender }}</td>
+            </tr>
+            <tr>
+                <th>Picture</th>
+                <td>{{ contact.picture }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{% if contact.created %}{{ contact.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('contact_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

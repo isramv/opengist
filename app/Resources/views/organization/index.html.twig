@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Organization list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Created</th>
+                <th>Description</th>
+                <th>Owner</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for organization in organizations %}
+            <tr>
+                <td><a href="{{ path('organization_show', { 'id': organization.id }) }}">{{ organization.id }}</a></td>
+                <td>{{ organization.name }}</td>
+                <td>{% if organization.created %}{{ organization.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ organization.description }}</td>
+                <td>{{ organization.owner }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('organization_show', { 'id': organization.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('organization_edit', { 'id': organization.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('organization_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
