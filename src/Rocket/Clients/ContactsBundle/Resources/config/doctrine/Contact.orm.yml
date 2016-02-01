@@ -82,3 +82,10 @@ Rocket\Clients\ContactsBundle\Entity\Contact:
             type: datetime
             column: Created
     lifecycleCallbacks: {  }
+    manyToOne:
+        organization:
+            targetEntity: Rocket\Clients\OrganizationsBundle\Entity\Organization
+            inversedBy: contacts
+            joinColumn:
+                name: organization_id
+                referencedColumnName: id

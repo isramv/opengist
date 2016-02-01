@@ -504,27 +504,4 @@ class Contact
     {
         return $this->created;
     }
-
-    /**
-     * Set organization
-     *
-     * @param \Rocket\Clients\OrganizationsBundle\Entity\Organization $organization
-     * @return Contact
-     */
-    public function setOrganization(\Rocket\Clients\OrganizationsBundle\Entity\Organization $organization = null)
-    {
-        $this->organization = $organization;
-
-        return $this;
-    }
-
-    /**
-     * Get organization
-     *
-     * @return \Rocket\Clients\OrganizationsBundle\Entity\Organization 
-     */
-    public function getOrganization()
-    {
-        return $this->organization;
-    }
 }

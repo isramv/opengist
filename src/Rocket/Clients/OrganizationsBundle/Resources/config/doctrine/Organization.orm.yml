@@ -25,3 +25,7 @@ Rocket\Clients\OrganizationsBundle\Entity\Organization:
             nullable: true
             column: Owner
     lifecycleCallbacks: {  }
+    oneToMany:
+        contacts:
+            targetEntity: Rocket\Clients\ContactsBundle\Entity\Contact
+            mappedBy: organization
