@@ -1,11 +1,11 @@
+rocket_clients_organizations:
+    resource: "@RocketClientsOrganizationsBundle/Resources/config/routing.yml"
+    prefix:   /
+
+rocket_clients_contacts:
+    resource: "@RocketClientsContactsBundle/Resources/config/routing.yml"
+    prefix:   /
+
 rocket_expenses:
     resource: "@RocketExpensesBundle/Resources/config/routing.yml"
     prefix:   /
-
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
-
-hello:
-    path:   /hello/{name}
-    defaults: { _controller: AppBundle:Hello:index }

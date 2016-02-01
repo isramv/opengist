@@ -1,0 +1,4 @@
+services:
+#    rocket_clients_contacts.example:
+#        class: Rocket\Clients\ContactsBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

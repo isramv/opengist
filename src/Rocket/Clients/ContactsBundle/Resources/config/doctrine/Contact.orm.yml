@@ -1,0 +1,84 @@
+Rocket\Clients\ContactsBundle\Entity\Contact:
+    type: entity
+    table: null
+    repositoryClass: Rocket\Clients\ContactsBundle\Repository\ContactRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        organizations:
+            type: integer
+            nullable: true
+            column: Organizations
+        namePrefix:
+            type: string
+            length: 255
+            nullable: true
+            column: NamePrefix
+        firstName:
+            type: string
+            length: 255
+            column: FirstName
+        lastName:
+            type: string
+            length: 255
+            column: LastName
+        description:
+            type: text
+            nullable: true
+            column: Description
+        assignedTo:
+            type: integer
+            nullable: true
+            column: AssignedTo
+        reportsTo:
+            type: integer
+            nullable: true
+            column: ReportsTo
+        emails:
+            type: array
+            nullable: true
+            column: Emails
+        phones:
+            type: array
+            nullable: true
+            column: Phones
+        twitter:
+            type: string
+            length: 255
+            nullable: true
+            column: Twitter
+        facebook:
+            type: string
+            length: 255
+            nullable: true
+            column: Facebook
+        linkedIn:
+            type: string
+            length: 255
+            nullable: true
+            column: LinkedIn
+        jobTitle:
+            type: string
+            length: 255
+            nullable: true
+            column: JobTitle
+        birthday:
+            type: datetimetz
+            nullable: true
+            column: Birthday
+        gender:
+            type: string
+            length: 255
+            column: Gender
+        picture:
+            type: integer
+            nullable: true
+            column: Picture
+        created:
+            type: datetime
+            column: Created
+    lifecycleCallbacks: {  }

@@ -1,0 +1,3 @@
+rocket_clients_organizations_homepage:
+    path:     /
+    defaults: { _controller: RocketClientsOrganizationsBundle:Default:index }
