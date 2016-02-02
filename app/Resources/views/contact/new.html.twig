@@ -1,16 +1,97 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-uikit.html.twig' %}
+
+{% form_theme form _self %}
+
+
+
+{% block form_widget_simple %}
+    <div class="uk-form-controls">
+        {%- set type = type|default('text') -%}
+        {%- set classes = 'uk-form-small' -%}
+        <input class="{{ classes }}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    </div>
+{% endblock %}
+
+{%- block textarea_widget -%}
+    <div class="uk-form-controls">
+        <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    </div>
+{%- endblock textarea_widget -%}
+
+{%- block form_start -%}
+    {% set method = method|upper %}
+    {%- if method in ["GET", "POST"] -%}
+        {% set form_method = method %}
+    {%- else -%}
+        {% set form_method = "POST" %}
+    {%- endif -%}
+    <form class="uk-form" name="{{ name }}" method="{{ form_method|lower }}"{% if action != '' %} action="{{ action }}"{% endif %}{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    {%- if form_method != method -%}
+        <input type="hidden" name="_method" value="{{ method }}" />
+    {%- endif -%}
+{%- endblock form_start -%}
+
+{%- block form_row -%}
+    <div class="uk-form-row uk-form-width-medium">
+        {{- form_label(form) -}}
+        {{- form_errors(form) -}}
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock form_row -%}
+
+{%- block form_label -%}
+    {% if label is not same as(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label class="uk-form-label" {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+    {%- endif -%}
+{%- endblock form_label -%}
+
+{%- block form_widget -%}
+    {% if compound %}
+        {{- block('form_widget_compound') -}}
+    {% else %}
+        {{- block('form_widget_simple') -}}
+    {% endif %}
+{%- endblock form_widget -%}
+
+{%- block form_widget_compound -%}
+    <div {{ block('widget_container_attributes') }}>
+        {%- if form.parent is empty -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    </div>
+{%- endblock form_widget_compound -%}
+
 
 {% block body %}
-    <h1>Contact creation</h1>
-
-    {{ form_start(form) }}
+    <div class="uk-container uk-container-center">
+        <h1>Contact creation</h1>
+        {{ form_start(form) }}
         {{ form_widget(form) }}
         <input type="submit" value="Create" />
-    {{ form_end(form) }}
+        {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('contact_index') }}">Back to the list</a>
-        </li>
-    </ul>
+        <ul>
+            <li>
+                <a href="{{ path('contact_index') }}">Back to the list</a>
+            </li>
+        </ul>
+    </div>
 {% endblock %}

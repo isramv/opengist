@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-uikit.html.twig' %}
 
 {% block body %}
     <h1>Contact</h1>
 
-    <table>
+    <table class="uk-table">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -51,7 +51,7 @@
             </tr>
             <tr>
                 <th>Birthday</th>
-                <td>{% if contact.birthday %}{{ contact.birthday|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if contact.birthday %}{{ contact.birthday|date('d M Y') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Gender</th>
@@ -63,7 +63,7 @@
             </tr>
             <tr>
                 <th>Created</th>
-                <td>{% if contact.created %}{{ contact.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if contact.created %}{{ contact.created|date('d M Y H:i:s') }}{% endif %}</td>
             </tr>
         </tbody>
     </table>
