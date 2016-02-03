@@ -23,12 +23,12 @@ class ContactController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $contacts = $em->getRepository('RocketClientsContactsBundle:Contact')->findAll();
-        foreach($contacts as $contact) {
-            $id = $contact->getOrganization()->getId();
-            $company = $em->getRepository('RocketClientsOrganizationsBundle:Organization')
-              ->findBy(array('id' => $id));
-            $contact->setOrganizations($company);
-        }
+//        foreach($contacts as $contact) {
+//            $id = $contact->getOrganization()->getId();
+//            $company = $em->getRepository('RocketClientsOrganizationsBundle:Organization')
+//              ->findBy(array('id' => $id));
+//            $contact->setOrganizations($company);
+//        }
         dump($contacts);
         return $this->render('contact/index.html.twig', array(
             'contacts' => $contacts,
@@ -45,6 +45,7 @@ class ContactController extends Controller
         $form = $this->createForm('Rocket\Clients\ContactsBundle\Form\ContactType', $contact);
         $form->handleRequest($request);
 
+        dump($form);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($contact);

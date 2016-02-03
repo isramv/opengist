@@ -2,8 +2,6 @@
 
 {% form_theme form _self %}
 
-
-
 {% block form_widget_simple %}
     <div class="uk-form-controls">
         {%- set type = type|default('text') -%}
@@ -79,15 +77,50 @@
     </div>
 {%- endblock form_widget_compound -%}
 
+{%- block choice_widget -%}
+    {% if expanded %}
+        {{- block('choice_widget_expanded') -}}
+    {% else %}
+        {{- block('choice_widget_collapsed') -}}
+    {% endif %}
+{%- endblock choice_widget -%}
+
+{%- block choice_widget_collapsed -%}
+    <div class="uk-form-row">
+        {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+            {% set required = false %}
+        {%- endif -%}
+        <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </div>
+{%- endblock choice_widget_collapsed -%}
 
 {% block body %}
     <div class="uk-container uk-container-center">
         <h1>Contact creation</h1>
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <div class="uk-form-row uk-form-width-medium">
+            <div class="uk-form-controls">
+                <input class="uk-button uk-button-primary" type="submit" value="Create" />
+            </div>
+        </div>
         {{ form_end(form) }}
-
+        {#<div class="uk-form">#}
+            {#<input class="datepicker" type="text" data-uk-datepicker="{format:'DD.MM.YYYY'}">#}
+        {#</div>#}
         <ul>
             <li>
                 <a href="{{ path('contact_index') }}">Back to the list</a>

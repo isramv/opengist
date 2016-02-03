@@ -27,11 +27,11 @@ Rocket\Clients\ContactsBundle\Entity\Contact:
             nullable: true
             column: Description
         emails:
-            type: array
+            type: string
             nullable: true
             column: Emails
         phones:
-            type: array
+            type: string
             nullable: true
             column: Phones
         twitter:

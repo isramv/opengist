@@ -6,11 +6,16 @@
   {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset("vendor/uikit/css/uikit.css") }}"/>
     <link rel="stylesheet" href="{{ asset("vendor/uikit/css/uikit.almost-flat.css") }}"/>
+    <link rel="stylesheet" href="{{ asset("vendor/uikit/css/components/datepicker.css") }}"/>
   {% endblock %}
   <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body>
 {% block body %}{% endblock %}
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+  <script src="{{ asset("vendor/jquery/jquery.min.js") }}"></script>
+  <script src="{{ asset("vendor/uikit/js/uikit.js") }}"></script>
+  <script src="{{ asset("vendor/uikit/js/components/datepicker.js") }}"></script>
+{% endblock %}
 </body>
 </html>
