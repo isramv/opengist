@@ -1,60 +1,61 @@
 {% extends 'base-uikit.html.twig' %}
 
-{% block body %}
-    <div class="uk-container uk-container-center">
-        <h1 class="uk-article-title">Contact list</h1>
-        <hr class="uk-panel-divider">
-        <div class="uk-button-group">
-            <a class="uk-button uk-button-primary" href="{{ path('contact_new') }}">Create a new entry</a>
-        </div>
-        <table class="uk-table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    {#<th>Nameprefix</th>#}
-                    <th>Firstname</th>
-                    <th>Lastname</th>
-                    {#<th>Description</th>#}
-                    {#<th>Emails</th>#}
-                    {#<th>Phones</th>#}
-                    {#<th>Twitter</th>#}
-                    {#<th>Facebook</th>#}
-                    {#<th>Linkedin</th>#}
-                    {#<th>Jobtitle</th>#}
-                    {#<th>Birthday</th>#}
-                    {#<th>Gender</th>#}
-                    {#<th>Picture</th>#}
-                    <th>Created</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for contact in contacts %}
-                <tr>
-                    <td><a href="{{ path('contact_show', { 'id': contact.id }) }}">{{ contact.id }}</a></td>
-                    {#<td>{{ contact.namePrefix }}</td>#}
-                    <td>{{ contact.firstName }}</td>
-                    <td>{{ contact.lastName }}</td>
-                    {#<td>{{ contact.description }}</td>#}
-                    {#<td>{% if contact.emails %}{{ contact.emails|join(', ') }}{% endif %}</td>#}
-                    {#<td>{% if contact.phones %}{{ contact.phones|join(', ') }}{% endif %}</td>#}
-                    {#<td>{{ contact.twitter }}</td>#}
-                    {#<td>{{ contact.facebook }}</td>#}
-                    {#<td>{{ contact.linkedIn }}</td>#}
-                    {#<td>{{ contact.jobTitle }}</td>#}
-                    {#<td>{% if contact.birthday %}{{ contact.birthday|date('d M Y') }}{% endif %}</td>#}
-                    {#<td>{{ contact.gender }}</td>#}
-                    {#<td>{{ contact.picture }}</td>#}
-                    <td>{% if contact.created %}{{ contact.created|date('d M Y') }}{% endif %}</td>
-                    <td>
-                        <div class="uk-button-group">
-                            <a class="uk-button" href="{{ path('contact_show', { 'id': contact.id }) }}">show</a>
-                            <a class="uk-button" href="{{ path('contact_edit', { 'id': contact.id }) }}">edit</a>
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+{% block pagetitle %}Contact list{% endblock %}
+
+{% block navigation %}
+    <div class="uk-button-group">
+        <a class="uk-button uk-button-primary" href="{{ path('contact_new') }}">Create a new entry</a>
     </div>
+{% endblock %}
+
+{% block body %}
+    <table class="uk-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                {#<th>Nameprefix</th>#}
+                <th>Firstname</th>
+                <th>Lastname</th>
+                {#<th>Description</th>#}
+                {#<th>Emails</th>#}
+                {#<th>Phones</th>#}
+                {#<th>Twitter</th>#}
+                {#<th>Facebook</th>#}
+                {#<th>Linkedin</th>#}
+                {#<th>Jobtitle</th>#}
+                {#<th>Birthday</th>#}
+                <th>Gender</th>
+                {#<th>Picture</th>#}
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contact in contacts %}
+            <tr>
+                <td><a href="{{ path('contact_show', { 'id': contact.id }) }}">{{ contact.id }}</a></td>
+                {#<td>{{ contact.namePrefix }}</td>#}
+                <td>{{ contact.firstName }}</td>
+                <td>{{ contact.lastName }}</td>
+                {#<td>{{ contact.description }}</td>#}
+                {#<td>{% if contact.emails %}{{ contact.emails|join(', ') }}{% endif %}</td>#}
+                {#<td>{% if contact.phones %}{{ contact.phones|join(', ') }}{% endif %}</td>#}
+                {#<td>{{ contact.twitter }}</td>#}
+                {#<td>{{ contact.facebook }}</td>#}
+                {#<td>{{ contact.linkedIn }}</td>#}
+                {#<td>{{ contact.jobTitle }}</td>#}
+                {#<td>{% if contact.birthday %}{{ contact.birthday|date('d M Y') }}{% endif %}</td>#}
+                <td>{{ contact.gender }}</td>
+                {#<td>{{ contact.picture }}</td>#}
+                <td>{% if contact.created %}{{ contact.created|date('d M Y') }}{% endif %}</td>
+                <td>
+                    <div class="uk-button-group">
+                        <a class="uk-button" href="{{ path('contact_show', { 'id': contact.id }) }}">show</a>
+                        <a class="uk-button" href="{{ path('contact_edit', { 'id': contact.id }) }}">edit</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

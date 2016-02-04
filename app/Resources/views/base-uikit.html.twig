@@ -11,7 +11,16 @@
   <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body>
-{% block body %}{% endblock %}
+<div class="uk-container uk-container-center">
+  <h1 class="uk-article-title">{% block pagetitle %}{% endblock %}</h1>
+  <hr class="uk-panel-divider">
+</div>
+
+<div class="uk-container uk-container-center">
+  {% block navigation %}{% endblock %}
+  <hr class="uk-panel-divider"/>
+  {% block body %}{% endblock %}
+</div>
 {% block javascripts %}
   <script src="{{ asset("vendor/jquery/jquery.min.js") }}"></script>
   <script src="{{ asset("vendor/uikit/js/uikit.js") }}"></script>

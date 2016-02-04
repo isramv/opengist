@@ -1,8 +1,15 @@
 {% extends 'base-uikit.html.twig' %}
 
-{% block body %}
-    <h1>Contact</h1>
+{% block navigation %}
+    <div class="uk-button-group">
+        <a class="uk-button uk-button-primary" href="{{ path('contact_index') }}">Back</a>
+        <a class="uk-button uk-button-primary" href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a>
+    </div>
+{% endblock %}
 
+{% block pagetitle %}Contact: {{ contact.firstName }} {{ contact.lastName }}{% endblock %}
+
+{% block body %}
     <table class="uk-table">
         <tbody>
             <tr>
@@ -68,17 +75,7 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('contact_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    {{ form_start(delete_form) }}
+        <input class="uk-button uk-button-danger" type="submit" value="Delete">
+    {{ form_end(delete_form) }}
 {% endblock %}

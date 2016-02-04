@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Rocket\Clients\ContactsBundle\Entity\Contact;
 use Rocket\Clients\ContactsBundle\Form\ContactType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
  * Contact controller.
@@ -29,7 +30,7 @@ class ContactController extends Controller
 //              ->findBy(array('id' => $id));
 //            $contact->setOrganizations($company);
 //        }
-        dump($contacts);
+//        dump($contacts);
         return $this->render('contact/index.html.twig', array(
             'contacts' => $contacts,
         ));
@@ -43,9 +44,9 @@ class ContactController extends Controller
     {
         $contact = new Contact();
         $form = $this->createForm('Rocket\Clients\ContactsBundle\Form\ContactType', $contact);
+        $form->add('save', SubmitType::class, array('label' => 'Create Contact'));
         $form->handleRequest($request);
 
-        dump($form);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($contact);
