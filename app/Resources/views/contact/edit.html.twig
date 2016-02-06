@@ -3,14 +3,12 @@
 {% form_theme edit_form 'uikit/fields.html.twig' %}
 
 {% block navigation %}
-    <div class="uk-button-group">
-        <a class="uk-button uk-button-primary" href="{{ path('contact_index') }}">Back</a>
-    </div>
+    {% include 'navigation/new_edit_navigation.html.twig' %}
 {% endblock %}
 
 {% block pagetitle %}Contact edit{% endblock %}
 
-{% block body %}
+{% block content %}
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
         <input type="submit" value="Edit" />

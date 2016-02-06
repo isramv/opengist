@@ -7,19 +7,31 @@
     <link rel="stylesheet" href="{{ asset("vendor/uikit/css/uikit.css") }}"/>
     <link rel="stylesheet" href="{{ asset("vendor/uikit/css/uikit.almost-flat.css") }}"/>
     <link rel="stylesheet" href="{{ asset("vendor/uikit/css/components/datepicker.css") }}"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
   {% endblock %}
-  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body>
-<div class="uk-container uk-container-center">
-  <h1 class="uk-article-title">{% block pagetitle %}{% endblock %}</h1>
-  <hr class="uk-panel-divider">
-</div>
+<header class="uk-navbar rc-navbar">
+  <span>Rocket.mx</span>
+  {% block header_menu %}
+
+  {% endblock %}
+  {% block user_menu %}
+
+  {% endblock %}
+</header>
+<sidebar>
+  {% block navigation %}{% endblock %}
+</sidebar>
 
 <div class="uk-container uk-container-center">
-  {% block navigation %}{% endblock %}
-  <hr class="uk-panel-divider"/>
-  {% block body %}{% endblock %}
+  <div class="uk-grid">
+
+  </div>
+  <h1 class="uk-article-title">{% block pagetitle %}{% endblock %}</h1>
+
+  {% block content %}{% endblock %}
+
 </div>
 {% block javascripts %}
   <script src="{{ asset("vendor/jquery/jquery.min.js") }}"></script>

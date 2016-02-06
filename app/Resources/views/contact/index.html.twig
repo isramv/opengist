@@ -3,12 +3,10 @@
 {% block pagetitle %}Contact list{% endblock %}
 
 {% block navigation %}
-    <div class="uk-button-group">
-        <a class="uk-button uk-button-primary" href="{{ path('contact_new') }}">Create a new entry</a>
-    </div>
+    {% include "/navigation/main_navigation.html.twig" %}
 {% endblock %}
 
-{% block body %}
+{% block content %}
     <table class="uk-table">
         <thead>
             <tr>

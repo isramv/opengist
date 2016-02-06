@@ -5,12 +5,10 @@
 {% block pagetitle %}New contact{% endblock %}
 
 {% block navigation %}
-  <div class="uk-button-group">
-    <a class="uk-button uk-button-primary" href="{{ path('contact_index') }}">Back</a>
-  </div>
+    {% include "/navigation/new_edit_navigation.html.twig" %}
 {% endblock %}
 
-{% block body %}
+{% block content %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
