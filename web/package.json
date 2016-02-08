@@ -1,0 +1,30 @@
+{
+  "name": "sass",
+  "version": "1.0.0",
+  "description": "Used to install gulp-sass",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "bourbon": "^4.2.6",
+    "sass-mq": "^3.3.0-beta.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-sass": "^2",
+    "gulp-sourcemaps": "^1.6.0",
+    "node-sass": "^3.4.2"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/isramv/myapp"
+  },
+  "keywords": [
+    "gulp",
+    "sass"
+  ],
+  "author": "Israel Morales",
+  "license": "ISC"
+}

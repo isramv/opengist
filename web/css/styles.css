@@ -1,0 +1,10 @@
+.rc-navbar {
+  border-radius: 0;
+  border: 0;
+  padding: 15px 0; }
+
+.rc-content {
+  padding: 60px 0; }
+
+h1.rc-page-title {
+  font-size: 28px; }

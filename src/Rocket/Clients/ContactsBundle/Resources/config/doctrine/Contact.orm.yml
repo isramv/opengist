@@ -26,14 +26,30 @@ Rocket\Clients\ContactsBundle\Entity\Contact:
             type: text
             nullable: true
             column: Description
-        emails:
+        email:
             type: string
             nullable: true
-            column: Emails
-        phones:
+            column: Email
+        phone:
             type: string
             nullable: true
-            column: Phones
+            column: Phone
+        jobTitle:
+            type: string
+            length: 255
+            nullable: true
+            column: JobTitle
+        birthday:
+            type: date
+            nullable: true
+            column: Birthday
+        gender:
+            type: string
+            length: 255
+            column: Gender
+        created:
+            type: datetime
+            column: Created
         twitter:
             type: string
             length: 255
@@ -49,26 +65,6 @@ Rocket\Clients\ContactsBundle\Entity\Contact:
             length: 255
             nullable: true
             column: LinkedIn
-        jobTitle:
-            type: string
-            length: 255
-            nullable: true
-            column: JobTitle
-        birthday:
-            type: datetime
-            nullable: true
-            column: Birthday
-        gender:
-            type: string
-            length: 255
-            column: Gender
-        picture:
-            type: integer
-            nullable: true
-            column: Picture
-        created:
-            type: datetime
-            column: Created
     lifecycleCallbacks: {  }
     manyToOne:
         organization:

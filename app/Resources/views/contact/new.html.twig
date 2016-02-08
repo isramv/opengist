@@ -4,10 +4,6 @@
 
 {% block pagetitle %}New contact{% endblock %}
 
-{% block navigation %}
-    {% include "/navigation/new_edit_navigation.html.twig" %}
-{% endblock %}
-
 {% block content %}
     {{ form_start(form) }}
     {{ form_widget(form) }}

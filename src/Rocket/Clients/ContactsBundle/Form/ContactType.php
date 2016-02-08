@@ -22,13 +22,13 @@ class ContactType extends AbstractType
             ->add('namePrefix')
             ->add('firstName')
             ->add('lastName')
+            ->add('jobTitle')
             ->add('description')
-            ->add('emails')
-            ->add('phones')
+            ->add('email')
+            ->add('phone')
             ->add('twitter')
             ->add('facebook')
             ->add('linkedIn')
-            ->add('jobTitle')
             ->add('birthday', DateType::class, array(
                 'input' => 'datetime',
                 'widget' => 'single_text',
@@ -41,13 +41,6 @@ class ContactType extends AbstractType
                     'male' => 'Male',
                     'female' => 'Female',
                 )
-            ))
-            ->add('picture')
-            ->add('created', DateType::class, array(
-                'input' => 'datetime',
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-                'data' => new \DateTime('now', new \DateTimeZone('America/Los_Angeles'))
             ))
             ->add('organization')
         ;

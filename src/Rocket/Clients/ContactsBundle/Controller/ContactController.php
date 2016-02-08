@@ -40,11 +40,11 @@ class ContactController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $contact->setCreated(new \DateTime('now'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($contact);
             $em->flush();
-
-            return $this->redirectToRoute('contact_show', array('id' => $contact->getId()));
+            return $this->redirectToRoute('contact_index');
         }
 
         return $this->render('contact/new.html.twig', array(
