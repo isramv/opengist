@@ -19,7 +19,13 @@ class ContactType extends AbstractType
     {
         date_default_timezone_set("America/Los_Angeles");
         $builder
-            ->add('namePrefix')
+            ->add('namePrefix', ChoiceType::class,
+                array('choices' => array(
+                    'mr' => 'Mr.',
+                    'ms' => 'Ms.',
+                    'sr' => 'Sr.'
+                ))
+              )
             ->add('firstName')
             ->add('lastName')
             ->add('jobTitle')
@@ -37,7 +43,6 @@ class ContactType extends AbstractType
             ))
             ->add('gender', ChoiceType::class, array(
                 'choices' => array(
-                    null => 'Don\'t know',
                     'male' => 'Male',
                     'female' => 'Female',
                 )

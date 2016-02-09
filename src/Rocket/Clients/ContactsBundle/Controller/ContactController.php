@@ -4,7 +4,7 @@ namespace Rocket\Clients\ContactsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Rocket\Clients\ContactsBundle\Entity\Contact;
 use Rocket\Clients\ContactsBundle\Form\ContactType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -73,8 +73,10 @@ class ContactController extends Controller
      */
     public function editAction(Request $request, Contact $contact)
     {
+
         $deleteForm = $this->createDeleteForm($contact);
         $editForm = $this->createForm('Rocket\Clients\ContactsBundle\Form\ContactType', $contact);
+        $editForm->add('submit', SubmitType::class, array('label' => 'Edit contact'));
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
