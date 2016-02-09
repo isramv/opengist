@@ -1,73 +1,68 @@
 {% extends 'base-uikit.html.twig' %}
-{% block pagetitle %}Contact: {{ contact.firstName }} {{ contact.lastName }}{% endblock %}
+
+{% block pagetitle %}{{ contact.namePrefix | capitalize }}. {{ contact.firstName }} {{ contact.lastName }}{% endblock %}
 
 {% block content %}
-    <table class="uk-table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ contact.id }}</td>
-            </tr>
-            <tr>
-                <th>Nameprefix</th>
-                <td>{{ contact.namePrefix }}</td>
-            </tr>
-            <tr>
-                <th>Firstname</th>
-                <td>{{ contact.firstName }}</td>
-            </tr>
-            <tr>
-                <th>Lastname</th>
-                <td>{{ contact.lastName }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ contact.description }}</td>
-            </tr>
-            <tr>
-                <th>Emails</th>
-                <td>{% if contact.emails %}{{ contact.emails|join(', ') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Phones</th>
-                <td>{% if contact.phones %}{{ contact.phones|join(', ') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Twitter</th>
-                <td>{{ contact.twitter }}</td>
-            </tr>
-            <tr>
-                <th>Facebook</th>
-                <td>{{ contact.facebook }}</td>
-            </tr>
-            <tr>
-                <th>Linkedin</th>
-                <td>{{ contact.linkedIn }}</td>
-            </tr>
-            <tr>
-                <th>Jobtitle</th>
-                <td>{{ contact.jobTitle }}</td>
-            </tr>
-            <tr>
-                <th>Birthday</th>
-                <td>{% if contact.birthday %}{{ contact.birthday|date('d M Y') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Gender</th>
-                <td>{{ contact.gender }}</td>
-            </tr>
-            <tr>
-                <th>Picture</th>
-                <td>{{ contact.picture }}</td>
-            </tr>
-            <tr>
-                <th>Created</th>
-                <td>{% if contact.created %}{{ contact.created|date('d M Y H:i:s') }}{% endif %}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="uk-grid">
+        <div class="uk-width-10-10">
+            <ul class="uk-breadcrumb">
+                <li><a href="{{ path('contact_index') }}">Contacts</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="uk-grid">
+        <div class="uk-width-2-3">
+            <table class="uk-table">
+                <tbody>
+                <tr>
+                    <th>Emails</th>
+                    <td>{{ contact.email }}</td>
+                </tr>
+                <tr>
+                    <th>Phones</th>
+                    <td>{{ contact.phone }}</td>
+                </tr>
+                <tr>
+                    <th>Jobtitle</th>
+                    <td>{{ contact.jobTitle }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ contact.description }}</td>
+                </tr>
+                <tr>
+                    <th>Twitter</th>
+                    <td>{{ contact.twitter }}</td>
+                </tr>
+                <tr>
+                    <th>Facebook</th>
+                    <td>{{ contact.facebook }}</td>
+                </tr>
+                <tr>
+                    <th>Linkedin</th>
+                    <td>{{ contact.linkedIn }}</td>
+                </tr>
+                <tr>
+                    <th>Birthday</th>
+                    <td>{% if contact.birthday %}{{ contact.birthday|date('d M Y') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>{{ contact.gender |capitalize }}</td>
+                </tr>
+                <tr>
+                    <th>Created</th>
+                    <td>{% if contact.created %}{{ contact.created|date('d M Y H:i:s') }}{% endif %}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="uk-width-1-3">
+            {{ form_start(form) }}
+                <a class="uk-button uk-button-primary" href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a>
+                <input class="uk-button uk-button-danger" type="submit" value="Delete">
+            {{ form_end(form) }}
+        </div>
+    </div>
 
-    {{ form_start(delete_form) }}
-        <input class="uk-button uk-button-danger" type="submit" value="Delete">
-    {{ form_end(delete_form) }}
 {% endblock %}

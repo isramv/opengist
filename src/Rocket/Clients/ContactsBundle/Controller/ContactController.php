@@ -50,6 +50,7 @@ class ContactController extends Controller
         return $this->render('contact/contact_form.html.twig', array(
             'contact' => $contact,
             'form' => $form->createView(),
+            'form_action' => 'new',
             'page_title' => 'New contact'
         ));
     }
@@ -64,7 +65,8 @@ class ContactController extends Controller
 
         return $this->render('contact/show.html.twig', array(
             'contact' => $contact,
-            'delete_form' => $deleteForm->createView(),
+            'form' => $deleteForm->createView(),
+            'form_action' => 'delete'
         ));
     }
 
@@ -77,7 +79,7 @@ class ContactController extends Controller
 
         $deleteForm = $this->createDeleteForm($contact);
         $editForm = $this->createForm('Rocket\Clients\ContactsBundle\Form\ContactType', $contact);
-        $editForm->add('submit', SubmitType::class, array('label' => 'Edit contact'));
+        $editForm->add('edit', SubmitType::class, array('label' => 'Edit contact'));
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -85,13 +87,15 @@ class ContactController extends Controller
             $em->persist($contact);
             $em->flush();
 
-            return $this->redirectToRoute('contact_edit', array('id' => $contact->getId()));
+            return $this->redirectToRoute('contact_index', array('id' => $contact->getId()));
         }
 
-        return $this->render('contact/edit.html.twig', array(
+        return $this->render('contact/contact_form.html.twig', array(
             'contact' => $contact,
-            'edit_form' => $editForm->createView(),
+            'form_action' => 'edit',
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'page_title' => 'Edit Contact'
         ));
     }
 

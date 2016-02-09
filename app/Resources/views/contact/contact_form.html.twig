@@ -4,8 +4,6 @@
 
 {% block pagetitle %}{{ page_title }}{% endblock %}
 
-{% import _self as document %}
-
 {% block content %}
     {{ form_start(form) }}
     {{ form_errors(form) }}
@@ -78,9 +76,16 @@
             {{ form_errors(form.linkedIn) }}
             {{ form_widget(form.linkedIn) }}
         </div>
-        <div class="uk-form-row">
-          {{ form_widget(form.save) }}
-        </div>
+        {% if form_action == 'new' %}
+          <div class="uk-form-row">
+            {{ form_widget(form.save) }}
+          </div>
+        {% endif %}
+        {% if form_action == 'edit' %}
+          <div class="uk-form-row">
+            {{ form_widget(form.edit) }}
+          </div>
+        {% endif %}
       </div>
     </div>
     {{ form_end(form) }}
