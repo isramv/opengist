@@ -47,9 +47,10 @@ class ContactController extends Controller
             return $this->redirectToRoute('contact_index');
         }
 
-        return $this->render('contact/new.html.twig', array(
+        return $this->render('contact/contact_form.html.twig', array(
             'contact' => $contact,
             'form' => $form->createView(),
+            'page_title' => 'New contact'
         ));
     }
 
