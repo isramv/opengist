@@ -1,9 +1,8 @@
 {#<li><a href="{{ path('contact_edit', { 'id': contact.id }) }}">Edit</a></li>#}
 <ul class="uk-nav uk-nav-side uk-nav-parent-icon">
   <li class="uk-parent uk-open">
-    <a class="uk-active">Contacts</a>
+    <a class="uk-active" href="{{ path('contact_index') }}">Contacts</a>
     <ul class="uk-nav-sub">
-      <li><a href="{{ path('contact_index') }}">Contacts</a></li>
       <li><a href="{{ path('contact_new') }}">Create Contact</a></li>
     </ul>
   </li>
