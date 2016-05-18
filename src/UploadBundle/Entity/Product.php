@@ -3,18 +3,16 @@
 namespace UploadBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use DoctrineExtensions\Query\Mysql\Date;
-use Symfony\Component\Validator\Constraints\DateTime;
-use Symfony\Component\Validator\Constraints\File;
-
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * Product
  *
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="UploadBundle\Repository\ProductRepository")
+ * @Vich\Uploadable
  */
-class Product
-{
+class Product {
     /**
      * @var int
      *
@@ -39,7 +37,7 @@ class Product
     private $price;
 
     /**
-     * @Vich\UploadableField(mapping="product_image", fieldNameProperty="imageName")
+     * @Vich\UploadableField(mapping="product_images", fileNameProperty="imageName")
      *
      * @var File
      */
@@ -60,6 +58,27 @@ class Product
     private $updatedAt;
 
     /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt() {
+        return $this->updatedAt;
+    }
+
+//    /**
+//     * Set updatedAt
+//     *
+//     */
+//    public function setUpdatedAt(File $image = null)
+//    {
+//        if($image) {
+//            $this->updatedAt = new \DateTime('now');
+//        }
+//        return $this;
+//    }
+
+    /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      *
      * @return Product
@@ -69,7 +88,7 @@ class Product
         $this->imageFile = $image;
 
         if($image) {
-            $this->updatedAt = new DateTime('now');
+            $this->updatedAt = new \DateTime('now');
         }
 
         return $this;
@@ -80,7 +99,7 @@ class Product
      */
     public function getImageFile()
     {
-        return $this->imageFile();
+        return $this->imageFile;
     }
 
     /**
