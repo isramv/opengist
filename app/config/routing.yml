@@ -1,3 +1,7 @@
+upload:
+    resource: "@UploadBundle/Resources/config/routing.yml"
+    prefix:   /upload
+
 rocket_clients_organizations:
     resource: "@RocketClientsOrganizationsBundle/Resources/config/routing.yml"
     prefix:   /
