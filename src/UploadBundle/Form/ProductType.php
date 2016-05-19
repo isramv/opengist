@@ -19,10 +19,11 @@ class ProductType extends AbstractType
         $builder
             ->add('name')
             ->add('price')
-            ->add('imageFile', VichFileType::class)
-            ->add('imageName')
-//            ->add('updatedAt', 'vich_file')
-        ;
+            ->add('imageFile', 'vich_image', array(
+              'required'      => false,
+              'allow_delete'  => true,
+              'download_link' => true, ))
+            ->add('imageName');
     }
     
     /**

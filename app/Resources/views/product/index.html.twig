@@ -20,7 +20,9 @@
                 <td><a href="{{ path('product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.price }}</td>
-                <td>{{ product.imageName }}</td>
+                <td>{{ product.imageName }}
+                <img src="{{ product.imageUrl }}" style="width: 250px; height: auto"/>
+                </td>
                 <td>{% if product.updatedAt %}{{ product.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>
                     <ul>

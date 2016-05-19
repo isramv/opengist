@@ -44,6 +44,11 @@ class Product {
     private $imageFile;
 
     /**
+     * @var imageUrl
+     */
+    private $imageUrl;
+
+    /**
      * @ORM\Column(type="string", length=255)
      *
      * @var string
@@ -176,5 +181,20 @@ class Product {
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * Setter for imageUrl.
+     */
+    public function setImageUrl($image_url) {
+        $this->imageUrl = $image_url;
+    }
+    /**
+     * get imageUrl.
+     *
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
     }
 }

@@ -28,6 +28,15 @@ class ProductController extends Controller
 
         $products = $em->getRepository('UploadBundle:Product')->findAll();
 
+        foreach ($products as $product) {
+            $product->getImageFile();
+            $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
+            $path = $helper->asset($product, 'imageFile');
+            if(!empty($path)) {
+                $product->setImageUrl($path);
+            }
+        }
+
         return $this->render('product/index.html.twig', array(
             'products' => $products,
         ));
@@ -68,6 +77,14 @@ class ProductController extends Controller
      */
     public function showAction(Product $product)
     {
+
+        $product->getImageFile();
+        $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
+        $path = $helper->asset($product, 'imageFile');
+        if(!empty($path)) {
+            $product->setImageUrl($path);
+        }
+
         $deleteForm = $this->createDeleteForm($product);
 
         return $this->render('product/show.html.twig', array(
