@@ -25,6 +25,8 @@ class AppKernel extends Kernel
             new Rocket\Clients\OrganizationsBundle\RocketClientsOrganizationsBundle(),
             new UploadBundle\UploadBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new AppBundle\AppBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

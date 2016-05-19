@@ -1,3 +1,8 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 upload_product:
     resource: "@UploadBundle/Controller/ProductController.php"
     type:     annotation
@@ -17,3 +22,6 @@ rocket_clients_contacts:
 rocket_expenses:
     resource: "@RocketExpensesBundle/Resources/config/routing.yml"
     prefix:   /
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
