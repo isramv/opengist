@@ -37,18 +37,19 @@
     </div>
     <div class="uk-width-medium-8-10">
       <h1 class="rc-page-title">{% block pagetitle %}{% endblock %}</h1>
-      {% block breadcrumbs %}
-        <div class="uk-grid">
-          <div class="uk-width-10-10">
-            <ul class="uk-breadcrumb">
-              <li><a href="{{ path('contact_index') }}">Back</a></li>
-            </ul>
-          </div>
-        </div>
-      {% endblock %}
+      {#{% block breadcrumbs %}#}
+        {#<div class="uk-grid">#}
+          {#<div class="uk-width-10-10">#}
+            {#<ul class="uk-breadcrumb">#}
+              {#<li><a href="{{ path('product_index') }}">Back</a></li>#}
+            {#</ul>#}
+          {#</div>#}
+        {#</div>#}
+      {#{% endblock %}#}
       <div class="uk-grid">
         <div class="uk-width-10-10">
           {% block content %}{% endblock %}
+          {% block body %}{% endblock %}
         </div>
       </div>
     </div>
