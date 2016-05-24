@@ -1,0 +1,4 @@
+services:
+#    rocket_ajax.example:
+#        class: Rocket\AjaxBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
