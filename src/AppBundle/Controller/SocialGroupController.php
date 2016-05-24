@@ -26,6 +26,9 @@ class SocialGroupController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user_object = $this->getDoctrine()->getRepository('AppBundle:User')->find($user->getId());
+        dump($user_object);
         $socialGroups = $em->getRepository('AppBundle:SocialGroup')->findAll();
 
         return $this->render('socialgroup/index.html.twig', array(
@@ -49,9 +52,15 @@ class SocialGroupController extends Controller
         $socialGroup->setCreatedBy($user);
         $socialGroup->setCreated(new \DateTime('now'));
 
+        $user_object = $this->getDoctrine()->getRepository('AppBundle:User')->find($user->getId());
+        
+        $user_object->addSocialGroup($socialGroup);
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($socialGroup);
+            $em->persist($user_object);
             $em->flush();
 
             return $this->redirectToRoute('socialgroup_index');

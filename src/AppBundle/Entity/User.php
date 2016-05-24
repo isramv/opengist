@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\JoinColumn;
+use AppBundle\Entity\SocialGroup as SocialGroup;
 
 /**
  * @ORM\Entity
@@ -23,11 +24,8 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ManyToMany(targetEntity="SocialGroup")
-     * @JoinTable(name="users_socialgroups",
-     *      joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="socialgroup_id", referencedColumnName="id")}
-     *      )
+     * @ManyToMany(targetEntity="SocialGroup", inversedBy="users")
+     * @JoinTable(name="users_socialgroups")
      */
     protected $groups;
 
@@ -35,6 +33,11 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function addSocialGroup(SocialGroup $sg)
+    {
+        $this->groups[] = $sg;
     }
 }
 
