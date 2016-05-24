@@ -1,3 +1,7 @@
+app_social_group:
+    resource: "@AppBundle/Controller/SocialGroupController.php"
+    type:     annotation
+
 rocket_ajax:
     resource: "@RocketAjaxBundle/Controller/"
     type:     annotation

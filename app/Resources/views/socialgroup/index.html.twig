@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>SocialGroup list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Created</th>
+                <th>Createdby</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for socialGroup in socialGroups %}
+            <tr>
+                <td><a href="{{ path('socialgroup_show', { 'id': socialGroup.id }) }}">{{ socialGroup.id }}</a></td>
+                <td>{{ socialGroup.name }}</td>
+                <td>{% if socialGroup.created %}{{ socialGroup.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ socialGroup.createdBy }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('socialgroup_show', { 'id': socialGroup.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('socialgroup_edit', { 'id': socialGroup.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('socialgroup_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
