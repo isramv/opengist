@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\SocialGroup;
 use AppBundle\Form\SocialGroupType;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
  * SocialGroup controller.
@@ -27,20 +30,23 @@ class SocialGroupController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $uid = $user->getId();
-        $userRepository = $this->getDoctrine()->getRepository('AppBundle:User');
-        $users = $userRepository->findAll();
-        foreach ($users as $user) {
-            $social = $user->getSocialGroups();
-        }
-        $result = $user->getSocialGroups();
+
         $socialGroupsRepository = $em->getRepository('AppBundle:SocialGroup');
+        $result = $socialGroupsRepository->getSocialGroupsByUserId($uid);
+        $results = $result[0]->getSocialGroups();
+        $phpArrayOfSocialGroups = $results->getValues();
 
-        $result = $socialGroupsRepository->getSocialGroupsById($uid);
-        dump($result);
+        //Json serializer.
+        $encoder = array(new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizer, $encoder);
 
+        $json = $serializer->serialize($results, 'json');
+        
         $socialGroups = $socialGroupsRepository->findAll();
         return $this->render('socialgroup/index.html.twig', array(
             'socialGroups' => $socialGroups,
+            'mySocialGroups' => $results,
         ));
     }
 

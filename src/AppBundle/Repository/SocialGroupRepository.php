@@ -13,7 +13,7 @@ use AppBundle\Entity\User as EUser;
  */
 class SocialGroupRepository extends EntityRepository
 {
-  public function getSocialGroupsById($id) {
+  public function getSocialGroupsByUserId($id) {
     return $this->getEntityManager()
       ->createQuery(
         'SELECT p, g FROM AppBundle:User p
