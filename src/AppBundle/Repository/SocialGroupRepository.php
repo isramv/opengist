@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Entity\User as EUser;
 
 /**
  * SocialGroupRepository
@@ -12,4 +13,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class SocialGroupRepository extends EntityRepository
 {
+  public function getSocialGroupsById($id) {
+    return $this->getEntityManager()
+      ->createQuery(
+        'SELECT p, g FROM AppBundle:User p
+        JOIN p.sgroups g WHERE p.id = ?1'
+      )->setParameter(1, $id)->getResult();
+  }
 }

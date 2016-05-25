@@ -4,7 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToMany;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\User as User;
 /**
  * SocialGroup
  *
@@ -42,17 +43,6 @@ class SocialGroup
      * @ORM\Column(name="createdBy", type="string", length=255)
      */
     private $createdBy;
-
-    /**
-     * @ManyToMany(targetEntity="User", mappedBy="groups")
-     */
-    private $users;
-
-    public function __construct()
-    {
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
 
     /**
      * Get id

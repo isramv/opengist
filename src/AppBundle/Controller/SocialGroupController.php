@@ -25,12 +25,20 @@ class SocialGroupController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $user_object = $this->getDoctrine()->getRepository('AppBundle:User')->find($user->getId());
-        dump($user_object);
-        $socialGroups = $em->getRepository('AppBundle:SocialGroup')->findAll();
+        $uid = $user->getId();
+        $userRepository = $this->getDoctrine()->getRepository('AppBundle:User');
+        $users = $userRepository->findAll();
+        foreach ($users as $user) {
+            $social = $user->getSocialGroups();
+        }
+        $result = $user->getSocialGroups();
+        $socialGroupsRepository = $em->getRepository('AppBundle:SocialGroup');
 
+        $result = $socialGroupsRepository->getSocialGroupsById($uid);
+        dump($result);
+
+        $socialGroups = $socialGroupsRepository->findAll();
         return $this->render('socialgroup/index.html.twig', array(
             'socialGroups' => $socialGroups,
         ));
