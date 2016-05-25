@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% dump(_context) %}
+
 {% block body %}
     <h1>SocialGroup list</h1>
 
@@ -14,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for socialGroup in socialGroups %}
+        {% for socialGroup in mySocialGroups %}
             <tr>
                 <td><a href="{{ path('socialgroup_show', { 'id': socialGroup.id }) }}">{{ socialGroup.id }}</a></td>
                 <td>{{ socialGroup.name }}</td>

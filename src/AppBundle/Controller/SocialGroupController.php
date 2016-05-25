@@ -2,12 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\SocialGroup;
 use AppBundle\Form\SocialGroupType;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -25,7 +27,7 @@ class SocialGroupController extends Controller
      * @Route("/", name="socialgroup_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.token_storage')->getToken()->getUser();
@@ -36,17 +38,26 @@ class SocialGroupController extends Controller
         $results = $result[0]->getSocialGroups();
         $phpArrayOfSocialGroups = $results->getValues();
 
-        //Json serializer.
-        $encoder = array(new JsonEncoder());
-        $normalizer = array(new ObjectNormalizer());
-        $serializer = new Serializer($normalizer, $encoder);
 
-        $json = $serializer->serialize($results, 'json');
-        
+
+        if($request->get('format') === 'json') {
+            //Json serializer.
+            $encoder = array(new JsonEncoder());
+            $normalizer = array(new ObjectNormalizer());
+            $serializer = new Serializer($normalizer, $encoder);
+            $json = $serializer->serialize($results, 'json');
+            $response = new Response();
+            $response->headers->set('Content-type','application/json');
+            $response->setContent($json);
+            return $response;
+        };
+
+
+
         $socialGroups = $socialGroupsRepository->findAll();
         return $this->render('socialgroup/index.html.twig', array(
             'socialGroups' => $socialGroups,
-            'mySocialGroups' => $results,
+            'mySocialGroups' => $phpArrayOfSocialGroups,
         ));
     }
 
