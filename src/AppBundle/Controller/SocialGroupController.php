@@ -52,8 +52,6 @@ class SocialGroupController extends Controller
             return $response;
         };
 
-
-
         $socialGroups = $socialGroupsRepository->findAll();
         return $this->render('socialgroup/index.html.twig', array(
             'socialGroups' => $socialGroups,
