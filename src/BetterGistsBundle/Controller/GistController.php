@@ -2,6 +2,9 @@
 
 namespace BetterGistsBundle\Controller;
 
+use BetterGistsBundle\Entity\Tags;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -87,12 +90,16 @@ class GistController extends Controller
      */
     public function editAction(Request $request, Gist $gist)
     {
+        $em = $this->getDoctrine()->getManager();
+        $params = $request->request->get('gist');
+
         $deleteForm = $this->createDeleteForm($gist);
         $editForm = $this->createForm('BetterGistsBundle\Form\GistType', $gist);
         $editForm->handleRequest($request);
 
+        dump($editForm);
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($gist);
             $em->flush();
 

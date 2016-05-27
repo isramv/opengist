@@ -2,15 +2,12 @@
 
 namespace BetterGistsBundle\Form;
 
-use BetterGistsBundle\Entity\Tags;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GistType extends AbstractType
+class TagsType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,14 +16,9 @@ class GistType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('body')
-//            ->add('tags', CollectionType::class, array(
-//              'entry_type' => Tags::class,
-//              'allow_add' => true,
-//            ));
-            ->add('tags', CollectionType::class);
-
+            ->add('name')
+            ->add('gists', CollectionType::class)
+        ;
     }
     
     /**
@@ -35,7 +27,7 @@ class GistType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'BetterGistsBundle\Entity\Gist'
+            'data_class' => 'BetterGistsBundle\Entity\Tags'
         ));
     }
 }

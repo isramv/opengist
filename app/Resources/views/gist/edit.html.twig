@@ -26,6 +26,25 @@
             {{ form_errors(edit_form.body) }}
             {{ form_widget(edit_form.body) }}
         </div>
+        <div class="uk-form-row">
+            {{ form_label(edit_form.tags) }}
+            {{ form_errors(edit_form.tags) }}
+            {{ form_widget(edit_form.tags) }}
+
+            {#{{ dump(edit_form.tags) }}#}
+
+            {% for tagField in edit_form.tags %}
+                {{  dump(tagField) }}
+            {% endfor %}
+
+            {#{{ dump(edit_form.tags) }}#}
+            {#{% for tagField in edit_form.tags %}#}
+                {#<li>#}
+                    {#{{ form_errors(tagField) }}#}
+                    {#{{ form_widget(tagField) }}#}
+                {#</li>#}
+            {#{% endfor %}#}
+        </div>
         <hr>
         <div id="epiceditor"></div>
         <p><input type="submit" class="uk-button uk-button-large" value="Save" /></p>

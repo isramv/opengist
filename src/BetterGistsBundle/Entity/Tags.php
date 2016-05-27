@@ -41,6 +41,11 @@ class Tags
         $this->gists = new ArrayCollection();
     }
 
+    public function getGists()
+    {
+        return $this->gists ?: $this->gists = new ArrayCollection();
+    }
+
 
     /**
      * Get id

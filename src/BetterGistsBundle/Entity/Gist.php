@@ -49,6 +49,16 @@ class Gist
         $this->tags = new ArrayCollection();
     }
 
+    public function getTags()
+    {
+        return $this->tags ?: $this->tags = new ArrayCollection();
+    }
+
+    public function setTags($tag)
+    {
+        $this->tags []= $tag;
+    }
+
     /**
      * Get id
      *
