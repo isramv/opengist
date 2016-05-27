@@ -1,3 +1,8 @@
+better_gists:
+    resource: "@BetterGistsBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app_social_group:
     resource: "@AppBundle/Controller/SocialGroupController.php"
     type:     annotation

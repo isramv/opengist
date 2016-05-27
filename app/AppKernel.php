@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new Rocket\UserBundle\RocketUserBundle(),
             new Rocket\AjaxBundle\RocketAjaxBundle(),
+            new BetterGistsBundle\BetterGistsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
