@@ -1,26 +1,25 @@
 {% extends 'base-uikit-no-sidebar.html.twig' %}
 {% block body %}
-    <p>
-        <nav class="uk-navbar">
-            <ul class="uk-navbar-nav">
-                <li>
-                    <a href="{{ path('gist_index') }}">Back to the list</a>
-                </li>
-                <li>
-                    <a href="{{ path('gist_edit', { 'id': gist.id }) }}">Edit</a>
-                </li>
-                <li>
-                    <a href="{{ path('gist_confirm_delete', { 'id': gist.id}) }}">Delete</a>
-                </li>
-            </ul>
-        </nav>
-    </p>
+    <p></p>
+    <nav class="uk-navbar">
+        <ul class="uk-navbar-nav">
+            <li>
+                <a href="{{ path('gist_index') }}">Back to the list</a>
+            </li>
+            <li>
+                <a href="{{ path('gist_edit', { 'id': gist.id }) }}">Edit</a>
+            </li>
+            <li>
+                <a href="{{ path('gist_confirm_delete', { 'id': gist.id}) }}">Delete</a>
+            </li>
+        </ul>
+    </nav>
     <p>
         <strong>{{ gist.title }}</strong>
     </p>
     <hr>
-    <div class="uk-grid">
-        <div class="uk-medium-10-10">
+    <div class="uk-block uk-block-muted">
+        <div class="uk-container">
             {{ gist.body | raw }}
         </div>
     </div>

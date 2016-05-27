@@ -3,6 +3,7 @@
 {% form_theme form 'uikit/fields.html.twig' %}
 
 {% block body %}
+    <p></p>
     <nav class="uk-navbar">
         <ul class="uk-navbar-nav">
             <li>
@@ -10,33 +11,26 @@
             </li>
         </ul>
     </nav>
-    <p>New Gist</p>
+    <p><strong>New Gist</strong></p>
     {{ form_start(form) }}
     {{ form_errors(form) }}
-    <div class="uk-grid">
-        <div class="uk-width-3-10">
-            <div class="uk-form-row">
-                {#{{ form_label(form.title) }}#}
-                {{ form_errors(form.title) }}
-                {{ form_widget(form.title) }}
-            </div>
-            <div class="uk-hidden">
-                {{ form_label(form.body) }}
-                {{ form_errors(form.body) }}
-                {{ form_widget(form.body) }}
-            </div>
+        <div class="uk-form-row">
+            {#{{ form_label(form.title) }}#}
+            {{ form_errors(form.title) }}
+            {{ form_widget(form.title) }}
         </div>
-        <div class="uk-width-10-10">
-            <div id="epiceditor"></div>
+        <hr>
+        <div class="uk-hidden">
+            {{ form_label(form.body) }}
+            {{ form_errors(form.body) }}
+            {{ form_widget(form.body) }}
         </div>
-    </div>
-    <div class="uk-width-10-10">
-        <ul class="uk-list uk-display-inline">
-            <li class="uk-display-inline-block"><input type="submit" class="uk-button" value="Save" /></li>
-            <li class="uk-display-inline-block"></li>
-        </ul>
-    </div>
+        <div id="epiceditor"></div>
+        <p>
+            <input type="submit" class="uk-button uk-button-large" value="Save" />
+        </p>
     {{ form_end(form) }}
+
 {% endblock %}
 
 {% block javascripts %}
@@ -52,7 +46,7 @@
                 theme: {
                     base: '/themes/base/epiceditor.css',
                     preview: '/themes/preview/preview-light.css',
-                    editor: '/themes/editor/epic-light.css'
+                    editor: '/themes/editor/epic-dark.css'
                 },
                 button: {
                     preview: false,
