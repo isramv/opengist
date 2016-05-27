@@ -2,6 +2,9 @@
 
 namespace BetterGistsBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +38,16 @@ class Gist
      */
     private $body;
 
+    /**
+     * @ManyToMany(targetEntity="Tags", inversedBy="gists")
+     * @JoinTable(name="tags_gists")
+     */
+    private $tags;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
 
     /**
      * Get id
