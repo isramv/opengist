@@ -1,36 +1,26 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-uikit-no-sidebar.html.twig' %}
 
 {% block body %}
     <h1>Gist</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ gist.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ gist.title }}</td>
-            </tr>
-            <tr>
-                <th>Body</th>
-                <td>{{ gist.body }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('gist_index') }}">Back to the list</a>
+    <ul class="uk-list uk-flex-inline">
+        <li class="list-inline">
+            <a class="uk-button" href="{{ path('gist_index') }}">Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('gist_edit', { 'id': gist.id }) }}">Edit</a>
+            <a class="uk-button" href="{{ path('gist_edit', { 'id': gist.id }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input class="uk-button uk-button-danger" type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>
+    <div class="uk-grid">
+        <div class="uk-medium-10-10">
+            <h1>{{ gist.title }}</h1>
+            <div class="gist-body">
+                {{ gist.body }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

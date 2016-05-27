@@ -1,5 +1,5 @@
 better_gists:
-    resource: "@BetterGistsBundle/Controller/"
+    resource: "@BetterGistsBundle/Controller/GistController.php"
     type:     annotation
     prefix:   /
 
