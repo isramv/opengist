@@ -1,0 +1,19 @@
+{
+  "name": "bettergist",
+  "version": "0.0.0",
+  "authors": [
+    "Israel Morales <isramv@gmail.com>"
+  ],
+  "description": "Better gist frontend",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "EpicEditor": "~0.2.3"
+  }
+}

@@ -25,7 +25,8 @@
         "symfony/var-dumper": "^2.8",
         "beberlei/DoctrineExtensions": "^1.0",
         "vich/uploader-bundle": "^0.14.0",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "erusev/parsedown": "^1.6"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

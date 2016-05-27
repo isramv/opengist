@@ -2,6 +2,7 @@
 
 namespace BetterGistsBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -67,6 +68,9 @@ class GistController extends Controller
      */
     public function showAction(Gist $gist)
     {
+        $parsedown = new \Parsedown();
+        $output = $parsedown->text($gist->getBody());
+        $gist->setBody($output);
         $deleteForm = $this->createDeleteForm($gist);
 
         return $this->render('gist/show.html.twig', array(
@@ -92,7 +96,7 @@ class GistController extends Controller
             $em->persist($gist);
             $em->flush();
 
-            return $this->redirectToRoute('gist_edit', array('id' => $gist->getId()));
+            return $this->redirectToRoute('gist_show', array('id' => $gist->getId()));
         }
 
         return $this->render('gist/edit.html.twig', array(
@@ -100,6 +104,22 @@ class GistController extends Controller
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    /**
+     * Confirms the deletion of the gist.
+     * @Route("/delete/{id}", name="gist_confirm_delete")
+     * @Method("GET")
+     */
+    public function confirmDeleteAction(Gist $gist)
+    {
+        $deleteForm = $this->createDeleteForm($gist);
+        return $this->render(':gist:confirm_deletion.html.twig',
+            array(
+              'gist' => $gist,
+              'delete_form' => $deleteForm->createView()
+              )
+          );
     }
 
     /**
@@ -118,7 +138,6 @@ class GistController extends Controller
             $em->remove($gist);
             $em->flush();
         }
-
         return $this->redirectToRoute('gist_index');
     }
 

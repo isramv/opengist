@@ -1,0 +1,22 @@
+{% extends 'base-uikit-no-sidebar.html.twig' %}
+{% block body %}
+  <h1>Gist</h1>
+  <nav class="uk-navbar">
+    <ul class="uk-navbar-nav">
+      <li>
+        <a href="{{ path('gist_index') }}">Back to the list</a>
+      </li>
+      <li>
+        <a href="{{ path('gist_edit', { 'id': gist.id }) }}">Cancel</a>
+      </li>
+    </ul>
+  </nav>
+  <div class="uk-grid">
+    <div class="uk-medium-10-10">
+      <p>Are you sure you want to delete: <strong>{{ gist.title }}</strong></p>
+      {{ form_start(delete_form) }}
+        <input class="uk-button uk-button-danger" type="submit" value="Delete">
+      {{ form_end(delete_form) }}
+    </div>
+  </div>
+{% endblock %}

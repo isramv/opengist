@@ -1,21 +1,76 @@
 {% extends 'base-uikit-no-sidebar.html.twig' %}
 
+{% form_theme edit_form 'uikit/fields.html.twig' %}
+
 {% block body %}
-    <h1>Gist edit</h1>
-
+    <p>
+        <nav class="uk-navbar">
+            <ul class="uk-navbar-nav">
+                <li>
+                    <a href="{{ path('gist_index') }}">Back to the list</a>
+                </li>
+                <li>
+                    <a href="{{ path('gist_confirm_delete', { 'id': gist.id }) }}">Delete</a>
+                </li>
+            </ul>
+        </nav>
+    </p>
+    <p>
+        Editing: <strong>{{ gist.title }}</strong>
+    </p>
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+    {{ form_errors(edit_form) }}
+    <div class="uk-grid">
+        <div class="uk-width-3-10">
+            <div class="uk-form-row">
+                {#{{ form_label(edit_form.title) }}#}
+                {{ form_errors(edit_form.title) }}
+                {{ form_widget(edit_form.title) }}
+            </div>
+            <div class="uk-hidden">
+                {{ form_label(edit_form.body) }}
+                {{ form_errors(edit_form.body) }}
+                {{ form_widget(edit_form.body) }}
+            </div>
+        </div>
+    </div>
+    <p>
+        <div id="epiceditor"></div>
+    </p>
+    <div class="uk-width-10-10">
+        <ul class="uk-list uk-display-inline">
+            <li class="uk-display-inline-block"><input type="submit" class="uk-button uk-button-primary" value="Save" /></li>
+        </ul>
+    </div>
     {{ form_end(edit_form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('gist_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset("bower_components/EpicEditor/epiceditor/js/epiceditor.js") }}"></script>
+    <script>
+        $(document).ready(function() {
+            console.log('ready.');
+            opts = {
+                container: 'epiceditor',
+                textarea: 'gist_body',
+                basePath: 'http://myapp.local/bower_components/EpicEditor/epiceditor',
+                theme: {
+                    base: '/themes/base/epiceditor.css',
+                    preview: '/themes/preview/preview-light.css',
+                    editor: '/themes/editor/epic-dark.css'
+                },
+                button: {
+                    preview: false,
+                    fullscreen: false,
+                    bar: "auto"
+                },
+                autogrow: true
+            };
+            editor = new EpicEditor(opts).load();
+        });
+    </script>
+
+{% endblock %}
+
+
