@@ -1,6 +1,7 @@
 {% extends 'base-uikit-no-sidebar.html.twig' %}
 
 {% block body %}
+    <p></p>
     <h1>Gists list</h1>
     <ul class="uk-list">
         <li>
@@ -10,7 +11,6 @@
     <table class="uk-table uk-table-striped">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Title</th>
                 <th>Actions</th>
             </tr>
@@ -18,7 +18,6 @@
         <tbody>
         {% for gist in gists %}
             <tr>
-                <td>{{ gist.id }}</td>
                 <td><a href="{{ path('gist_show', { 'id': gist.id }) }}">{{ gist.title }}</a></td>
                 <td><a href="{{ path('gist_edit', { 'id': gist.id }) }}">Edit</a></td>
             </tr>
