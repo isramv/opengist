@@ -21,11 +21,10 @@ class GistType extends AbstractType
         $builder
             ->add('title')
             ->add('body')
-//            ->add('tags', CollectionType::class, array(
-//              'entry_type' => Tags::class,
-//              'allow_add' => true,
-//            ));
-            ->add('tags', CollectionType::class);
+            ->add('tags', CollectionType::class, array(
+              'entry_type' => TagsType::class,
+              'allow_add' => true,
+            ));
 
     }
     

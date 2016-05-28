@@ -29,9 +29,7 @@ class GistController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $gists = $em->getRepository('BetterGistsBundle:Gist')->findAll();
-
         return $this->render('gist/index.html.twig', array(
             'gists' => $gists,
         ));
@@ -57,7 +55,37 @@ class GistController extends Controller
             return $this->redirectToRoute('gist_show', array('id' => $gist->getId()));
         }
 
-        return $this->render('gist/new.html.twig', array(
+        return $this->render(':gist:new-simple.html.twig', array(
+            'gist' => $gist,
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Creates a new Gist entity test.
+     *
+     * @Route("/new-test", name="gist_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newTestAction(Request $request)
+    {
+        $tag = new Tags();
+        $gist = new Gist();
+        $gist->getTags()->add($tag);
+        $form = $this->createForm('BetterGistsBundle\Form\GistType', $gist);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            foreach ($gist->getTags() as $tag) {
+                $em->persist($tag);
+            }
+            $em->persist($gist);
+            $em->flush();
+            return $this->redirectToRoute('gist_index');
+        }
+
+        return $this->render(':gist:new-simple.html.twig', array(
             'gist' => $gist,
             'form' => $form->createView(),
         ));
@@ -71,6 +99,13 @@ class GistController extends Controller
      */
     public function showAction(Gist $gist)
     {
+        // test
+            // Entity manager.
+//            $em = $this->getDoctrine()->getManager();
+//            $result = $em->getRepository('BetterGistsBundle:Gist')->find($gist);
+//            $tags = $result->getTags()->getValues();
+//            dump($tags);
+        // test
         $parsedown = new \Parsedown();
         $output = $parsedown->text($gist->getBody());
         $gist->setBody($output);
@@ -91,25 +126,23 @@ class GistController extends Controller
     public function editAction(Request $request, Gist $gist)
     {
         $em = $this->getDoctrine()->getManager();
-        $params = $request->request->get('gist');
 
-        $deleteForm = $this->createDeleteForm($gist);
         $editForm = $this->createForm('BetterGistsBundle\Form\GistType', $gist);
         $editForm->handleRequest($request);
 
-        dump($editForm);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em->persist($gist);
+            foreach ($gist->getTags() as $tag) {
+                $em->persist($tag);
+            }
             $em->flush();
 
             return $this->redirectToRoute('gist_show', array('id' => $gist->getId()));
         }
 
-        return $this->render('gist/edit.html.twig', array(
+        return $this->render(':gist:new-simple.html.twig', array(
             'gist' => $gist,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form' => $editForm->createView(),
         ));
     }
 

@@ -54,7 +54,7 @@ class Gist
         return $this->tags ?: $this->tags = new ArrayCollection();
     }
 
-    public function setTags($tag)
+    public function setTags(Tags $tag)
     {
         $this->tags []= $tag;
     }

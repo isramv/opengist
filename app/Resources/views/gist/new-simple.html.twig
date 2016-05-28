@@ -1,0 +1,88 @@
+{% extends 'base-uikit-no-sidebar.html.twig' %}
+{% form_theme form 'uikit/fields.html.twig' %}
+{% block body %}
+    <p></p>
+    <nav class="uk-navbar">
+        <ul class="uk-navbar-nav">
+            <li>
+                <a href="{{ path('gist_index') }}">Back to the list</a>
+            </li>
+        </ul>
+    </nav>
+    <p><strong>New Gist</strong></p>
+
+    {{ form_start(form) }}
+    {#{{ form_widget(form) }}#}
+        {{ form_row(form.title) }}
+        <hr>
+        <div id="epiceditor"></div>
+        <div class="uk-hidden">
+            {{ form_row(form.body) }}
+        </div>
+        <h3>Tags:</h3>
+        <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
+            {% for tag in form.tags  %}
+                <li>{{ form_row(tag.name) }}</li>
+            {% endfor %}
+        </ul>
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset("bower_components/EpicEditor/epiceditor/js/epiceditor.js") }}"></script>
+    <script type="text/javascript">
+        var $addTagLink = $('<a href="#" class="add_tag_link">Add a tag</a>');
+        var $newLinkLi = $('<li></li>').append($addTagLink);
+        jQuery(document).ready(function() {
+            var $collectionHolder = $('ul.tags');
+            $collectionHolder.append($newLinkLi);
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+            $addTagLink.on('click', function(e) {
+                e.preventDefault();
+                addTagForm($collectionHolder, $newLinkLi);
+            });
+        });
+        function addTagForm($collectionHolder, $newLinkLi) {
+            var prototype = $collectionHolder.data('prototype');
+            var index = $collectionHolder.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            $collectionHolder.data('index', index + 1);
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newFormLi.append('<a href="#" class="remove-tag">x</a>');
+            $newLinkLi.before($newFormLi);
+            // handle the removal, just for this example
+            $('.remove-tag').click(function(e) {
+                e.preventDefault();
+                $(this).parent().remove();
+                return false;
+            });
+        }
+
+        // EpicEditor implementation goes here.
+
+        $(document).ready(function() {
+            opts = {
+                container: 'epiceditor',
+                textarea: 'gist_body',
+                basePath: 'http://myapp.local/bower_components/EpicEditor/epiceditor',
+                theme: {
+                    base: '/themes/base/epiceditor.css',
+                    preview: '/themes/preview/preview-light.css',
+                    editor: '/themes/editor/epic-dark.css'
+                },
+                button: {
+                    preview: false,
+                    fullscreen: false,
+                    bar: "auto"
+                },
+                autogrow: true,
+                clientSideStorage: false
+            };
+            editor = new EpicEditor(opts).load();
+        });
+
+    </script>
+{% endblock %}
+
