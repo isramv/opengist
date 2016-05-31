@@ -1,13 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-uikit-no-sidebar.html.twig' %}
 
 {% block body %}
     <h1>Tags list</h1>
-
-    <table>
+    <table class="uk-table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Posts tagged</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -17,7 +17,14 @@
                 <td><a href="{{ path('tags_show', { 'id': tag.id }) }}">{{ tag.id }}</a></td>
                 <td>{{ tag.name }}</td>
                 <td>
-                    <ul>
+                    <ul class="uk-list">
+                        {% for gist in tag.gists %}
+                            <li><a href="{{ path('gist_show', {'id': gist.id }) }}">{{ gist.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul class="uk-list">
                         <li>
                             <a href="{{ path('tags_show', { 'id': tag.id }) }}">show</a>
                         </li>
@@ -36,4 +43,7 @@
             <a href="{{ path('tags_new') }}">Create a new entry</a>
         </li>
     </ul>
+    <p>
+        <a class="uk-button" href="{{ path('gist_index') }}">Gists</a>
+    </p>
 {% endblock %}

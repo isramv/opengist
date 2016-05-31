@@ -27,11 +27,9 @@
             {{ form_widget(edit_form.body) }}
         </div>
         <div class="uk-form-row">
-            {{ form_label(edit_form.tags) }}
+            {#{{ form_label(edit_form.tags) }}#}
             {{ form_errors(edit_form.tags) }}
             {{ form_widget(edit_form.tags) }}
-
-            {#{{ dump(edit_form.tags) }}#}
 
             {% for tagField in edit_form.tags %}
                 {{  dump(tagField) }}

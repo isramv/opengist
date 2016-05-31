@@ -77,8 +77,15 @@ class GistController extends Controller
 
         if($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            foreach ($gist->getTags() as $tag) {
-                $em->persist($tag);
+            foreach($gist->getTags() as $key=>$tag) {
+                $valueToSearch = $tag->getName();
+                $result = $em->getRepository('BetterGistsBundle:Tags')->findOneByName($valueToSearch);
+                if(empty($result)) {
+                    $em->persist($tag);
+                } elseif (!empty($result)) {
+                    $gist->getTags()->remove($key);
+                    $gist->getTags()->add($result);
+                }
             }
             $em->persist($gist);
             $em->flush();
@@ -130,15 +137,32 @@ class GistController extends Controller
         $editForm = $this->createForm('BetterGistsBundle\Form\GistType', $gist);
         $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em->persist($gist);
-            foreach ($gist->getTags() as $tag) {
-                $em->persist($tag);
+        if($editForm->isSubmitted() && $editForm->isValid()) {
+            foreach($gist->getTags() as $key=>$tag) {
+                $valueToSearch = $tag->getName();
+                $result = $em->getRepository('BetterGistsBundle:Tags')->findOneByName($valueToSearch);
+                if(empty($result)) {
+                    $em->persist($tag);
+                } elseif (!empty($result)) {
+                    $gist->getTags()->remove($key);
+                    $gist->getTags()->add($result);
+                }
             }
+            $em->persist($gist);
             $em->flush();
-
             return $this->redirectToRoute('gist_show', array('id' => $gist->getId()));
         }
+
+//
+//        if ($editForm->isSubmitted() && $editForm->isValid()) {
+//            $em->persist($gist);
+//            foreach ($gist->getTags() as $tag) {
+//               $em->persist($tag);
+//            }
+//            $em->flush();
+//
+//            return $this->redirectToRoute('gist_edit', array('id' => $gist->getId()));
+//        }
 
         return $this->render(':gist:new-simple.html.twig', array(
             'gist' => $gist,
@@ -195,5 +219,10 @@ class GistController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    private function searchTag(Tags $tag)
+    {
+        return 'Hello';
     }
 }

@@ -13,6 +13,7 @@
             <tr>
                 <th>Title</th>
                 <th>Actions</th>
+                <th>Tags</th>
             </tr>
         </thead>
         <tbody>
@@ -20,8 +21,16 @@
             <tr>
                 <td><a href="{{ path('gist_show', { 'id': gist.id }) }}">{{ gist.title }}</a></td>
                 <td><a href="{{ path('gist_edit', { 'id': gist.id }) }}">Edit</a></td>
+                <td>
+                    {% for tag in gist.tags %}
+                        <a href="{{ path('tags_show', {'id': tag.id}) }}">{{ tag.name }}</a></li>
+                    {% endfor %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    <p>
+        <a class="uk-button" href="{{ path('tags_index') }}">Tags</a>
+    </p>
 {% endblock %}

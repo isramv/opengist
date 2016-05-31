@@ -9,8 +9,6 @@
             </li>
         </ul>
     </nav>
-    <p><strong>New Gist</strong></p>
-
     {{ form_start(form) }}
     {#{{ form_widget(form) }}#}
         {{ form_row(form.title) }}
@@ -20,13 +18,14 @@
             {{ form_row(form.body) }}
         </div>
         <h3>Tags:</h3>
-        <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
+        <ul class="tags uk-list" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
             {% for tag in form.tags  %}
-                <li>{{ form_row(tag.name) }}</li>
+                <li>{{ form_widget(tag.name) }}</li>
             {% endfor %}
         </ul>
-        <input type="submit" value="Create" />
+        <input class="uk-button" type="submit" value="Save" />
     {{ form_end(form) }}
+
 {% endblock %}
 
 {% block javascripts %}

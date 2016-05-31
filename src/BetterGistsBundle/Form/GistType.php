@@ -24,6 +24,7 @@ class GistType extends AbstractType
             ->add('tags', CollectionType::class, array(
               'entry_type' => TagsType::class,
               'allow_add' => true,
+              'allow_delete' => true,
             ));
 
     }

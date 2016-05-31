@@ -17,6 +17,12 @@
     </table>
 
     <ul>
+        {% for gist in gists %}
+            <li><a href="{{ path('gist_show', { 'id': gist.id}) }}">{{ gist.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <ul>
         <li>
             <a href="{{ path('tags_index') }}">Back to the list</a>
         </li>

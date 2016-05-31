@@ -68,9 +68,10 @@ class TagsController extends Controller
     public function showAction(Tags $tag)
     {
         $deleteForm = $this->createDeleteForm($tag);
-
+        $gists = $tag->getGists()->getValues();
         return $this->render('tags/show.html.twig', array(
             'tag' => $tag,
+            'gists' => $gists,
             'delete_form' => $deleteForm->createView(),
         ));
     }
