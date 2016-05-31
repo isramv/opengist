@@ -23,12 +23,14 @@
             {{ gist.body | raw }}
         </div>
     </div>
-    <p>
-        <strong>Tags:</strong>
-        <ul class="uk-list">
-            {% for tag in gist.tags %}
-                <li class="uk-display-inline-block">{{ tag.name }}</li>
-            {% endfor %}
-        </ul>
-    </p>
+    <div class="uk-block uk-block-muted">
+        <div class="uk-container">
+            <strong>Tags:</strong>
+            <ul class="uk-list">
+                {% for tag in gist.tags %}
+                    <li class="uk-display-inline-block"><a class="uk-button" href="{{ path('tags_show', {'id': tag.id}) }}">{{ tag.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}
