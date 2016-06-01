@@ -13,15 +13,13 @@
 </head>
 <body>
 {# top navbar. #}
-<header class="uk-navbar rc-navbar">
-  <div class="uk-container uk-container-center">
-
-      <ul class="uk-navbar-nav">
+<header class="rc-block">
+    <div class="uk-container">
+      <ul class="uk-tab">
         <li class="{{ (app.request.requestUri == path('gist_index')) ? 'uk-active' }}"><a href="{{ path('gist_index') }}">Gists</a></li>
         <li class="{{ (app.request.requestUri == path('tags_index')) ? 'uk-active' }}"><a href="{{ path('tags_index') }}">Tags</a></li>
       </ul>
-
-  </div>
+    </div>
 </header>
 <div class="uk-container uk-container-center">
   {% block content %}{% endblock %}

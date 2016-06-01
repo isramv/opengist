@@ -4,7 +4,27 @@
   padding: 15px 0; }
 
 .rc-content {
-  padding: 60px 0; }
+  padding: 10px 0; }
 
-h1.rc-page-title {
-  font-size: 28px; }
+.rc-block {
+  padding-top: 40px; }
+
+.rc-container {
+  margin: 20px 0; }
+
+.tags li label {
+  display: none; }
+
+.tags li span {
+  float: left; }
+
+.tags li div, .tags li a {
+  display: inline-block; }
+
+h1.page-title {
+  margin-top: 20px;
+  font-size: 28px;
+  font-weight: 500; }
+
+label {
+  font-weight: 600; }

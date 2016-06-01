@@ -1,5 +1,10 @@
 h1 {
-  &.rc-page-title {
+  &.page-title {
+    margin-top: 20px;
     font-size: 28px;
+    font-weight: 500;
   }
+}
+label {
+  font-weight: 600;
 }

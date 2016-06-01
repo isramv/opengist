@@ -1,31 +1,27 @@
 {% extends 'base-uikit-no-sidebar.html.twig' %}
 {% form_theme form 'uikit/fields.html.twig' %}
 {% block body %}
-    <p></p>
+    <h1 class="page-title">Gist</h1>
     {% if gist.id is not null %}
-    <nav class="uk-navbar">
-        <ul class="uk-navbar-nav">
-            <li>
-                <a href="{{ path('gist_show', {"id": gist.id}) }}">Back</a>
-            </li>
-        </ul>
-    </nav>
+        <a class="uk-button" href="{{ path('gist_show', {"id": gist.id}) }}"><span class="uk-icon-chevron-left"></span> Back</a>
     {% endif %}
     {{ form_start(form) }}
-    {#{{ form_widget(form) }}#}
-        {{ form_row(form.title) }}
-        <hr>
+        <div class="rc-content">
+            {{ form_row(form.title) }}
+        </div>
         <div id="epiceditor"></div>
         <div class="uk-hidden">
             {{ form_row(form.body) }}
         </div>
-        <h3>Tags:</h3>
-        <ul class="tags uk-list" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
-            {% for tag in form.tags  %}
-                <li>{{ form_widget(tag.name) }}</li>
-            {% endfor %}
-        </ul>
-        <input class="uk-button" type="submit" value="Save" />
+        <div class="rc-content">
+            <label>Tags:</label>
+            <ul class="tags uk-list" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
+                {% for tag in form.tags  %}
+                    <li>{{ form_widget(tag.name) }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <input class="uk-button" type="submit" value="Save">
     {{ form_end(form) }}
 
 {% endblock %}
@@ -34,8 +30,8 @@
     {{ parent() }}
     <script src="{{ asset("bower_components/EpicEditor/epiceditor/js/epiceditor.js") }}"></script>
     <script type="text/javascript">
-        var $addTagLink = $('<a href="#" class="add_tag_link">Add a tag</a>');
-        var $newLinkLi = $('<li></li>').append($addTagLink);
+        var $addTagLink = $('<a class="uk-button" href="#" class="add_tag_link"><span class="uk-icon-plus"></span> Add a tag</a>');
+        var $newLinkLi = $('<ul></ul>').append($addTagLink);
         jQuery(document).ready(function() {
             var $collectionHolder = $('ul.tags');
             $collectionHolder.append($newLinkLi);
@@ -50,8 +46,8 @@
             var index = $collectionHolder.data('index');
             var newForm = prototype.replace(/__name__/g, index);
             $collectionHolder.data('index', index + 1);
-            var $newFormLi = $('<li></li>').append(newForm);
-            $newFormLi.append('<a href="#" class="remove-tag">x</a>');
+            var $newFormLi = $('<li class="tag-li"></li>').append(newForm);
+            $newFormLi.append('<a href="#" class="remove-tag"><span class="uk-icon-close"></span></a>');
             $newLinkLi.before($newFormLi);
             // handle the removal, just for this example
             $('.remove-tag').click(function(e) {
@@ -60,6 +56,9 @@
                 return false;
             });
         }
+
+        // Custom add tags.
+
 
         // EpicEditor implementation goes here.
 
