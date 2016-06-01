@@ -2,13 +2,15 @@
 {% form_theme form 'uikit/fields.html.twig' %}
 {% block body %}
     <p></p>
+    {% if gist.id is not null %}
     <nav class="uk-navbar">
         <ul class="uk-navbar-nav">
             <li>
-                <a href="{{ path('gist_index') }}">Back to the list</a>
+                <a href="{{ path('gist_show', {"id": gist.id}) }}">Back</a>
             </li>
         </ul>
     </nav>
+    {% endif %}
     {{ form_start(form) }}
     {#{{ form_widget(form) }}#}
         {{ form_row(form.title) }}

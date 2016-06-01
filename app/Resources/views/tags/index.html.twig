@@ -1,49 +1,46 @@
 {% extends 'base-uikit-no-sidebar.html.twig' %}
 
 {% block body %}
-    <h1>Tags list</h1>
+    <h1>Tags</h1>
     <table class="uk-table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Posts tagged</th>
-                <th>Actions</th>
+                {#<th>Actions</th>#}
             </tr>
         </thead>
         <tbody>
         {% for tag in tags %}
             <tr>
-                <td><a href="{{ path('tags_show', { 'id': tag.id }) }}">{{ tag.id }}</a></td>
-                <td>{{ tag.name }}</td>
+                <td><a href="{{ path('tags_show', { 'id': tag.id }) }}">{{ tag.name }}</a></td>
                 <td>
-                    <ul class="uk-list">
-                        {% for gist in tag.gists %}
-                            <li><a href="{{ path('gist_show', {'id': gist.id }) }}">{{ gist.title }}</a></li>
-                        {% endfor %}
-                    </ul>
+                    {{ tag.gists|length }}
+                    {#{% for gist in tag.gists %}#}
+                        {#<a class="uk-button" href="{{ path('gist_show', {'id': gist.id }) }}">{{ gist.title }}</a>#}
+                    {#{% endfor %}#}
                 </td>
-                <td>
-                    <ul class="uk-list">
-                        <li>
-                            <a href="{{ path('tags_show', { 'id': tag.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('tags_edit', { 'id': tag.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
+                {#<td>#}
+                    {#<ul class="uk-list">#}
+                        {#<li>#}
+                            {#<a href="{{ path('tags_show', { 'id': tag.id }) }}">show</a>#}
+                        {#</li>#}
+                        {#<li>#}
+                            {#<a href="{{ path('tags_edit', { 'id': tag.id }) }}">edit</a>#}
+                        {#</li>#}
+                    {#</ul>#}
+                {#</td>#}
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('tags_new') }}">Create a new entry</a>
-        </li>
-    </ul>
-    <p>
-        <a class="uk-button" href="{{ path('gist_index') }}">Gists</a>
-    </p>
+    {#<ul>#}
+        {#<li>#}
+            {#<a href="{{ path('tags_new') }}">Create a new entry</a>#}
+        {#</li>#}
+    {#</ul>#}
+    {#<p>#}
+        {#<a class="uk-button" href="{{ path('gist_index') }}">Gists</a>#}
+    {#</p>#}
 {% endblock %}

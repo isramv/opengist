@@ -7,7 +7,7 @@
     <nav class="uk-navbar">
         <ul class="uk-navbar-nav">
             <li>
-                <a href="{{ path('gist_index') }}">Back to the list</a>
+                <a href="{{ path('gist_show', { 'id': gist.id }) }}">Back</a>
             </li>
             <li>
                 <a href="{{ path('gist_confirm_delete', { 'id': gist.id }) }}">Delete</a>

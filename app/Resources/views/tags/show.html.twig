@@ -1,38 +1,24 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-uikit-no-sidebar.html.twig' %}
 
 {% block body %}
-    <h1>Tags</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ tag.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ tag.name }}</td>
-            </tr>
-        </tbody>
-    </table>
-
+    <h2>Gist tagged with: <b>{{ tag.name }}</b></h2>
     <ul>
         {% for gist in gists %}
             <li><a href="{{ path('gist_show', { 'id': gist.id}) }}">{{ gist.title }}</a></li>
         {% endfor %}
     </ul>
 
-    <ul>
-        <li>
-            <a href="{{ path('tags_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('tags_edit', { 'id': tag.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    {#<ul>#}
+        {#<li>#}
+            {#<a href="{{ path('tags_index') }}">Back to the list</a>#}
+        {#</li>#}
+        {#<li>#}
+            {#<a href="{{ path('tags_edit', { 'id': tag.id }) }}">Edit</a>#}
+        {#</li>#}
+        {#<li>#}
+            {#{{ form_start(delete_form) }}#}
+                {#<input type="submit" value="Delete">#}
+            {#{{ form_end(delete_form) }}#}
+        {#</li>#}
+    {#</ul>#}
 {% endblock %}
