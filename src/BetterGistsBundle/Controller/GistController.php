@@ -36,38 +36,12 @@ class GistController extends Controller
     }
 
     /**
-     * Creates a new Gist entity.
+     * Creates a new Gist entity test.
      *
      * @Route("/new", name="gist_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
-    {
-        $gist = new Gist();
-        $form = $this->createForm('BetterGistsBundle\Form\GistType', $gist);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($gist);
-            $em->flush();
-
-            return $this->redirectToRoute('gist_show', array('id' => $gist->getId()));
-        }
-
-        return $this->render(':gist:new-simple.html.twig', array(
-            'gist' => $gist,
-            'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * Creates a new Gist entity test.
-     *
-     * @Route("/new-test", name="gist_new")
-     * @Method({"GET", "POST"})
-     */
-    public function newTestAction(Request $request)
     {
         $tag = new Tags();
         $gist = new Gist();
@@ -92,7 +66,7 @@ class GistController extends Controller
             return $this->redirectToRoute('gist_index');
         }
 
-        return $this->render(':gist:new-simple.html.twig', array(
+        return $this->render(':gist:new-edit.html.twig', array(
             'gist' => $gist,
             'form' => $form->createView(),
         ));
@@ -153,18 +127,7 @@ class GistController extends Controller
             return $this->redirectToRoute('gist_show', array('id' => $gist->getId()));
         }
 
-//
-//        if ($editForm->isSubmitted() && $editForm->isValid()) {
-//            $em->persist($gist);
-//            foreach ($gist->getTags() as $tag) {
-//               $em->persist($tag);
-//            }
-//            $em->flush();
-//
-//            return $this->redirectToRoute('gist_edit', array('id' => $gist->getId()));
-//        }
-
-        return $this->render(':gist:new-simple.html.twig', array(
+        return $this->render(':gist:new-edit.html.twig', array(
             'gist' => $gist,
             'form' => $editForm->createView(),
         ));

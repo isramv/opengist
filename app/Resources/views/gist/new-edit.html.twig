@@ -1,4 +1,11 @@
 {% extends 'base-uikit-no-sidebar.html.twig' %}
+{% block title %}
+    {% if gist.title is not null %}
+        Edit: {{ gist.title }}
+    {% else %}
+        New Gist
+    {% endif %}
+{% endblock %}
 {% form_theme form 'uikit/fields.html.twig' %}
 {% block body %}
     <h1 class="page-title">Gist</h1>

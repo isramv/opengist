@@ -1,5 +1,7 @@
 {% extends 'base-uikit-no-sidebar.html.twig' %}
 
+{% block title %}Edit {{ gist.title }}{% endblock %}
+
 {% form_theme edit_form 'uikit/fields.html.twig' %}
 
 {% block body %}
