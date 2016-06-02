@@ -1,17 +1,20 @@
 {% extends 'base-uikit-no-sidebar.html.twig' %}
 {% block body %}
     <h1 class="page-title">Title: <strong>{{ gist.title }}</strong></h1>
-    <div class="rc-content">
+    <div class="rc-content-lean">
         <a class="uk-button" href="{{ path('gist_edit', { 'id': gist.id }) }}"><span class="uk-icon-pencil"></span> Edit</a>
         <a class="uk-button" href="{{ path('gist_confirm_delete', { 'id': gist.id}) }}"><span class="uk-icon-trash"></span> Delete</a>
+    </div>
+    <div class="rc-content-right rc-content-lean-bottom">
         <span class="uk-icon-tags"></span> Tags:
         {% for tag in gist.tags %}
             <a class="uk-button uk-button-mini" href="{{ path('tags_show', {'id': tag.id}) }}">{{ tag.name }}</a>
         {% endfor %}
     </div>
-    <div class="uk-block" style="border-radius: 3px;padding:30px 0;border: 1px solid #efeeee;background: #fff;">
+    <div class="uk-block uk-block-muted">
         <div class="uk-container">
             {{ gist.body | raw }}
         </div>
     </div>
+
 {% endblock %}

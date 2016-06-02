@@ -2,28 +2,33 @@
 {% form_theme form 'uikit/fields.html.twig' %}
 {% block body %}
     <h1 class="page-title">Gist</h1>
-    {% if gist.id is not null %}
-        <a class="uk-button" href="{{ path('gist_show', {"id": gist.id}) }}"><span class="uk-icon-chevron-left"></span> Back</a>
-    {% endif %}
-    {{ form_start(form) }}
-        <div class="rc-content">
-            {{ form_row(form.title) }}
+    <div class="rc-content-lean-bottom">
+        {% if gist.id is not null %}
+            <a class="uk-button" href="{{ path('gist_show', {"id": gist.id}) }}"><span class="uk-icon-chevron-left"></span> Cancel</a>
+        {% endif %}
+    </div>
+    <div class="uk-block uk-block-muted">
+        <div class="uk-container">
+            {{ form_start(form) }}
+            <div class="rc-content">
+                {{ form_row(form.title) }}
+            </div>
+            <div id="epiceditor"></div>
+            <div class="uk-hidden">
+                {{ form_row(form.body) }}
+            </div>
+            <div class="rc-content">
+                <label>Tags:</label>
+                <ul class="tags uk-list" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
+                    {% for tag in form.tags  %}
+                        <li class="tag-li">{{ form_row(tag.name) }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <input class="uk-button" type="submit" value="Save">
+            {{ form_end(form) }}
         </div>
-        <div id="epiceditor"></div>
-        <div class="uk-hidden">
-            {{ form_row(form.body) }}
-        </div>
-        <div class="rc-content">
-            <label>Tags:</label>
-            <ul class="tags uk-list" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
-                {% for tag in form.tags  %}
-                    <li>{{ form_widget(tag.name) }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <input class="uk-button" type="submit" value="Save">
-    {{ form_end(form) }}
-
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -31,7 +36,7 @@
     <script src="{{ asset("bower_components/EpicEditor/epiceditor/js/epiceditor.js") }}"></script>
     <script type="text/javascript">
         var $addTagLink = $('<a class="uk-button" href="#" class="add_tag_link"><span class="uk-icon-plus"></span> Add a tag</a>');
-        var $newLinkLi = $('<ul></ul>').append($addTagLink);
+        var $newLinkLi = $('<div class="rc-content"></div>').append($addTagLink);
         jQuery(document).ready(function() {
             var $collectionHolder = $('ul.tags');
             $collectionHolder.append($newLinkLi);

@@ -5,6 +5,14 @@
 
 .rc-content {
   padding: 10px 0; }
+  .rc-content-lean {
+    padding: 0; }
+  .rc-content-lean-bottom {
+    padding-bottom: 10px; }
+  .rc-content-left {
+    text-align: left; }
+  .rc-content-right {
+    text-align: right; }
 
 .rc-block {
   padding-top: 40px; }
@@ -12,19 +20,35 @@
 .rc-container {
   margin: 20px 0; }
 
-.tags li label {
-  display: none; }
+ul.tags {
+  margin-top: 5px;
+  padding-left: 5px; }
+  ul.tags li {
+    margin: 5px 0; }
+    ul.tags li .uk-form-row {
+      width: 140px; }
+    ul.tags li label {
+      display: none; }
+    ul.tags li span {
+      font-size: 15px;
+      position: relative;
+      top: 3px;
+      float: left;
+      color: #000; }
+    ul.tags li div, ul.tags li a {
+      display: inline-block; }
 
-.tags li span {
-  float: left; }
-
-.tags li div, .tags li a {
-  display: inline-block; }
+.uk-block-muted {
+  padding: 15px 0; }
 
 h1.page-title {
-  margin-top: 20px;
+  margin: 15px 0;
+  line-height: 1em;
   font-size: 28px;
   font-weight: 500; }
 
 label {
   font-weight: 600; }
+
+pre {
+  background: #ffffff; }

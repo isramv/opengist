@@ -1,10 +1,14 @@
 h1 {
   &.page-title {
-    margin-top: 20px;
+    margin: 15px 0;
+    line-height: 1em;
     font-size: 28px;
     font-weight: 500;
   }
 }
 label {
   font-weight: 600;
+}
+pre {
+  background: #ffffff;
 }

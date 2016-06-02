@@ -1,24 +1,12 @@
 {% extends 'base-uikit-no-sidebar.html.twig' %}
 
 {% block body %}
-    <h2>Gist tagged with: <b>{{ tag.name }}</b></h2>
-    <ul>
-        {% for gist in gists %}
-            <li><a href="{{ path('gist_show', { 'id': gist.id}) }}">{{ gist.title }}</a></li>
-        {% endfor %}
-    </ul>
-
-    {#<ul>#}
-        {#<li>#}
-            {#<a href="{{ path('tags_index') }}">Back to the list</a>#}
-        {#</li>#}
-        {#<li>#}
-            {#<a href="{{ path('tags_edit', { 'id': tag.id }) }}">Edit</a>#}
-        {#</li>#}
-        {#<li>#}
-            {#{{ form_start(delete_form) }}#}
-                {#<input type="submit" value="Delete">#}
-            {#{{ form_end(delete_form) }}#}
-        {#</li>#}
-    {#</ul>#}
+    <h1 class="page-title">Gist tagged with: <b>{{ tag.name }}</b></h1>
+    <div class="rc-content">
+        <ul class="uk-list">
+            {% for gist in gists %}
+                <li><a href="{{ path('gist_show', { 'id': gist.id}) }}">{{ gist.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

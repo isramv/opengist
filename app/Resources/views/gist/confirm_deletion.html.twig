@@ -1,20 +1,12 @@
 {% extends 'base-uikit-no-sidebar.html.twig' %}
 {% block body %}
-  <p></p>
-  <nav class="uk-navbar">
-    <ul class="uk-navbar-nav">
-      <li>
-        <a href="{{ path('gist_index') }}">Back to the list</a>
-      </li>
-    </ul>
-  </nav>
-  <hr>
+  <h1 class="page-title">Delete Gist</h1>
   <div class="uk-block uk-block-muted">
     <div class="uk-container">
       <p>Are you sure you want to delete: <strong>{{ gist.title }}</strong></p>
       <ul class="uk-flex uk-list">
         <li style="margin-right: 10px">
-          <a class="uk-button" href="{{ path('gist_edit', { 'id': gist.id }) }}">Cancel</a>
+          <a class="uk-button" href="{{ path('gist_edit', { 'id': gist.id }) }}"><span class="uk-icon-close"></span> Cancel</a>
         </li>
         <li>
           {{ form_start(delete_form) }}
