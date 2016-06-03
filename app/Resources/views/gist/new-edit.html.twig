@@ -20,9 +20,8 @@
             <div class="rc-content">
                 {{ form_row(form.title) }}
             </div>
-            <div id="epiceditor"></div>
-            <div class="uk-hidden">
-                {{ form_row(form.body) }}
+            <div>
+                {{ form_widget(form.body) }}
             </div>
             <div class="rc-content">
                 <label>Tags:</label>
@@ -35,12 +34,14 @@
             <input class="uk-button" type="submit" value="Save">
             {{ form_end(form) }}
         </div>
+        {# Here goes the simplemde implementation. #}
+
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset("bower_components/EpicEditor/epiceditor/js/epiceditor.js") }}"></script>
+    {#<script src="{{ asset("bower_components/EpicEditor/epiceditor/js/epiceditor.js") }}"></script>#}
     <script type="text/javascript">
         var $addTagLink = $('<a class="uk-button" href="#" class="add_tag_link"><span class="uk-icon-plus"></span> Add a tag</a>');
         var $newLinkLi = $('<div class="rc-content"></div>').append($addTagLink);
@@ -68,33 +69,16 @@
                 return false;
             });
         }
-
         // Custom add tags.
 
 
-        // EpicEditor implementation goes here.
+    </script>
 
-        $(document).ready(function() {
-            opts = {
-                container: 'epiceditor',
-                textarea: 'gist_body',
-                basePath: 'http://myapp.local/bower_components/EpicEditor/epiceditor',
-                theme: {
-                    base: '/themes/base/epiceditor.css',
-                    preview: '/themes/preview/preview-light.css',
-                    editor: '/themes/editor/epic-dark.css'
-                },
-                button: {
-                    preview: false,
-                    fullscreen: false,
-                    bar: "auto"
-                },
-                autogrow: true,
-                clientSideStorage: false
-            };
-            editor = new EpicEditor(opts).load();
-        });
-
+    <link rel="stylesheet" href="{{ asset("bower_components/simplemde/dist/simplemde.min.css") }}"></link>
+    <script src="{{ asset("bower_components/simplemde/dist/simplemde.min.js") }}"></script>
+    <script type="text/javascript">
+        // simpleMDE editor Javascript.
+        var simplemde = new SimpleMDE();
     </script>
 {% endblock %}
 

@@ -88,7 +88,8 @@ class GistController extends Controller
 //            dump($tags);
         // test
         $parsedown = new \Parsedown();
-        $output = $parsedown->text($gist->getBody());
+        $output = $parsedown->setMarkupEscaped(true)->text($gist->getBody());
+
         $gist->setBody($output);
         $deleteForm = $this->createDeleteForm($gist);
 
