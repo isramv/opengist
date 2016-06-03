@@ -2,6 +2,7 @@
 
 namespace BetterGistsBundle\Controller;
 
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -22,14 +23,31 @@ class TagsController extends Controller
      * @Route("/", name="tags_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tags = $em->getRepository('BetterGistsBundle:Tags')->findAll();
+        $tags_repository = $em->getRepository('BetterGistsBundle:Tags');
+        $tags = $tags_repository->getGistsCountByTag();
 
+        // Request params from the URL.
+
+        // Tags paginator test.
+        // Count all tags.
+        $tags_count = $tags_repository->countAllTags();
+        // Custom paginator
+        $number_of_items_display = 5;
+        $total_of_items_in_db = intval($tags_count);
+        dump($total_of_items_in_db);
+        $number_of_pages = ($total_of_items_in_db / $number_of_items_display);
+        $round = round($number_of_pages);
+        $number_of_page_requested = 2;
+        $record_start = $number_of_page_requested * $number_of_items_display;
+        $tags_paginator = $tags_repository->getGistsCountByTagPaginator($record_start, $number_of_items_display);
+        
         return $this->render('tags/index.html.twig', array(
             'tags' => $tags,
+            'tags_paginator' => $tags_paginator,
         ));
     }
 

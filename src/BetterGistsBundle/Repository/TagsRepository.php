@@ -3,6 +3,8 @@
 namespace BetterGistsBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use BetterGistsBundle\BetterGistsBundle;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * TagsRepository
@@ -12,4 +14,42 @@ use Doctrine\ORM\EntityRepository;
  */
 class TagsRepository extends EntityRepository
 {
+  public function getGistsCountByTag()
+  {
+    $dql = 'SELECT t.name, t.id, COUNT (g) AS theCount
+            FROM BetterGistsBundle:Tags t 
+            JOIN t.gists g 
+            GROUP BY t.id
+            ORDER BY theCount DESC, t.id DESC';
+    $em = $this->getEntityManager()
+      ->createQuery($dql)->getResult();
+    return $em;
+  }
+  public function getGistsCountByTagPaginator($firstValue, $numberOfValues)
+  {
+    $dql = 'SELECT t.name, t.id, COUNT (g) AS theCount
+            FROM BetterGistsBundle:Tags t 
+            JOIN t.gists g
+            GROUP BY t.id
+            ORDER BY theCount DESC, t.id DESC';
+
+    $query = $this->getEntityManager()
+      ->createQuery($dql)
+      ->setFirstResult($firstValue)
+      ->setMaxResults($numberOfValues);
+  
+    $paginator = new Paginator($query, $fetchJoinCollection = false);
+    return $paginator;
+  }
+  public function countAllTags()
+  {
+    $dql = 'SELECT t.name, t.id, COUNT(g) as theCount
+            FROM BetterGistsBundle:Tags t
+            JOIN t.gists g
+            GROUP BY t.id';
+    $query = $this->getEntityManager()
+      ->createQuery($dql)
+      ->getResult();
+    return count($query);
+  }
 }
