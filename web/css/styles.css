@@ -52,3 +52,14 @@ label {
 
 pre {
   background: #ffffff; }
+
+.uk-form-width-medium {
+  width: 400px; }
+
+input#gist_title {
+  width: 100%; }
+
+.remove-tag {
+  position: relative;
+  z-index: 1;
+  left: 50px; }

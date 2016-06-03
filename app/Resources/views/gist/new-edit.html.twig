@@ -1,4 +1,5 @@
 {% extends 'base-uikit-no-sidebar.html.twig' %}
+
 {% block title %}
     {% if gist.title is not null %}
         Edit: {{ gist.title }}
@@ -6,7 +7,9 @@
         New Gist
     {% endif %}
 {% endblock %}
+
 {% form_theme form 'uikit/fields.html.twig' %}
+
 {% block body %}
     <h1 class="page-title">Gist</h1>
     <div class="rc-content-lean-bottom">
@@ -62,16 +65,12 @@
             var $newFormLi = $('<li class="tag-li"></li>').append(newForm);
             $newFormLi.append('<a href="#" class="remove-tag"><span class="uk-icon-close"></span></a>');
             $newLinkLi.before($newFormLi);
-            // handle the removal, just for this example
-            $('.remove-tag').click(function(e) {
-                e.preventDefault();
-                $(this).parent().remove();
-                return false;
-            });
         }
         // Custom add tags.
-
-
+        var tags = $('ul.tags li').append('<a href="#" class="remove-tag"><span class="uk-icon-close"></span></a>');
+        $('.remove-tag').bind('click', function(e) {
+           $(this).parent('.tag-li').remove();
+        });
     </script>
 
     <link rel="stylesheet" href="{{ asset("bower_components/simplemde/dist/simplemde.min.css") }}"></link>
