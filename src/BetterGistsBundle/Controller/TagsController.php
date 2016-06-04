@@ -30,25 +30,27 @@ class TagsController extends Controller
         $tags_repository = $em->getRepository('BetterGistsBundle:Tags');
         $tags = $tags_repository->getGistsCountByTag();
 
-        // Request params from the URL.
-
-        // Tags paginator test.
-        // Count all tags.
+        // Custom paginator.
+        if($request->query->get('page')) {
+            $number_of_page_requested = $request->query->get('page') - 1;
+        } else {
+            $number_of_page_requested = 0;
+        }
+        $number_of_items_display = 10;
         $tags_count = $tags_repository->countAllTags();
-        // Custom paginator
-        $number_of_items_display = 5;
         $total_of_items_in_db = intval($tags_count);
-        dump($total_of_items_in_db);
         $number_of_pages = ($total_of_items_in_db / $number_of_items_display);
-        $round = round($number_of_pages);
-        $number_of_page_requested = 2;
+        $round = ceil($number_of_pages);
         $record_start = $number_of_page_requested * $number_of_items_display;
         $tags_paginator = $tags_repository->getGistsCountByTagPaginator($record_start, $number_of_items_display);
-        
+        // End custom paginator.
+
         return $this->render('tags/index.html.twig', array(
-            'tags' => $tags,
             'tags_paginator' => $tags_paginator,
+            'number_of_pages' => $round,
+            'current_page' => $number_of_page_requested + 1,
         ));
+
     }
 
     /**

@@ -63,3 +63,6 @@ input#gist_title {
   position: relative;
   z-index: 1;
   left: 50px; }
+
+.rc-button-active {
+  background: #ccc4c8; }
