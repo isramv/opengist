@@ -20,18 +20,52 @@ use BetterGistsBundle\Form\GistType;
  */
 class GistController extends Controller
 {
+
+    const NUMBER_OF_ITEMS = 10;
+
+    private function getNumberOfItems()
+    {
+        return $this::NUMBER_OF_ITEMS;
+    }
+
     /**
      * Lists all Gist entities.
      *
      * @Route("/", name="gist_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $gists = $em->getRepository('BetterGistsBundle:Gist')->findAll();
+        $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
+
+        // Paginator.
+        $number_of_items_display = $this::NUMBER_OF_ITEMS;
+        // page number validation param.
+        if(!is_null($request->query->get('page'))) {
+            if (!preg_match('/^[0-9]+$/', $request->query->get('page'))) {
+                $response = new Response();
+                $response->setStatusCode(400);
+                $response->setContent('Argument needs to be integer.');
+                return $response;
+            }
+        }
+        if($request->query->get('page')) {
+            $number_of_page_requested = $request->query->get('page') - 1;
+        } else {
+            $number_of_page_requested = 0;
+        }
+        $tags_count = $gist_repository->countAllGists();
+        $total_of_items_in_db = intval($tags_count);
+        $number_of_pages = ($total_of_items_in_db / $number_of_items_display);
+        $round = ceil($number_of_pages);
+        $record_start = $number_of_page_requested * $number_of_items_display;
+        $gists = $gist_repository->getGistsOrderedByName($record_start, $number_of_items_display);
+
         return $this->render('gist/index.html.twig', array(
             'gists' => $gists,
+            'number_of_pages' => $round,
+            'current_page' => $number_of_page_requested + 1,
         ));
     }
 
@@ -80,13 +114,6 @@ class GistController extends Controller
      */
     public function showAction(Gist $gist)
     {
-        // test
-            // Entity manager.
-//            $em = $this->getDoctrine()->getManager();
-//            $result = $em->getRepository('BetterGistsBundle:Gist')->find($gist);
-//            $tags = $result->getTags()->getValues();
-//            dump($tags);
-        // test
         $parsedown = new \Parsedown();
         $output = $parsedown->setMarkupEscaped(true)->text($gist->getBody());
 

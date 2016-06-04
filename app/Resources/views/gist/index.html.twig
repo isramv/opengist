@@ -7,7 +7,6 @@
         <thead>
             <tr>
                 <th>Title</th>
-                {#<th>Actions</th>#}
                 <th>Tags</th>
             </tr>
         </thead>
@@ -24,4 +23,7 @@
         {% endfor %}
         </tbody>
     </table>
+    {% for i in 1..number_of_pages %}
+        <a class="uk-button {{ current_page == i ? 'rc-button-active' }}" href="{{ path('gist_index', {'page': i}) }}">{{ i }}</a>
+    {% endfor %}
 {% endblock %}

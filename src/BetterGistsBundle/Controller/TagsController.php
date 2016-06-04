@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use BetterGistsBundle\Entity\Tags;
 use BetterGistsBundle\Form\TagsType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Tags controller.
@@ -26,11 +27,18 @@ class TagsController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $tags_repository = $em->getRepository('BetterGistsBundle:Tags');
-        $tags = $tags_repository->getGistsCountByTag();
 
         // Custom paginator.
+        // page number validation param.
+        if(!is_null($request->query->get('page'))) {
+            if (!preg_match('/^[0-9]+$/', $request->query->get('page'))) {
+                $response = new Response();
+                $response->setStatusCode(400);
+                $response->setContent('Argument needs to be integer.');
+                return $response;
+            }
+        }
         if($request->query->get('page')) {
             $number_of_page_requested = $request->query->get('page') - 1;
         } else {
@@ -43,14 +51,11 @@ class TagsController extends Controller
         $round = ceil($number_of_pages);
         $record_start = $number_of_page_requested * $number_of_items_display;
         $tags_paginator = $tags_repository->getGistsCountByTagPaginator($record_start, $number_of_items_display);
-        // End custom paginator.
-
         return $this->render('tags/index.html.twig', array(
             'tags_paginator' => $tags_paginator,
             'number_of_pages' => $round,
             'current_page' => $number_of_page_requested + 1,
         ));
-
     }
 
     /**
