@@ -3,10 +3,19 @@
 {% block body %}
     <h1 class="page-title">Gist tagged with: <b>{{ tag.name }}</b></h1>
     <div class="rc-content">
-        <ul class="uk-list">
+        <table class="uk-table uk-table-striped">
+            <thead>
+            <tr>
+                <th>Gist title</th>
+            </tr>
+            </thead>
+            <tbody>
             {% for gist in gists %}
-                <li><a href="{{ path('gist_show', { 'id': gist.id}) }}">{{ gist.title }}</a></li>
+                <tr>
+                  <td><a href="{{ path('gist_show', { 'id': gist.id}) }}">{{ gist.title }}</a></td>
+                </tr>
             {% endfor %}
-        </ul>
+            </tbody>
+        </table>
     </div>
 {% endblock %}
