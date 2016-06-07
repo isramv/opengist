@@ -8,6 +8,7 @@
             <tr>
                 <th>Title</th>
                 <th>Tags</th>
+                <th>Author</th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +20,11 @@
                         <a class="uk-button uk-button-mini" href="{{ path('tags_show', {'id': tag.id}) }}">{{ tag.name }}</a></li>
                     {% endfor %}
                 </td>
+                {% if gist.author is not null %}
+                    <td>{{ gist.author.getUsername }}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>
