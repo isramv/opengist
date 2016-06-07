@@ -12,6 +12,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use BetterGistsBundle\Entity\Gist;
 use BetterGistsBundle\Form\GistType;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Gist controller.
@@ -39,10 +43,18 @@ class GistController extends Controller
         $em = $this->getDoctrine()->getManager();
         $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
 
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        $user_gists = $user->getGists();
-        foreach ($user_gists as $g) {
-            dump($g);
+        // Json test.
+        if($request->isXmlHttpRequest()) {
+            $params = $request->query->all();
+
+            $json_result = $this->jsonIndexResponse($params);
+
+
+            $response = new Response();
+            $response->headers->set('Content-type','application/json');
+            $response->setContent($json_result);
+
+            return $response;
         }
 
         // Paginator.
@@ -225,5 +237,17 @@ class GistController extends Controller
     private function searchTag(Tags $tag)
     {
         return 'Hello';
+    }
+
+    private function jsonIndexResponse($query_params = NULL)
+    {
+        // JSON Serializer.
+        $encoder = array(new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $json = $serializer->serialize($query_params, 'json');
+
+        return $json;
     }
 }
