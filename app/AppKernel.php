@@ -28,7 +28,6 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new AppBundle\AppBundle(),
             new Rocket\UserBundle\RocketUserBundle(),
-            new Rocket\AjaxBundle\RocketAjaxBundle(),
             new BetterGistsBundle\BetterGistsBundle(),
         );
 

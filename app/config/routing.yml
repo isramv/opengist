@@ -10,20 +10,15 @@ app_social_group:
     resource: "@AppBundle/Controller/SocialGroupController.php"
     type:     annotation
 
-rocket_ajax:
-    resource: "@RocketAjaxBundle/Controller/"
-    type:     annotation
-    prefix:   /ajax
-
 rocket_user:
     resource: "@RocketUserBundle/Controller/"
     type:     annotation
     prefix:   /
 
-#app:
-#    resource: "@AppBundle/Controller/"
-#    type:     annotation
-#    prefix:   /
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+    prefix:   /
 
 upload_product:
     resource: "@UploadBundle/Controller/ProductController.php"

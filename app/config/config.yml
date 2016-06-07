@@ -5,7 +5,6 @@ imports:
     - { resource: "@UploadBundle/Resources/config/services.yml" }
     - { resource: "@AppBundle/Resources/config/services.yml" }
     - { resource: "@RocketUserBundle/Resources/config/services.yml" }
-    - { resource: "@RocketAjaxBundle/Resources/config/services.yml" }
     - { resource: "@BetterGistsBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
