@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\JoinColumn;
 use AppBundle\Entity\SocialGroup as SocialGroup;
@@ -33,10 +34,20 @@ class User extends BaseUser
      */
     protected $sgroups;
 
+    /**
+     * @OneToMany(targetEntity="BetterGistsBundle\Entity\Gist", mappedBy="author")
+     */
+    protected $gists;
+
+
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         parent::__construct();
         $this->sgroups = new ArrayCollection();
+        $this->gists = new ArrayCollection();
 
     }
 

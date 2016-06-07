@@ -62,6 +62,8 @@ class GistController extends Controller
         $record_start = $number_of_page_requested * $number_of_items_display;
         $gists = $gist_repository->getGistsOrderedByName($record_start, $number_of_items_display);
 
+        dump($gists);
+
         return $this->render('gist/index.html.twig', array(
             'gists' => $gists,
             'number_of_pages' => $round,
@@ -95,6 +97,8 @@ class GistController extends Controller
                     $gist->getTags()->add($result);
                 }
             }
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $gist->setAuthor($user);
             $em->persist($gist);
             $em->flush();
             return $this->redirectToRoute('gist_index');
@@ -150,6 +154,8 @@ class GistController extends Controller
                     $gist->getTags()->add($result);
                 }
             }
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $gist->setAuthor($user);
             $em->persist($gist);
             $em->flush();
             return $this->redirectToRoute('gist_show', array('id' => $gist->getId()));

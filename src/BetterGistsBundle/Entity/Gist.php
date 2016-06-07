@@ -2,9 +2,14 @@
 
 namespace BetterGistsBundle\Entity;
 
+use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\OneToOne;
+use AppBundle\Entity\User as FosUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,6 +49,15 @@ class Gist
      */
     private $tags;
 
+    /**
+     * @ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="gists")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $author;
+
+    /**
+     * Gist constructor.
+     */
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -113,5 +127,29 @@ class Gist
     public function getBody()
     {
         return $this->body;
+    }
+
+    /**
+     * Get Author
+     *
+     * @return User
+     *
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Set Author
+     *
+     * @param User
+     * @return User
+     */
+    public function setAuthor(User $author)
+    {
+        $this->author = $author;
+
+        return $this;
     }
 }
