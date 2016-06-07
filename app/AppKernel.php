@@ -20,14 +20,10 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Rocket\ExpensesBundle\RocketExpensesBundle(),
-            new Rocket\Clients\ContactsBundle\RocketClientsContactsBundle(),
-            new Rocket\Clients\OrganizationsBundle\RocketClientsOrganizationsBundle(),
             new UploadBundle\UploadBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new AppBundle\AppBundle(),
-            new Rocket\UserBundle\RocketUserBundle(),
             new BetterGistsBundle\BetterGistsBundle(),
         );
 

@@ -1,4 +1,4 @@
 myapp
 =====
 
-Yet Another Symfony Sandbox.
+MyApp is super cool.

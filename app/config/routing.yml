@@ -1,24 +1,15 @@
-better_gists_tags:
-    resource: "@BetterGistsBundle/Controller/TagsController.php"
+app:
+    resource: "@AppBundle/Controller/"
     type:     annotation
+    prefix:   /
 
 better_gists:
     resource: "@BetterGistsBundle/Controller/GistController.php"
     type:     annotation
 
-app_social_group:
-    resource: "@AppBundle/Controller/SocialGroupController.php"
+better_gists_tags:
+    resource: "@BetterGistsBundle/Controller/TagsController.php"
     type:     annotation
-
-rocket_user:
-    resource: "@RocketUserBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
-    prefix:   /
 
 upload_product:
     resource: "@UploadBundle/Controller/ProductController.php"
@@ -27,18 +18,6 @@ upload_product:
 upload:
     resource: "@UploadBundle/Resources/config/routing.yml"
     prefix:   /upload
-
-#rocket_clients_organizations:
-#    resource: "@RocketClientsOrganizationsBundle/Resources/config/routing.yml"
-#    prefix:   /
-
-#rocket_clients_contacts:
-#    resource: "@RocketClientsContactsBundle/Resources/config/routing.yml"
-#    prefix:   /
-
-#rocket_expenses:
-#    resource: "@RocketExpensesBundle/Resources/config/routing.yml"
-#    prefix:   /
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"

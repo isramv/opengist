@@ -27,15 +27,6 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ManyToMany(targetEntity="SocialGroup")
-     * @JoinTable(name="users_socialgroups",
-     *      joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
-     */
-    protected $sgroups;
-
-    /**
      * @OneToMany(targetEntity="BetterGistsBundle\Entity\Gist", mappedBy="author")
      */
     protected $gists;
@@ -47,23 +38,8 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->sgroups = new ArrayCollection();
         $this->gists = new ArrayCollection();
 
-    }
-
-    public function addSocialGroup(SocialGroup $sg)
-    {
-        $this->sgroups[] = $sg;
-    }
-    /**
-     * Gets the groups granted to the user.
-     *
-     * @return Collection
-     */
-    public function getSocialGroups()
-    {
-        return $this->sgroups ?: $this->sgroups = new ArrayCollection();
     }
 
     /**

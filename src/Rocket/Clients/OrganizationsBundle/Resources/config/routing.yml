@@ -1,7 +1,0 @@
-rocket_clients_organizations_organization:
-    resource: "@RocketClientsOrganizationsBundle/Resources/config/routing/organization.yml"
-    prefix:   /organization
-
-rocket_clients_organizations_homepage:
-    path:     /
-    defaults: { _controller: RocketClientsOrganizationsBundle:Default:index }

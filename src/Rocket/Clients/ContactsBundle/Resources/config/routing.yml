@@ -1,7 +1,0 @@
-rocket_clients_contacts_contact:
-    resource: "@RocketClientsContactsBundle/Resources/config/routing/contact.yml"
-    prefix:   /contacts
-
-rocket_clients_contacts_homepage:
-    path:     /
-    defaults: { _controller: RocketClientsContactsBundle:Default:index }

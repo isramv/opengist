@@ -1,4 +1,0 @@
-services:
-#    rocket_clients_organizations.example:
-#        class: Rocket\Clients\OrganizationsBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
