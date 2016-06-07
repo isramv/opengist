@@ -39,6 +39,12 @@ class GistController extends Controller
         $em = $this->getDoctrine()->getManager();
         $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
 
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user_gists = $user->getGists();
+        foreach ($user_gists as $g) {
+            dump($g);
+        }
+
         // Paginator.
         $number_of_items_display = $this::NUMBER_OF_ITEMS;
         // page number validation param.
@@ -61,8 +67,6 @@ class GistController extends Controller
         $round = ceil($number_of_pages);
         $record_start = $number_of_page_requested * $number_of_items_display;
         $gists = $gist_repository->getGistsOrderedByName($record_start, $number_of_items_display);
-
-        dump($gists);
 
         return $this->render('gist/index.html.twig', array(
             'gists' => $gists,

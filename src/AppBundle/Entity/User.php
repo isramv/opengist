@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToMany;
@@ -63,6 +64,15 @@ class User extends BaseUser
     public function getSocialGroups()
     {
         return $this->sgroups ?: $this->sgroups = new ArrayCollection();
+    }
+
+    /**
+     * Get the gists that the User has created.
+     * @return Collection
+     */
+    public function getGists()
+    {
+        return $this->gists;
     }
 }
 
