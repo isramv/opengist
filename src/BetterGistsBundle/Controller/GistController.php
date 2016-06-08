@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use AppBundle\Entity\User;
 
 /**
  * Gist controller.
@@ -30,6 +31,47 @@ class GistController extends Controller
     private function getNumberOfItems()
     {
         return $this::NUMBER_OF_ITEMS;
+    }
+
+    /**
+     * Test params json.
+     * @Route("/api/v1/gist", name="gist_index_rest")
+     * @Method("GET")
+     */
+    public function indexRest(Request $request)
+    {
+
+        // TODO clean user input.
+
+        // Test URL
+        // http://myapp.local/app_dev.php/gist/api/v1/gist?page=1&sort=date&results=12
+
+        $query_params = $request->query->all();
+
+        // Query builder test.
+        $gist_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
+        $tags_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Tags');
+        $user_repository = $this->getDoctrine()->getRepository('AppBundle:User');
+        // Query builder object.
+        $qb = $gist_repository->createQueryBuilder('g')
+          ->leftJoin('g.tags','tags')
+          ->addSelect('tags')
+          ->innerJoin('g.author','author')
+          ->addSelect('author.username, author.id AS author_id');
+        
+
+        $result = $qb->getQuery()->getArrayResult();
+
+        // JSON Serializer.
+        $encoder = array(new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizer, $encoder);
+        $json = $serializer->serialize($result, 'json');
+
+        $response = new Response();
+        $response->setContent($json);
+        $response->headers->set('Content-type','application/json');
+        return $response;
     }
 
     /**
