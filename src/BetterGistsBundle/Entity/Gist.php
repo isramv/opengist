@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\OneToOne;
 use AppBundle\Entity\User as FosUser;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\DateTime;
+use DateTime;
 
 /**
  * Gist
@@ -173,19 +173,26 @@ class Gist
      * @param DateTime
      * @return Gist
      */
-    public function setUpdated(DateTime $updated)
+    public function setUpdated(DateTime $time)
     {
-        $this->updated = $updated;
+        $this->updated = $time;
 
         return $this;
     }
 
     /**
      * Get updated
-     * @return DateTime
+     * @return string
      */
     public function getUpdated()
     {
+        if(!is_null($this->updated)) {
+            $now = new \DateTime('now');
+            $updated = $this->updated;
+            $diff = $updated->diff($now);
+            $outformat = $diff->format('%i mins ago');
+            return $outformat;
+        }
         return $this->updated;
     }
 
@@ -194,9 +201,9 @@ class Gist
      * @param DateTime
      * @return Gist
      */
-    public function setCreated(\DateTime $created)
+    public function setCreated(DateTime $date)
     {
-        $this->setCreated($created);
+        $this->created = $date;
 
         return $this;
     }

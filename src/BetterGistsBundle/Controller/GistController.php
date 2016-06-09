@@ -90,8 +90,7 @@ class GistController extends Controller
             $params = $request->query->all();
 
             $json_result = $this->jsonIndexResponse($params);
-
-
+            
             $response = new Response();
             $response->headers->set('Content-type','application/json');
             $response->setContent($json_result);
@@ -139,7 +138,7 @@ class GistController extends Controller
     {
         $tag = new Tags();
         $gist = new Gist();
-        $gist->getTags()->add($tag);
+        // $gist->getTags()->add($tag);
         $form = $this->createForm('BetterGistsBundle\Form\GistType', $gist);
         $form->handleRequest($request);
 
@@ -158,8 +157,10 @@ class GistController extends Controller
             $user = $this->get('security.token_storage')->getToken()->getUser();
             $gist->setAuthor($user);
             $em->persist($gist);
+            $date = new \DateTime('now');
+            $gist->setCreated($date);
             $em->flush();
-            return $this->redirectToRoute('gist_index');
+            return $this->redirectToRoute('gist_show', array('id' => $gist->getId()));
         }
 
         return $this->render(':gist:new-edit.html.twig', array(
@@ -215,6 +216,7 @@ class GistController extends Controller
             $user = $this->get('security.token_storage')->getToken()->getUser();
             $gist->setAuthor($user);
             $em->persist($gist);
+            $gist->setUpdated(new \DateTime('now'));
             $em->flush();
             return $this->redirectToRoute('gist_show', array('id' => $gist->getId()));
         }

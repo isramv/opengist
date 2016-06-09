@@ -9,6 +9,8 @@
                 <th>Title</th>
                 <th>Tags</th>
                 <th>Author</th>
+                <th>Created</th>
+                <th>Updated</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +27,8 @@
                 {% else %}
                     <td></td>
                 {% endif %}
+                <td>{{ gist.created|date('d M Y') }}</td>
+                <td>{{ gist.updated }}</td>
             </tr>
         {% endfor %}
         </tbody>
