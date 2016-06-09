@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\OneToOne;
 use AppBundle\Entity\User as FosUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Gist
@@ -54,6 +55,20 @@ class Gist
      * @JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $author;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated", type="datetime", nullable=true)
+     */
+    private $updated;
+
+    /**
+     * @var \DateTimeImmutable
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false)
+     */
+    private $created;
 
     /**
      * Gist constructor.
@@ -151,5 +166,47 @@ class Gist
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+     * Set updated
+     * @param DateTime
+     * @return Gist
+     */
+    public function setUpdated(DateTime $updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     * @return DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set created
+     * @param DateTime
+     * @return Gist
+     */
+    public function setCreated(\DateTime $created)
+    {
+        $this->setCreated($created);
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 }
