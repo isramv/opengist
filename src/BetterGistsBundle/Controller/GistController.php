@@ -55,7 +55,7 @@ class GistController extends Controller
         // Query builder object.
 
         $qb = $gist_repository->createQueryBuilder('g')
-          ->addSelect('unix_timestamp(g.created)')
+          ->addSelect('unix_timestamp(g.created) AS unix_created')
           ->leftJoin('g.tags','tags')
           ->addSelect('tags')
           ->innerJoin('g.author','author')
