@@ -53,7 +53,9 @@ class GistController extends Controller
         $tags_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Tags');
         $user_repository = $this->getDoctrine()->getRepository('AppBundle:User');
         // Query builder object.
+
         $qb = $gist_repository->createQueryBuilder('g')
+          ->addSelect('unix_timestamp(g.created)')
           ->leftJoin('g.tags','tags')
           ->addSelect('tags')
           ->innerJoin('g.author','author')
@@ -119,7 +121,7 @@ class GistController extends Controller
         $number_of_pages = ($total_of_items_in_db / $number_of_items_display);
         $round = ceil($number_of_pages);
         $record_start = $number_of_page_requested * $number_of_items_display;
-        $gists = $gist_repository->getGistsOrderedByName($record_start, $number_of_items_display);
+        $gists = $gist_repository->getGistsOrderedByUpdated($record_start, $number_of_items_display);
 
         return $this->render('gist/index.html.twig', array(
             'gists' => $gists,
@@ -159,6 +161,7 @@ class GistController extends Controller
             $em->persist($gist);
             $date = new \DateTime('now');
             $gist->setCreated($date);
+            $gist->setUpdated($date);
             $em->flush();
             return $this->redirectToRoute('gist_show', array('id' => $gist->getId()));
         }

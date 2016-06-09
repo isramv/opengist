@@ -190,7 +190,7 @@ class Gist
             $now = new \DateTime('now');
             $updated = $this->updated;
             $diff = $updated->diff($now);
-            $outformat = $diff->format('%i mins ago');
+            $outformat = $diff->format('%h hours %i mins. ago');
             return $outformat;
         }
         return $this->updated;

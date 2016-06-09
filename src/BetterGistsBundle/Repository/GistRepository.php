@@ -48,4 +48,21 @@ class GistRepository extends EntityRepository
       return $em->createQuery($dql)->getResult();
     }
   }
+  public function getGistsOrderedByUpdated($firstValue = NULL, $numberOfValues = NULL)
+  {
+    $dql = 'SELECT g
+            FROM BetterGistsBundle:Gist g
+            GROUP BY g.id
+            ORDER BY g.updated DESC';
+    $em = $this->getEntityManager();
+    if(!is_null($firstValue) && !is_null($numberOfValues)) {
+      $results = $em->createQuery($dql)
+        ->setMaxResults($numberOfValues)
+        ->setFirstResult($firstValue)
+        ->getResult();
+      return $results;
+    } else {
+      return $em->createQuery($dql)->getResult();
+    }
+  }
 }
