@@ -28,7 +28,7 @@
                     <td></td>
                 {% endif %}
                 <td>{{ gist.created|date('d M Y') }}</td>
-                <td>{{ gist.updated }}</td>
+                <td>{{ gist.getUpdatedString() }}</td>
             </tr>
         {% endfor %}
         </tbody>

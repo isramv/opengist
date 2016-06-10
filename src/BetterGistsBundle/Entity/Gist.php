@@ -184,18 +184,32 @@ class Gist
      * Get updated
      * @return string
      */
-    public function getUpdated()
+    public function getUpdatedString()
     {
         if(!is_null($this->updated)) {
-            $now = new \DateTime('now');
+
             $updated = $this->updated;
-            $diff = $updated->diff($now);
-            $outformat = $diff->format('%h hours %i mins. ago');
-            return $outformat;
+
+            $updated_formated = $updated->format('Y/m/d H:i:s');
+
+            $timezone = $updated->getTimezone();
+
+            $time_ago = new \TimeAgo($timezone->getName(),'en');
+            $time_in_words = $time_ago->inWords($updated_formated);
+
+            return $time_in_words;
         }
         return $this->updated;
     }
 
+    /**
+     * Get updated
+     * @return string
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
     /**
      * Set created
      * @param DateTime

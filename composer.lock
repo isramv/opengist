@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "54a560ea7c07dda4db586788dd6b8000",
-    "content-hash": "364bfc512d6ebf8f82d3ffeb3e99ba9b",
+    "hash": "bba6c9bb37bdc0224be65b7e292cf944",
+    "content-hash": "bc8d7ee9f70d7913099b147f38a38663",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -1026,6 +1026,49 @@
                 "sql"
             ],
             "time": "2014-01-12 16:20:24"
+        },
+        {
+            "name": "jimmiw/php-time-ago",
+            "version": "0.4.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jimmiw/php-time-ago.git",
+                "reference": "f7fb8b5e25a58a12d0e04400eadf2c1420db4359"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jimmiw/php-time-ago/zipball/f7fb8b5e25a58a12d0e04400eadf2c1420db4359",
+                "reference": "f7fb8b5e25a58a12d0e04400eadf2c1420db4359",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=4"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "timeago.inc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jimmi Westerberg",
+                    "homepage": "http://www.westsworld.dk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple module, that displays the date in a \"time ago\" format",
+            "homepage": "https://github.com/jimmiw/php-time-ago",
+            "keywords": [
+                "distance of time",
+                "time ago",
+                "time ago in words"
+            ],
+            "time": "2016-03-30 13:17:34"
         },
         {
             "name": "jms/metadata",
