@@ -3,14 +3,14 @@
 {% block body %}
     <h1 class="page-title">Gists</h1>
     <a class="uk-button" href="{{ path('gist_new') }}"><span class="uk-icon-file-o"></span> New Gist</a>
-    <table class="uk-table uk-table-striped">
+    <table class="uk-table uk-table-striped gist-table">
         <thead>
             <tr>
-                <th>Title</th>
+                <th class="gist-table__title" data-order="title">Title</th>
                 <th>Tags</th>
                 <th>Author</th>
-                <th>Created</th>
-                <th>Updated</th>
+                <th class="gist-table__created asc" data-order="created">Created</th>
+                <th class="gist-table__updated" data-order="updated">Updated</th>
             </tr>
         </thead>
         <tbody>
@@ -37,3 +37,38 @@
         <a class="uk-button {{ current_page == i ? 'rc-button-active' }}" href="{{ path('gist_index', {'page': i}) }}">{{ i }}</a>
     {% endfor %}
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://rawgit.com/ryanburnette/Qurl/master/qurl.js"></script>
+    <script>
+        (function() {
+            $=jQuery;
+            byName = $('.gist-table__title');
+            byUpdated = $('.gist-table__updated');
+            byCreated = $('.gist-table__created');
+
+            url = Qurl.create();
+
+            buttons = [
+                byName,
+                byUpdated,
+                byCreated
+            ];
+
+            // i means index.
+            // el means element.
+            $.each(buttons, function(i,el) {
+                // ev means event.
+                el.bind('click', function(ev) {
+                    console.dir(ev.currentTarget.dataset.order);
+                });
+            });
+
+        })(jQuery);
+
+
+
+    </script>
+{% endblock %}
+
+
