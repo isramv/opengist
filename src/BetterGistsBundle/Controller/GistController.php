@@ -3,6 +3,7 @@
 namespace BetterGistsBundle\Controller;
 
 use BetterGistsBundle\Entity\Tags;
+use BetterGistsBundle\Repository\GistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use AppBundle\Entity\User;
+use BetterGistsBundle\DependencyInjection\BPaginator;
 
 /**
  * Gist controller.
@@ -87,18 +89,24 @@ class GistController extends Controller
         $em = $this->getDoctrine()->getManager();
         $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
 
-        // Json test.
-        if($request->isXmlHttpRequest()) {
-            $params = $request->query->all();
+        // Paginator start.
+        //------------------------
 
-            $json_result = $this->jsonIndexResponse($params);
-            
-            $response = new Response();
-            $response->headers->set('Content-type','application/json');
-            $response->setContent($json_result);
+        $gist_paginated = new BPaginator($gist_repository);
+        dump($gist_paginated->getPage(1));
 
-            return $response;
-        }
+        $tags_repository = $em->getRepository('BetterGistsBundle:Tags');
+        $tags_paginated = new BPaginator($tags_repository);
+        dump($tags_paginated->getPage(2));
+        
+        
+
+
+
+
+        // Paginator end.
+        //------------------------
+        
 
         // Paginator.
         $number_of_items_display = $this::NUMBER_OF_ITEMS;
@@ -116,10 +124,10 @@ class GistController extends Controller
         } else {
             $number_of_page_requested = 0;
         }
-        $tags_count = $gist_repository->countAllGists();
-        $total_of_items_in_db = intval($tags_count);
-        $number_of_pages = ($total_of_items_in_db / $number_of_items_display);
-        $round = ceil($number_of_pages);
+        $tags_count = $gist_repository->countAllGists(); // Ya
+        $total_of_items_in_db = intval($tags_count); // Ya
+        $number_of_pages = ($total_of_items_in_db / $number_of_items_display); // Ya
+        $round = ceil($number_of_pages); // Ya
         $record_start = $number_of_page_requested * $number_of_items_display;
         $gists = $gist_repository->getGistsOrderedByUpdated($record_start, $number_of_items_display);
 
