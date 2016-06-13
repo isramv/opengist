@@ -100,17 +100,14 @@ class GistController extends Controller
             }
         }
         if($request->query->get('page')) {
-            $number_of_page_requested = $request->query->get('page');
+            $number_of_page_requested = intval($request->query->get('page'));
         } else {
             $number_of_page_requested = 1;
         }
-
         $gists_paginated = new BPaginator($gist_repository);
-        $gists_paginated->setNumberOfItemsToShow(15);
+        $gists_paginated->setLimit(15);
         $gists = $gists_paginated->getPage($number_of_page_requested);
 
-        dump($gists);
-        
         return $this->render('gist/index.html.twig', array(
             'gists' => $gists
         ));

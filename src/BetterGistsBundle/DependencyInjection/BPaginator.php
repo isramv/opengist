@@ -3,6 +3,7 @@
 namespace BetterGistsBundle\DependencyInjection;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class BPaginator
 {
@@ -13,10 +14,10 @@ class BPaginator
   private $offset;
 
   /**
-   * @var $number_of_items
-   * The number of items to show.
+   * @var $limit
+   * The number of items to show per page.
    */
-  private $number_of_items_to_show;
+  private $limit;
 
   /**
    * @var EntityRepository $repository
@@ -24,45 +25,45 @@ class BPaginator
   private $repository;
 
   /**
-   * Paginator constructor.
-   * @param
+   * BPaginator constructor.
+   * @param EntityRepository $repository
    * @param integer $offset
-   * @param integer $number_of_items
+   * @param integer $limit
    */
-  public function __construct(EntityRepository $repository, $offset = 0, $number_of_items_to_show = 10)
+  public function __construct(EntityRepository $repository, $offset = 0, $limit = 10)
   {
     $this->repository = $repository;
     $this->offset = $offset;
-    $this->number_of_items_to_show = $number_of_items_to_show;
+    $this->limit = $limit;
   }
 
   /**
-   * @param mixed $offset
+   * @param integer $offset
    */
   public function setOffset($offset) {
     $this->offset = $offset;
   }
 
   /**
-   * @return mixed
+   * @return integer
    */
   public function getOffset() {
     return $this->offset;
   }
 
   /**
-   * @param mixed $number_of_items
+   * @param integer $limit
    */
-  public function setNumberOfItemsToShow($number_of_items) {
-    $this->number_of_items_to_show = $number_of_items;
+  public function setLimit($limit) {
+    $this->limit = $limit;
   }
 
   /**
-   * @return mixed
+   * @return integer
    */
-  public function getNumberOfItemsToShow()
+  public function getLimit()
   {
-    return $this->number_of_items_to_show;
+    return $this->limit;
   }
 
   /**
@@ -93,78 +94,95 @@ class BPaginator
     return intval($items_count);
   }
 
-
+  /**
+   * Round the number of pages depending on how many items are in the database.
+   * @return integer
+   */
   public function getNumberOfPages()
   {
-    return (integer) ceil($this->countAllItems()/$this->getNumberOfItemsToShow());
+    return (integer) ceil($this->countAllItems()/$this->getLimit());
   }
 
   /**
-   * @param integer $number_of_page
+   * @param integer $page_requested
    * @return array
    */
   public function getPage($page_requested)
   {
-    $offset = $this->queryOffset($page_requested);
-    $limit = $this->getNumberOfItemsToShow();
 
-    $paginator = array(
+    $offset = $this->queryOffset($page_requested);
+    $limit = $this->getLimit();
+
+    return array(
       'number_of_pages' => $this->getNumberOfPages(),
       'page_requested' => $page_requested,
       'offset' => $offset,
       'limit' => $limit,
       'items' => $this->queryRepository($offset, $limit)
     );
-    return $paginator;
   }
 
+  /**
+   * Returns a PHP Array of values instead of Entity Objects.
+   * @param integer $page_requested
+   * @return array
+   */
   public function getPageArray($page_requested)
   {
     $offset = $this->queryOffset($page_requested);
-    $limit = $this->getNumberOfItemsToShow();
+    $limit = $this->getLimit();
 
-    $paginator = array(
+    return array(
       'number_of_pages' => $this->getNumberOfPages(),
       'page_requested' => $page_requested,
       'offset' => $offset,
       'limit' => $limit,
       'items' => $this->queryRepositoryArray($offset, $limit)
     );
-    return $paginator;
   }
 
   /**
-   * @param $page_requested
-   * @return mixed
+   * @param integer $page_requested
+   * @return integer
    */
   private function queryOffset($page_requested)
   {
-    $number_of_pages = $this->getNumberOfItemsToShow();
+    $number_of_pages = $this->getLimit();
     $query_offset = ($page_requested - 1) * $number_of_pages;
     return $query_offset;
   }
 
   /**
-   * @param $offset
-   * @param $items
+   * @param integer $offset
+   * @param integer $limit
    * @return array
    */
-  private function queryRepository($offset, $items)
+  private function queryRepository($offset, $limit)
   {
     $results = $this->getRepository()
       ->createQueryBuilder('x')
       ->setFirstResult($offset)
-      ->setMaxResults($items)
+      ->setMaxResults($limit)
       ->getQuery()->getResult();
     return $results;
   }
-  private function queryRepositoryArray($offset, $items)
+
+  /**
+   * @param integer $offset
+   * @param integer $limit
+   * @return array
+   */
+  private function queryRepositoryArray($offset, $limit)
   {
     $results = $this->getRepository()
       ->createQueryBuilder('x')
+      ->leftJoin('x.tags','tags')
+      ->select('x, tags')
+      ->groupBy('x.id')
       ->setFirstResult($offset)
-      ->setMaxResults($items)
-      ->getQuery()->getArrayResult();
+      ->setMaxResults($limit)
+      ->getQuery()->getArrayResult(Query::HYDRATE_ARRAY);
     return $results;
   }
 }
+
