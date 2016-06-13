@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for gist in gists %}
+        {% for gist in gists.items %}
             <tr>
                 <td><a href="{{ path('gist_show', { 'id': gist.id }) }}">{{ gist.title }}</a></td>
                 <td>
@@ -33,8 +33,8 @@
         {% endfor %}
         </tbody>
     </table>
-    {% for i in 1..number_of_pages %}
-        <a class="uk-button {{ current_page == i ? 'rc-button-active' }}" href="{{ path('gist_index', {'page': i}) }}">{{ i }}</a>
+    {% for i in 1..gists.number_of_pages %}
+        <a class="uk-button {{ gists.page_requested == i ? 'rc-button-active' }}" href="{{ path('gist_index', {'page': i}) }}">{{ i }}</a>
     {% endfor %}
 {% endblock %}
 {% block javascripts %}

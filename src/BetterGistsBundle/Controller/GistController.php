@@ -89,28 +89,8 @@ class GistController extends Controller
         $em = $this->getDoctrine()->getManager();
         $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
 
-        // Paginator start.
-        //------------------------
-
-        $gist_paginated = new BPaginator($gist_repository);
-        dump($gist_paginated->getPage(1));
-
-        $tags_repository = $em->getRepository('BetterGistsBundle:Tags');
-        $tags_paginated = new BPaginator($tags_repository);
-        dump($tags_paginated->getPage(2));
-        
-        
-
-
-
-
-        // Paginator end.
-        //------------------------
-        
-
-        // Paginator.
-        $number_of_items_display = $this::NUMBER_OF_ITEMS;
         // page number validation param.
+
         if(!is_null($request->query->get('page'))) {
             if (!preg_match('/^[0-9]+$/', $request->query->get('page'))) {
                 $response = new Response();
@@ -120,21 +100,19 @@ class GistController extends Controller
             }
         }
         if($request->query->get('page')) {
-            $number_of_page_requested = $request->query->get('page') - 1;
+            $number_of_page_requested = $request->query->get('page');
         } else {
-            $number_of_page_requested = 0;
+            $number_of_page_requested = 1;
         }
-        $tags_count = $gist_repository->countAllGists(); // Ya
-        $total_of_items_in_db = intval($tags_count); // Ya
-        $number_of_pages = ($total_of_items_in_db / $number_of_items_display); // Ya
-        $round = ceil($number_of_pages); // Ya
-        $record_start = $number_of_page_requested * $number_of_items_display;
-        $gists = $gist_repository->getGistsOrderedByUpdated($record_start, $number_of_items_display);
 
+        $gists_paginated = new BPaginator($gist_repository);
+        $gists_paginated->setNumberOfItemsToShow(15);
+        $gists = $gists_paginated->getPage($number_of_page_requested);
+
+        dump($gists);
+        
         return $this->render('gist/index.html.twig', array(
-            'gists' => $gists,
-            'number_of_pages' => $round,
-            'current_page' => $number_of_page_requested + 1,
+            'gists' => $gists
         ));
     }
 
