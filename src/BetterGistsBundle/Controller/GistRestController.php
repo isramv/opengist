@@ -8,9 +8,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+// JWT.
 use Psecio\Jwt\Header;
 use Psecio\Jwt\Claim;
 use BetterGistsBundle\DependencyInjection\JwtBetterGist;
+// JSON Encoders.
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -25,7 +27,7 @@ class GistRestController extends Controller
 
   /**
    * Test params json.
-   * @Route("/jwt_login", name="jwt_login_test")
+   * @Route("/login", name="jwt_login_test")
    * @Method("POST")
    */
   public function jwtLogin(Request $request)
@@ -56,6 +58,7 @@ class GistRestController extends Controller
     return $result;
   }
   /**
+   * TODO Convert this into private function.
    * Test params json.
    * @Route("/jwt/{uid}", name="jwt_generator")
    * @Method("GET")
@@ -84,8 +87,9 @@ class GistRestController extends Controller
     return $response;
   }
   /**
+   * TODO convert this into private function.
    * Test params json.
-   * @Route("/jwt/validate/{hash}", name="jwt_tester")
+   * @Route("/validate/{hash}", name="jwt_tester")
    * @Method("GET")
    */
   public function jwtTest(Request $request, $hash)
@@ -104,8 +108,10 @@ class GistRestController extends Controller
 
   }
   /**
+   * TODO Convert all the methods in ajax responses.
+   * TODO Install nelmio CORS.
    * Test headless ajax.
-   * @Route("/jwt_ajax", name="jwt_ajax")
+   * @Route("/ajax", name="jwt_ajax")
    * @Method("GET")
    */
   public function jwtAjaxTest(Request $request)
@@ -124,6 +130,7 @@ class GistRestController extends Controller
 
   }
   /**
+   * TODO retrieve all gist for given user token.
    * Test params json.
    * @Route("/api/v1/gist", name="gist_index_rest")
    * @Method("GET")
