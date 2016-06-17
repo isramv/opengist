@@ -27,7 +27,7 @@ class GistRestController extends Controller
 
   /**
    * Test params json.
-   * @Route("/login", name="jwt_login_test")
+   * @Route("/login", name="rest_login")
    * @Method("POST")
    */
   public function jwtLogin(Request $request)
@@ -60,7 +60,7 @@ class GistRestController extends Controller
   /**
    * TODO Convert this into private function.
    * Test params json.
-   * @Route("/jwt/{uid}", name="jwt_generator")
+   * @Route("/generate_token/{uid}", name="token_generator")
    * @Method("GET")
    */
   public function jwtGenerator($uid)
@@ -89,7 +89,7 @@ class GistRestController extends Controller
   /**
    * TODO convert this into private function.
    * Test params json.
-   * @Route("/validate/{hash}", name="jwt_tester")
+   * @Route("/validate/{hash}", name="rest_token_validator")
    * @Method("GET")
    */
   public function jwtTest(Request $request, $hash)
@@ -111,7 +111,7 @@ class GistRestController extends Controller
    * TODO Convert all the methods in ajax responses.
    * TODO Install nelmio CORS.
    * Test headless ajax.
-   * @Route("/ajax", name="jwt_ajax")
+   * @Route("/ajax", name="rest_ajax")
    * @Method("GET")
    */
   public function jwtAjaxTest(Request $request)
@@ -127,12 +127,11 @@ class GistRestController extends Controller
       array('content-type' => 'text/json')
     );
     return $response;
-
   }
   /**
    * TODO retrieve all gist for given user token.
    * Test params json.
-   * @Route("/api/v1/gist", name="gist_index_rest")
+   * @Route("/gists", name="rest_gist_index")
    * @Method("GET")
    */
   public function indexRest(Request $request)
