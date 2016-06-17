@@ -26,7 +26,7 @@ security:
             anonymous:    true
 
     access_control:
-        - { path: ^/gist/*, role: ROLE_USER }
+#        - { path: ^/gist/*, role: ROLE_USER }
         - { path: ^/socialgroup/*, role: ROLE_USER }
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -2,10 +2,13 @@
 
 namespace BetterGistsBundle\Controller;
 
+use BetterGistsBundle\DependencyInjection\JwtBetterGist;
 use BetterGistsBundle\Entity\Tags;
 use BetterGistsBundle\Repository\GistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,6 +22,9 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use AppBundle\Entity\User;
 use BetterGistsBundle\DependencyInjection\BPaginator;
+use Psecio\Jwt\Jwt;
+use Psecio\Jwt\Header;
+use Psecio\Jwt\Claim;
 
 /**
  * Gist controller.
@@ -27,6 +33,7 @@ use BetterGistsBundle\DependencyInjection\BPaginator;
  */
 class GistController extends Controller
 {
+    private static $key = 'DRUPAL';
 
     const NUMBER_OF_ITEMS = 10;
 
@@ -35,6 +42,107 @@ class GistController extends Controller
         return $this::NUMBER_OF_ITEMS;
     }
 
+
+    /**
+     * Test params json.
+     * @Route("/jwt_login", name="jwt_login_test")
+     * @Method("POST")
+     */
+    public function jwtLogin(Request $request)
+    {
+        $request_params = $request->request->all();
+
+        if($request->request->get('username') == 'isramv' && $request->request->get('password') == '123') {
+            $token = $this->jwtPrivateGenerator($request->request->get('username'));
+            return new JsonResponse($token, Response::HTTP_OK, array('Content-type' => 'application/json'));
+        } else {
+            return new JsonResponse('user is incorrect', Response::HTTP_NOT_ACCEPTABLE, array('Content-type' => 'application/json'));
+        }
+    }
+    private function jwtPrivateGenerator($username)
+    {
+        $key = $this::$key;
+        $header = new Header($key);
+        $jwt = new JwtBetterGist($header);
+        $username = new Claim\Custom($username, 'username');
+
+        $jwt
+          ->audience('http://myapp.local')
+          ->issuedAt(time())
+          ->notBefore(time()-600)
+          ->expireTime(time()+600)
+          ->addClaim($username);
+        $result = $jwt->encode();
+        return $result;
+    }
+    /**
+     * Test params json.
+     * @Route("/jwt/{uid}", name="jwt_generator")
+     * @Method("GET")
+     */
+    public function jwtGenerator($uid)
+    {
+        $key = $this::$key;
+        $header = new Header($key);
+        $jwt = new JwtBetterGist($header);
+        $uid = new Claim\Custom($uid, 'uid');
+
+        $jwt
+          ->audience('http://myapp.local')
+          ->issuedAt(time())
+          ->notBefore(time()-600)
+          ->expireTime(time()+600)
+          ->addClaim($uid);
+        $result = $jwt->encode();
+
+
+        $response = new JsonResponse(
+          $result,
+          Response::HTTP_OK,
+          array('content-type' => 'text/json')
+        );
+        return $response;
+    }
+    /**
+     * Test params json.
+     * @Route("/jwt/validate/{hash}", name="jwt_tester")
+     * @Method("GET")
+     */
+    public function jwtTest(Request $request, $hash)
+    {
+        $key = $this::$key;
+        $header = new Header($key);
+        $jwt = new JwtBetterGist($header);
+        $jwt->verifyRequest($request, $jwt);
+
+        $response = new Response(
+            'verified',
+            Response::HTTP_OK,
+            array('content-type' => 'text/html')
+        );
+        return $response;
+
+    }
+    /**
+     * Test headless ajax.
+     * @Route("/jwt_ajax", name="jwt_ajax")
+     * @Method("GET")
+     */
+    public function jwtAjaxTest(Request $request)
+    {
+        $key = $this::$key;
+        $header = new Header($key);
+        $jwt = new JwtBetterGist($header);
+        $jwt->verifyRequest($request, $jwt);
+
+        $response = new Response(
+            'Welcome Friend',
+            Response::HTTP_OK,
+            array('content-type' => 'text/json')
+        );
+        return $response;
+
+    }
     /**
      * Test params json.
      * @Route("/api/v1/gist", name="gist_index_rest")

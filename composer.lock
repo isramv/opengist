@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bba6c9bb37bdc0224be65b7e292cf944",
-    "content-hash": "bc8d7ee9f70d7913099b147f38a38663",
+    "hash": "84a97ac3dc8734fa19edc9004ed41e6b",
+    "content-hash": "45a86146c976c910ccd7b45287b58930",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -1246,6 +1246,53 @@
                 "random"
             ],
             "time": "2016-01-06 13:31:20"
+        },
+        {
+            "name": "psecio/jwt",
+            "version": "1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/psecio/jwt.git",
+                "reference": "3aeb7c071387209965175244c0c565bb5c9c587b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/psecio/jwt/zipball/3aeb7c071387209965175244c0c565bb5c9c587b",
+                "reference": "3aeb7c071387209965175244c0c565bb5c9c587b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.1.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Psecio": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Cornutt",
+                    "email": "ccornutt@phpdeveloper.org",
+                    "homepage": "http://www.phpdeveloper.org/"
+                }
+            ],
+            "description": "A JWT (JSON Web Token) Encoding & Decoding library",
+            "homepage": "https://github.com/psecio/jwt.git",
+            "keywords": [
+                "json",
+                "jwt",
+                "token",
+                "web"
+            ],
+            "time": "2014-07-30 12:56:48"
         },
         {
             "name": "psr/log",
