@@ -7,6 +7,11 @@ better_gists:
     resource: "@BetterGistsBundle/Controller/GistController.php"
     type:     annotation
 
+better_gists_rest:
+    resource: "@BetterGistsBundle/Controller/GistRestController.php"
+    type:     annotation
+    prefix:   /api/v1
+
 better_gists_tags:
     resource: "@BetterGistsBundle/Controller/TagsController.php"
     type:     annotation
