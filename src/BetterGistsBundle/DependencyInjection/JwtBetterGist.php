@@ -5,6 +5,8 @@ namespace BetterGistsBundle\DependencyInjection;
 use Psecio\Jwt\Jwt;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class JwtBetterGist extends Jwt
 {
@@ -63,6 +65,7 @@ class JwtBetterGist extends Jwt
   public function decode($data, $verify = true)
   {
     $sections = explode('.', $data);
+
     if (count($sections) < 3) {
       throw new Exception('Invalid number of sections (<3)');
     }
@@ -87,7 +90,6 @@ class JwtBetterGist extends Jwt
     if(is_null($auth_code)) {
       throw new \Exception('no authorization code');
     }
-    $jwt->decode($auth_code, true);
-
+    return $jwt->decode($auth_code, true);
   }
 }

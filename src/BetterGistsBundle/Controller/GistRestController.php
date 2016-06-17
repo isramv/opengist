@@ -91,10 +91,10 @@ class GistRestController extends Controller
   /**
    * TODO convert this into private function.
    * Test params json.
-   * @Route("/validate/{hash}", name="rest_token_validator")
+   * @Route("/validate", name="rest_token_validator")
    * @Method("GET")
    */
-  public function jwtTest(Request $request, $hash)
+  public function jwtTest(Request $request)
   {
     $key = $this::$key;
     $header = new Header($key);
