@@ -60,7 +60,9 @@ class GistRestController extends Controller
   /**
    * TODO Convert this into private function.
    * Test params json.
-   * @Route("/generate_token/{uid}", name="token_generator")
+   * @Route("/generate_token/{uid}", name="token_generator", requirements={
+   *   "uid": "\d+"
+   * })
    * @Method("GET")
    */
   public function jwtGenerator($uid)
