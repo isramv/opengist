@@ -92,4 +92,18 @@ class JwtBetterGist extends Jwt
     }
     return $jwt->decode($auth_code, true);
   }
+
+  /**
+   * @param string $request
+   * @param \BetterGistsBundle\DependencyInjection\JwtBetterGist $jwt
+   * @return \stdClass
+   * @throws \Exception
+   */
+  public function verifyRequestString($request_code, JwtBetterGist $jwt)
+  {
+    if(is_null($request_code)) {
+      throw new \Exception('no authorization code');
+    }
+    return $jwt->decode($request_code, true);
+  }
 }

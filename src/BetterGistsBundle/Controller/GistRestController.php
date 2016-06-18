@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use BetterGistsBundle\Controller\TokenAuthenticationController;
 // JWT.
 use Psecio\Jwt\Header;
 use Psecio\Jwt\Claim;

@@ -3,7 +3,12 @@
 parameters:
 #    parameter_name: value
 
-services:
+#services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+services:
+    app.tokens.action_listener:
+        class: BetterGistsBundle\EventListener\TokenListener
+        tags:
+          - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
