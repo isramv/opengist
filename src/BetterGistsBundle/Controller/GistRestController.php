@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-class GistRestController extends Controller
+class GistRestController extends Controller implements TokenAuthenticationController
 {
   /**
    * Private key for signing JWT.
