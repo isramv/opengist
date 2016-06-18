@@ -3,10 +3,12 @@
 namespace BetterGistsBundle\DependencyInjection;
 
 use Psecio\Jwt\Jwt;
+use Psecio\Jwt\Header;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class JwtBetterGist extends Jwt
 {
@@ -27,10 +29,6 @@ class JwtBetterGist extends Jwt
   {
     if (empty($header->alg)) {
       throw new Exception('Invalid header: no algorithm specified');
-    }
-
-    if (!isset($claims->aud) || empty($claims->aud)) {
-      throw new Exception('Audience not defined [aud]');
     }
 
     // If "expires at" defined, check against time
@@ -104,6 +102,6 @@ class JwtBetterGist extends Jwt
     if(is_null($request_code)) {
       throw new \Exception('no authorization code');
     }
-    return $jwt->decode($request_code, true);
+   //return $jwt->decode($request_code, true);
   }
 }
