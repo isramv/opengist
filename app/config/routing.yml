@@ -7,6 +7,11 @@ better_gists:
     resource: "@BetterGistsBundle/Controller/GistController.php"
     type:     annotation
 
+better_gists_rest_login:
+    resource: "@BetterGistsBundle/Controller/RestLoginController.php"
+    type:     annotation
+    prefix:   /api
+
 better_gists_rest:
     resource: "@BetterGistsBundle/Controller/GistRestController.php"
     type:     annotation
