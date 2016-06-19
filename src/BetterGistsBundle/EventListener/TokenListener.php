@@ -29,49 +29,25 @@ class TokenListener
       return;
     }
 
-    if($controller instanceof TokenAuthenticationController) {
+    if($controller[0] instanceof TokenAuthenticationController) {
 
       $request = $event->getRequest();
-
-
       $authorization_code = $request->headers->get('Authorization');
+
+      // Getting the keys
       $file_locator = new FileLocator(__DIR__.'/../conf');
       $token_config = $file_locator->locate('token_config.yml');
       $key = Yaml::parse($token_config);
       $token_key = $key['token_config']['phrase'];
+      // TODO have several key_ids and phrases.
       $token_key_id = $key['token_config']['kid'];
+
+      // JWT
       $header = new Header($token_key);
       $jwt = new JwtBetterGist($header);
-
-      /**
-       * creating test tokens.
-       */
-      $jwt_encode = new JwtBetterGist($header);
-      $claim = new Claim\Custom($token_key_id, 'kid');
-
-      $jwt_encode
-        ->addClaim($claim)
-        ->issuedAt(time())
-        ->notBefore(time()-600)
-        ->expireTime(time()+3600);
-      $token = $jwt_encode->encode();
-
-      dump($token);
-      dump($authorization_code);
-      dump($jwt);
-      dump(base64_decode($authorization_code));
-
-      // End creating test tokens.
-
       $jwt->verifyRequestString($authorization_code, $jwt);
-
-      $response = new Response(
-        'verified',
-        Response::HTTP_OK,
-        array('content-type' => 'application/json')
-      );
-
 
     }
   }
 }
+

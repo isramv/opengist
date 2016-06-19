@@ -4,5 +4,5 @@ namespace BetterGistsBundle\Controller;
 
 interface TokenAuthenticationController
 {
-  //
+  
 }

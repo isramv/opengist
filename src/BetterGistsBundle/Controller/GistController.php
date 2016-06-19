@@ -46,7 +46,7 @@ class GistController extends Controller
         $response = $this->usernamePasswordValidate($request);
 
         if($response->isOk()) {
-            
+
             $username = $request->request->get('username');
             $password = $request->request->get('password');
 
@@ -59,10 +59,16 @@ class GistController extends Controller
             $jwt_encode = new JwtBetterGist($header);
             $claim_key_id = new Claim\Custom($token_key_id, 'kid');
             $claim_username = new Claim\Custom($username, 'username');
+            
+            $user_repository = $this->getDoctrine()->getRepository('AppBundle:User');
+            $user = $user_repository->findOneByUsername($username);
+            $user_id = $user->getId();
+            $user_id_claim = new Claim\Custom((string)$user_id, 'uid');
 
             $jwt_encode
               ->addClaim($claim_key_id)
               ->addClaim($claim_username)
+              ->addClaim($user_id_claim)
               ->issuedAt(time())
               ->notBefore(time()-600)
               ->expireTime(time()+3600);
