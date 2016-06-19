@@ -1,2 +1,3 @@
 token_config:
+    kid: '907856'
     phrase: "Drupal8!IsAwesome"

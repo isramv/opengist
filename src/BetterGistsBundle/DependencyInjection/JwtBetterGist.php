@@ -31,6 +31,14 @@ class JwtBetterGist extends Jwt
       throw new Exception('Invalid header: no algorithm specified');
     }
 
+    if ($header->alg !== 'HS256') {
+      throw new Exception('Invalid header.');
+    }
+
+    if ($header->alg == "none") {
+      throw new Exception('Invalid header is set to none');
+    }
+
     // If "expires at" defined, check against time
     if (isset($claims->exp) && $claims->exp <= time()) {
       throw new Exception('Message has expired');
@@ -102,6 +110,6 @@ class JwtBetterGist extends Jwt
     if(is_null($request_code)) {
       throw new \Exception('no authorization code');
     }
-   //return $jwt->decode($request_code, true);
+   return $jwt->decode($request_code, true);
   }
 }

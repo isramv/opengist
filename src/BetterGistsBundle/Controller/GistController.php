@@ -22,9 +22,11 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use AppBundle\Entity\User;
 use BetterGistsBundle\DependencyInjection\BPaginator;
-use Psecio\Jwt\Jwt;
 use Psecio\Jwt\Header;
 use Psecio\Jwt\Claim;
+use BetterGistsBundle\DependencyInjection\JwtBetterGist;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Gist controller.
@@ -33,6 +35,112 @@ use Psecio\Jwt\Claim;
  */
 class GistController extends Controller
 {
+    /**
+     * Rest Login.
+     *
+     * @Route("/rest_login", name="gist_rest_login")
+     * @Method("POST")
+     */
+    public function restLoginAction(Request $request)
+    {
+        $response = $this->usernamePasswordValidate($request);
+
+        if($response->isOk()) {
+            
+            $username = $request->request->get('username');
+            $password = $request->request->get('password');
+
+            $file_locator = new FileLocator(__DIR__.'/../conf');
+            $token_config = $file_locator->locate('token_config.yml');
+            $key = Yaml::parse($token_config);
+            $token_key = $key['token_config']['phrase'];
+            $token_key_id = $key['token_config']['kid'];
+            $header = new Header($token_key);
+            $jwt_encode = new JwtBetterGist($header);
+            $claim_key_id = new Claim\Custom($token_key_id, 'kid');
+            $claim_username = new Claim\Custom($username, 'username');
+
+            $jwt_encode
+              ->addClaim($claim_key_id)
+              ->addClaim($claim_username)
+              ->issuedAt(time())
+              ->notBefore(time()-600)
+              ->expireTime(time()+3600);
+            $token = $jwt_encode->encode();
+
+            $response_array = array(
+                'message' => 'welcome',
+                'username' => $username,
+                'token' => $token
+            );
+
+            $content = $this->arrayToJSON($response_array);
+
+            return new Response(
+                $content,
+                Response::HTTP_OK,
+                array('Content-type' => 'application/json')
+            );
+
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param array $array_to_convert
+     * @return string|\Symfony\Component\Serializer\Encoder\scalar
+     */
+    private function arrayToJSON($array_to_convert) {
+
+        $encoder = array(new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizer, $encoder);
+        $json = $serializer->serialize($array_to_convert, 'json');
+        return $json;
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    private function usernamePasswordValidate(Request $request) {
+
+        $username = $request->request->get('username');
+        $password = $request->request->get('password');
+
+        if(is_null($username) || is_null($password)) {
+            return new Response(
+              'Please verify all your inputs.',
+              Response::HTTP_UNAUTHORIZED,
+              array('Content-type' => 'application/json')
+            );
+        }
+
+        $user_manager = $this->get('fos_user.user_manager');
+        $factory = $this->get('security.encoder_factory');
+
+        $user = $user_manager->findUserByUsername($username);
+        $encoder = $factory->getEncoder($user);
+        $salt = $user->getSalt();
+
+        if($encoder->isPasswordValid($user->getPassword(), $password, $salt)) {
+            $response = new Response(
+              'Welcome '. $user->getUsername(),
+              Response::HTTP_OK,
+              array('Content-type' => 'application/json')
+            );
+        } else {
+            $response = new Response(
+              'Username or Password not valid.',
+              Response::HTTP_UNAUTHORIZED,
+              array('Content-type' => 'application/json')
+            );
+        }
+
+        return $response;
+
+    }
     /**
      * Lists all Gist entities.
      *
