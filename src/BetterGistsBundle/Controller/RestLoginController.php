@@ -33,14 +33,22 @@ class RestLoginController extends Controller
     $username = $request->request->get('username');
     $password = $request->request->get('password');
 
-    if($password === "" || $username === "") {
+    if($username === "") {
       return new Response(
-        'Please verify all your inputs.',
+        'User name cannot be empty',
         Response::HTTP_UNAUTHORIZED,
         array('Content-type' => 'application/json')
       );
     }
 
+    if($password === "") {
+      return new Response(
+        'Password cannot be empty.',
+        Response::HTTP_UNAUTHORIZED,
+        array('Content-type' => 'application/json')
+      );
+    }
+    
     $response = $this->usernamePasswordValidate($request);
 
     if($response->isOk()) {
