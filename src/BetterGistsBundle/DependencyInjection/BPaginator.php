@@ -163,6 +163,7 @@ class BPaginator
       ->createQueryBuilder('x')
       ->setFirstResult($offset)
       ->setMaxResults($limit)
+      ->addOrderBy('x.updated', 'DESC')
       ->getQuery()->getResult();
     return $results;
   }

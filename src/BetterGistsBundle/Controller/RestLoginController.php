@@ -29,6 +29,18 @@ class RestLoginController extends Controller
    */
   public function restLoginAction(Request $request)
   {
+
+    $username = $request->request->get('username');
+    $password = $request->request->get('password');
+
+    if($password === "" || $username === "") {
+      return new Response(
+        'Please verify all your inputs.',
+        Response::HTTP_UNAUTHORIZED,
+        array('Content-type' => 'application/json')
+      );
+    }
+
     $response = $this->usernamePasswordValidate($request);
 
     if($response->isOk()) {
@@ -100,14 +112,6 @@ class RestLoginController extends Controller
 
     $username = $request->request->get('username');
     $password = $request->request->get('password');
-
-    if(is_null($username) || is_null($password)) {
-      return new Response(
-        'Please verify all your inputs.',
-        Response::HTTP_UNAUTHORIZED,
-        array('Content-type' => 'application/json')
-      );
-    }
 
     $user_manager = $this->get('fos_user.user_manager');
     $factory = $this->get('security.encoder_factory');
