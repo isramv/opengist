@@ -3,6 +3,7 @@
 namespace BetterGistsBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 /**
  * GistRepository
@@ -21,15 +22,24 @@ class GistRepository extends EntityRepository
     $number_of_gists = intval($result[0]['theCount']);
     return $number_of_gists;
   }
-  public function getGistsOrderedById()
+
+  /**
+   * @param int $uid
+   * @return array
+   */
+  public function getGistsByUserId($uid)
   {
-    $dql = 'SELECT g.id, g.title
+    $dql = 'SELECT g AS gist, t, u.username
             FROM BetterGistsBundle:Gist g
-            JOIN g.tags t 
-            GROUP BY g.id
-            ORDER BY g.id';
+            JOIN g.tags t
+            JOIN g.author u
+            WHERE u.id = ?1
+            ORDER BY g.updated DESC';
     $em = $this->getEntityManager();
-    return $em->createQuery($dql)->getResult();
+    $result = $em->createQuery($dql)
+      ->setParameter(1, $uid)
+      ->getResult(Query::HYDRATE_ARRAY);
+    return $result;
   }
   public function getGistsOrderedByName($firstValue = NULL, $numberOfValues = NULL)
   {

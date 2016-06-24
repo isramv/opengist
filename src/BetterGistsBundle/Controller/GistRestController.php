@@ -2,6 +2,7 @@
 
 namespace BetterGistsBundle\Controller;
 
+use Doctrine\ORM\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -18,6 +19,8 @@ use BetterGistsBundle\DependencyInjection\JwtBetterGist;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+// Entity Repository.
+use Doctrine\ORM\EntityRepository;
 
 class GistRestController extends Controller implements TokenAuthenticationController
 {
@@ -40,10 +43,16 @@ class GistRestController extends Controller implements TokenAuthenticationContro
       ->innerJoin('g.author','author')
       ->andWhere('author.id = ?1')
       ->addSelect('author.username, author.id AS author_id')
+      ->addGroupBy('g.title')
       ->setParameter(1, $uid);
-    $query_result = $qb->getQuery()->getArrayResult();
+    $query_result = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
 
-    $json_content = $this->jsonIndexResponse($query_result);
+    //
+    $result = $gist_repository->getGistsByUserId($uid);
+    //
+
+
+    $json_content = $this->jsonIndexResponse($result);
 
     $response = new Response();
     $response->setContent($json_content);
