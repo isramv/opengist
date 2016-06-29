@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new AppBundle\AppBundle(),
             new BetterGistsBundle\BetterGistsBundle(),
+            new \Nelmio\CorsBundle\NelmioCorsBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
