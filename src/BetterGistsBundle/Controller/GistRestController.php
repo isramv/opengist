@@ -25,7 +25,6 @@ use Doctrine\ORM\EntityRepository;
 class GistRestController extends Controller implements TokenAuthenticationController
 {
   /**
-   * TODO Install nelmio CORS.
    * Index function.
    * @Route("/gists", name="rest_gist_index")
    * @Method("GET")
@@ -46,12 +45,10 @@ class GistRestController extends Controller implements TokenAuthenticationContro
       ->addGroupBy('g.title')
       ->setParameter(1, $uid);
     $query_result = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
-
     //
+
     $result = $gist_repository->getGistsByUserId($uid);
     //
-
-
     $json_content = $this->jsonIndexResponse($result);
 
     $response = new Response();
@@ -60,6 +57,30 @@ class GistRestController extends Controller implements TokenAuthenticationContro
 
     return $response;
     
+  }
+
+  /**
+   * Get single Gist.
+   * @Route("/gists/{gist_id}", name="rest_gist_by_id")
+   * @Method("GET")
+   */
+  public function getGistAction(Request $request, $gist_id)
+  {
+
+    // Todo create a service to authorize and extract the user id.
+    dump($request->headers->get('authorization'));
+
+
+    $jwt = new JwtBetterGist()
+
+    // Request.
+    // Todo pass the uid param.
+    $gist_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
+    $result = $gist_repository->getGistById((int)$gist_id);
+    $response = new Response();
+    $response->setContent('Hello '. $gist_id);
+    return $response;
+
   }
 
   /**

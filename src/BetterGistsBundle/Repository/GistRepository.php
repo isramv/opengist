@@ -75,4 +75,21 @@ class GistRepository extends EntityRepository
       return $em->createQuery($dql)->getResult();
     }
   }
+
+  /**
+   * @param int $gid
+   */
+  public function getGistById($gid)
+  {
+    $em = $this->getEntityManager();
+    $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
+    $query = $gist_repository->createQueryBuilder('g')
+      ->select('g')
+      ->where('g.id = :gid')
+      ->setParameter('gid', $gid)
+      ->getQuery();
+    dump($query->getArrayResult());
+    $gist = $query->getResult();
+    return $gist;
+  }
 }
