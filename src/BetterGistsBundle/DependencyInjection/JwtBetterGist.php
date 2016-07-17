@@ -70,6 +70,11 @@ class JwtBetterGist extends Jwt
    */
   public function decode($data, $verify = true)
   {
+
+    if(is_null($data)) {
+      throw new \Exception('no authorization code');
+    }
+
     $sections = explode('.', $data);
 
     if (count($sections) < 3) {
@@ -107,9 +112,6 @@ class JwtBetterGist extends Jwt
    */
   public function verifyRequestString($request_code, JwtBetterGist $jwt)
   {
-    if(is_null($request_code)) {
-      throw new \Exception('no authorization code');
-    }
-   return $jwt->decode($request_code, true);
+    return $this->decode($request_code, true);
   }
 }

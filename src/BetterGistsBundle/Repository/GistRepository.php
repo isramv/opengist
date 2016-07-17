@@ -2,6 +2,7 @@
 
 namespace BetterGistsBundle\Repository;
 
+use BetterGistsBundle\Entity\Gist;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
@@ -77,19 +78,31 @@ class GistRepository extends EntityRepository
   }
 
   /**
-   * @param int $gid
+   * @param int $gist_id
+   * @param int $author_id
+   * @param bool $as_array
+   * @return Gist $gist
    */
-  public function getGistById($gid)
+  public function getGistById($gist_id, $author_id, $as_array = FALSE)
   {
     $em = $this->getEntityManager();
     $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
-    $query = $gist_repository->createQueryBuilder('g')
-      ->select('g')
-      ->where('g.id = :gid')
-      ->setParameter('gid', $gid)
+    $query = $gist_repository->createQueryBuilder('g');
+    $query->select('g')
+      ->join('g.author','a')
+      ->where($query->expr()->andX(
+        $query->expr()->eq('a.id', '?1'),
+        $query->expr()->eq('g.id', '?2')
+      ))
+      ->setParameter('2', $gist_id)
+      ->setParameter('1', $author_id)
       ->getQuery();
-    dump($query->getArrayResult());
-    $gist = $query->getResult();
-    return $gist;
+
+    if($as_array) {
+      $gist = $query->getQuery()->getResult(Query::HYDRATE_ARRAY);
+    } else if(!$as_array) {
+      $gist = $query->getQuery()->getResult(Query::HYDRATE_OBJECT);
+    }
+    return $gist[0];
   }
 }

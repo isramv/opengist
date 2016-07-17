@@ -107,6 +107,9 @@ services:
     fos_user.doctrine_registry:
         alias: doctrine
 
+    jwt.requestparser:
+        class:  BetterGistsBundle\DependencyInjection\JwtRequestParser
+
 # FOS user configuration.
 fos_user:
     db_driver: orm

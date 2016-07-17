@@ -77,7 +77,7 @@ class RestLoginController extends Controller
         ->addClaim($user_id_claim)
         ->issuedAt(time())
         ->notBefore(time()-600)
-        ->expireTime(time()+3600);
+        ->expireTime(time()+36000);
       $token = $jwt_encode->encode();
 
       $response_array = array(

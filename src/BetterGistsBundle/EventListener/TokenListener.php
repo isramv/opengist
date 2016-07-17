@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 use Psecio\Jwt\Header;
 use Psecio\Jwt\Claim;
@@ -45,8 +46,14 @@ class TokenListener
       // JWT
       $header = new Header($token_key);
       $jwt = new JwtBetterGist($header);
-      $jwt->verifyRequestString($authorization_code, $jwt);
-
+      try {
+        $jwt->verifyRequestString($authorization_code, $jwt);
+      } catch (\Exception $e) {
+        $error_message = $e->getMessage();
+      }
+      if(isset($error_message)) {
+        throw new \Exception($error_message);
+      }
     }
   }
 }
