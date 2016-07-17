@@ -88,8 +88,9 @@ class GistRepository extends EntityRepository
     $em = $this->getEntityManager();
     $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
     $query = $gist_repository->createQueryBuilder('g');
-    $query->select('g')
+    $query->select('g, tags')
       ->join('g.author','a')
+      ->join('g.tags', 'tags')
       ->where($query->expr()->andX(
         $query->expr()->eq('a.id', '?1'),
         $query->expr()->eq('g.id', '?2')
