@@ -91,6 +91,7 @@ class GistRestController extends Controller implements TokenAuthenticationContro
       } catch (\Exception $e) {
           $response->setContent($e->getMessage());
       }
+      $response->headers->set('Content-type','application/json');
       return $response;
 
     }
