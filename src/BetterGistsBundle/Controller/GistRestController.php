@@ -33,7 +33,6 @@ class GistRestController extends Controller implements TokenAuthenticationContro
   {
 
     $uid = $this->get('jwt.requestparser')->getUserIdFromRequest($request);
-//    $uid = $this->getUidFromAuthRequest($request);
 
     $gist_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
     $qb = $gist_repository->createQueryBuilder('g')
@@ -63,7 +62,7 @@ class GistRestController extends Controller implements TokenAuthenticationContro
   /**
    * Get single Gist.
    * @Route("/gists/{gist_id}", name="rest_gist_by_id")
-   * @Method("GET")
+   * @Method({"GET", "POST"})
    */
   public function getGistAction(Request $request, $gist_id)
   {
@@ -71,19 +70,43 @@ class GistRestController extends Controller implements TokenAuthenticationContro
     $request_parser = $this->get('jwt.requestparser');
     $uid = $request_parser->getUserIdFromRequest($request);
 
-    $em = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
-    $gist = $em->getGistById($gist_id, $uid, TRUE);
-
-    $json_gist = $this->jsonIndexResponse($gist);
-
-
-
+    $request_method = $request->getMethod();
 
     $response = new Response();
-    $response->headers->set('Content-type','application/json');
-    $response->setContent($json_gist);
-    return $response;
 
+    if($request_method === 'POST') {
+
+      $params = $request->request->all();
+
+      $em = $this->getDoctrine()->getManager();
+      $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
+      $gist_to_update = $gist_repository->getGistById($gist_id, $uid, FALSE);
+
+      $gist_to_update->setTitle($request->get('title'));
+      $gist_to_update->setBody($request->get('body'));
+
+      try {
+        $em->persist($gist_to_update);
+        $em->flush();
+      } catch (\Exception $e) {
+          $response->setContent($e->getMessage());
+      }
+      return $response;
+
+    }
+    else {
+
+      $em = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
+      $gist = $em->getGistById($gist_id, $uid, TRUE);
+
+      $json_gist = $this->jsonIndexResponse($gist);
+
+      $response->headers->set('Content-type','application/json');
+      $response->setContent($json_gist);
+
+      return $response;
+
+    }
   }
 
   /**

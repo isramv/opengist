@@ -104,6 +104,7 @@ class GistRepository extends EntityRepository
     } else if(!$as_array) {
       $gist = $query->getQuery()->getResult(Query::HYDRATE_OBJECT);
     }
+    // todo fix the no result behaviour.
     return $gist[0];
   }
 }
