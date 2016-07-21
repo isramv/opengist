@@ -2,6 +2,7 @@
 
 namespace BetterGistsBundle\Controller;
 
+use BetterGistsBundle\Entity\Tags;
 use Doctrine\ORM\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -84,6 +85,25 @@ class GistRestController extends Controller implements TokenAuthenticationContro
 
       $gist_to_update->setTitle($request->get('title'));
       $gist_to_update->setBody($request->get('body'));
+
+      // Tags.
+      $tags_repository = $em->getRepository('BetterGistsBundle:Tags');
+      $tags = $request->get('tags');
+      $gist_to_update->getTags()->clear();
+
+      foreach($tags as $key=>$tag) {
+        $valueToSearch = $tag["name"];
+        $result = $tags_repository->findOneByName($valueToSearch);
+        if(empty($result)) {
+          $tagObject = new Tags();
+          $tagObject->setName($tag["name"]);
+          $em->persist($tagObject);
+          $gist_to_update->getTags()->add($tagObject);
+        } elseif (!empty($result)) {
+          $gist_to_update->getTags()->remove($key);
+          $gist_to_update->getTags()->add($result);
+        }
+      }
 
       try {
         $em->persist($gist_to_update);
