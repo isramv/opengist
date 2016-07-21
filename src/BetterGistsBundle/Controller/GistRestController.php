@@ -111,6 +111,9 @@ class GistRestController extends Controller implements TokenAuthenticationContro
       } catch (\Exception $e) {
           $response->setContent($e->getMessage());
       }
+      $saved_gist = $gist_repository->getGistById($gist_id, $uid, true);
+      $json_gist = $this->jsonIndexResponse($saved_gist);
+      $response->setContent($json_gist);
       $response->headers->set('Content-type','application/json');
       return $response;
 
