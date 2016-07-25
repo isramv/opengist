@@ -32,7 +32,7 @@ class GistRepository extends EntityRepository
   {
     $dql = 'SELECT g AS gist, t, u.username
             FROM BetterGistsBundle:Gist g
-            JOIN g.tags t
+            LEFT JOIN g.tags t
             JOIN g.author u
             WHERE u.id = ?1
             ORDER BY g.updated DESC';
@@ -42,6 +42,7 @@ class GistRepository extends EntityRepository
       ->getResult(Query::HYDRATE_ARRAY);
     return $result;
   }
+
   public function getGistsOrderedByName($firstValue = NULL, $numberOfValues = NULL)
   {
     $dql = 'SELECT g
@@ -90,7 +91,7 @@ class GistRepository extends EntityRepository
     $query = $gist_repository->createQueryBuilder('g');
     $query->select('g, tags')
       ->join('g.author','a')
-      ->join('g.tags', 'tags')
+      ->leftJoin('g.tags', 'tags')
       ->where($query->expr()->andX(
         $query->expr()->eq('a.id', '?1'),
         $query->expr()->eq('g.id', '?2')
@@ -104,7 +105,10 @@ class GistRepository extends EntityRepository
     } else if(!$as_array) {
       $gist = $query->getQuery()->getResult(Query::HYDRATE_OBJECT);
     }
+    if(isset($gist[0])) {
+      return $gist[0];
+    }
     // todo fix the no result behaviour.
-    return $gist[0];
+    // todo return error response.
   }
 }

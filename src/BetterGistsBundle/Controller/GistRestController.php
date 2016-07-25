@@ -46,10 +46,9 @@ class GistRestController extends Controller implements TokenAuthenticationContro
       ->addGroupBy('g.title')
       ->setParameter(1, $uid);
     $query_result = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
-    //
 
     $result = $gist_repository->getGistsByUserId($uid);
-    //
+
     $json_content = $this->jsonIndexResponse($result);
 
     $response = new Response();
@@ -89,21 +88,27 @@ class GistRestController extends Controller implements TokenAuthenticationContro
       // Tags.
       $tags_repository = $em->getRepository('BetterGistsBundle:Tags');
       $tags = $request->get('tags');
-      $gist_to_update->getTags()->clear();
-
-      foreach($tags as $key=>$tag) {
-        $valueToSearch = $tag["name"];
-        $result = $tags_repository->findOneByName($valueToSearch);
-        if(empty($result)) {
-          $tagObject = new Tags();
-          $tagObject->setName($tag["name"]);
-          $em->persist($tagObject);
-          $gist_to_update->getTags()->add($tagObject);
-        } elseif (!empty($result)) {
-          $gist_to_update->getTags()->remove($key);
-          $gist_to_update->getTags()->add($result);
+      if(is_null($tags)) {
+        // If no tags remove the tags from the gist.
+        $gist_to_update->getTags()->clear();
+      }
+      if(!is_null($tags)) {
+        $gist_to_update->getTags()->clear();
+        foreach($tags as $key=>$tag) {
+          $valueToSearch = $tag["name"];
+          $result = $tags_repository->findOneByName($valueToSearch);
+          if(empty($result)) {
+            $tagObject = new Tags();
+            $tagObject->setName($tag["name"]);
+            $em->persist($tagObject);
+            $gist_to_update->getTags()->add($tagObject);
+          } elseif (!empty($result)) {
+            $gist_to_update->getTags()->remove($key);
+            $gist_to_update->getTags()->add($result);
+          }
         }
       }
+
 
       try {
         $em->persist($gist_to_update);
@@ -112,9 +117,11 @@ class GistRestController extends Controller implements TokenAuthenticationContro
           $response->setContent($e->getMessage());
       }
       $saved_gist = $gist_repository->getGistById($gist_id, $uid, true);
+
       $json_gist = $this->jsonIndexResponse($saved_gist);
       $response->setContent($json_gist);
       $response->headers->set('Content-type','application/json');
+
       return $response;
 
     }
