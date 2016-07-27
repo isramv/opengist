@@ -28,30 +28,29 @@ class GistRestController extends Controller implements TokenAuthenticationContro
   /**
    * Index function.
    * @Route("/gists", name="rest_gist_index")
-   * @Method("GET")
+   * @Method({"GET", "POST"})
    */
   public function indexRestAction(Request $request)
   {
-
     $uid = $this->get('jwt.requestparser')->getUserIdFromRequest($request);
+    $request_method = $request->getMethod();
 
-    $gist_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
-    $qb = $gist_repository->createQueryBuilder('g')
-      ->addSelect('unix_timestamp(g.created) AS unix_created')
-      ->leftJoin('g.tags','tags')
-      ->addSelect('tags')
-      ->innerJoin('g.author','author')
-      ->andWhere('author.id = ?1')
-      ->addSelect('author.username, author.id AS author_id')
-      ->addGroupBy('g.title')
-      ->setParameter(1, $uid);
-    $query_result = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
+    if($request_method === "POST") {
 
-    $result = $gist_repository->getGistsByUserId($uid);
+      // TODO create gist REST.
 
-    $json_content = $this->jsonIndexResponse($result);
+    } elseif ($request_method === "GET") {
+
+      $gist_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
+      $result = $gist_repository->getGistsByUserId($uid);
+      $json_content = $this->jsonIndexResponse($result);
+
+    }
+
+
 
     $response = new Response();
+
     $response->setContent($json_content);
     $response->headers->set('Content-type','application/json');
 
