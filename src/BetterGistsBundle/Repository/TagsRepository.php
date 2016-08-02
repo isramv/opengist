@@ -2,6 +2,7 @@
 
 namespace BetterGistsBundle\Repository;
 
+use BetterGistsBundle\Entity\Tags;
 use Doctrine\ORM\EntityRepository;
 use BetterGistsBundle\BetterGistsBundle;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -25,6 +26,12 @@ class TagsRepository extends EntityRepository
       ->createQuery($dql)->getResult();
     return $em;
   }
+
+  /**
+   * @param int $firstValue
+   * @param int $numberOfValues
+   * @return \Doctrine\ORM\Tools\Pagination\Paginator
+   */
   public function getGistsCountByTagPaginator($firstValue, $numberOfValues)
   {
     $dql = 'SELECT t.name, t.id, COUNT (g) AS theCount
@@ -38,9 +45,13 @@ class TagsRepository extends EntityRepository
       ->setFirstResult($firstValue)
       ->setMaxResults($numberOfValues);
   
-    $paginator = new Paginator($query, $fetchJoinCollection = false);
-    return $paginator;
+    return new Paginator($query, $fetchJoinCollection = false);
+
   }
+
+  /**
+   * @return int
+   */
   public function countAllTags()
   {
     $dql = 'SELECT t.name, t.id, COUNT(g) as theCount
@@ -51,5 +62,31 @@ class TagsRepository extends EntityRepository
       ->createQuery($dql)
       ->getResult();
     return count($query);
+  }
+
+  /**
+   * @param string $name
+   * @return mixed
+   */
+  public function findByExactName($name)
+  {
+    $dql = 'SELECT t.name, t.id
+      FROM BetterGistsBundle:Tags t
+      WHERE t.name = :name
+    ';
+    $em = $this->getEntityManager();
+    $result = $em->createQuery($dql)
+      ->setParameter(':name', $name)
+      ->getResult();
+
+    foreach ($result as $result_item) {
+      if($result_item['name'] === $name) {
+        $result = $this->find($result_item['id']);
+        return $result;
+      }
+    }
+
+    return false;
+
   }
 }

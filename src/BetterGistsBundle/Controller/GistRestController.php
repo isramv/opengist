@@ -2,6 +2,7 @@
 
 namespace BetterGistsBundle\Controller;
 
+use BetterGistsBundle\Entity\Gist;
 use BetterGistsBundle\Entity\Tags;
 use Doctrine\ORM\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,6 +40,66 @@ class GistRestController extends Controller implements TokenAuthenticationContro
 
       // TODO create gist REST.
 
+      $all = $request->request->all();
+      if(isset($all)) {
+
+        if(empty($request->request->get('title'))) {
+            $json_response = new JsonResponse();
+            $json_response->setContent('title cannot be empty');
+            $json_response->setStatusCode(400);
+            return $json_response;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $author_repository = $this->getDoctrine()->getRepository('AppBundle:User');
+        $author = $author_repository->find($uid);
+        $gist = new Gist();
+        $gist->setTitle($request->request->get('title'));
+        $gist->setBody($request->request->get('body'));
+        $gist->setAuthor($author);
+        $gist->setCreated(new \DateTime('now'));
+        $gist->setUpdated(new \DateTime('now'));
+
+        // Tags.
+        $tags = $request->request->get('tags');
+
+        // todo move to a service or a private function.
+        // should accept two params gist and tags array.
+
+        if(!is_null($tags)) {
+
+          $tag_instance = new Tags();
+
+          $tags_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Tags');
+
+          foreach ($tags as $tag) {
+
+            $tag_name = $tag['name'];
+            $tag_in_db = $tags_repository->findByExactName($tag_name);
+
+            if($tag_in_db instanceof $tag_instance) {
+              $gist->getTags()->add($tag_in_db);
+            } else {
+              // create a new tag.
+              $new_tag = new Tags();
+              $new_tag->setName($tag_name);
+              $em->persist($new_tag);
+              $gist->getTags()->add($new_tag);
+            }
+
+          }
+
+        }
+
+        // Persist Gist.
+        $em->persist($gist);
+        $persisted_object = $em->flush();
+        $json_content = $this->jsonIndexResponse($persisted_object);
+
+
+      }
+
     } elseif ($request_method === "GET") {
 
       $gist_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
@@ -46,8 +107,6 @@ class GistRestController extends Controller implements TokenAuthenticationContro
       $json_content = $this->jsonIndexResponse($result);
 
     }
-
-
 
     $response = new Response();
 
@@ -91,21 +150,33 @@ class GistRestController extends Controller implements TokenAuthenticationContro
         // If no tags remove the tags from the gist.
         $gist_to_update->getTags()->clear();
       }
+
       if(!is_null($tags)) {
+
         $gist_to_update->getTags()->clear();
-        foreach($tags as $key=>$tag) {
-          $valueToSearch = $tag["name"];
-          $result = $tags_repository->findOneByName($valueToSearch);
-          if(empty($result)) {
-            $tagObject = new Tags();
-            $tagObject->setName($tag["name"]);
-            $em->persist($tagObject);
-            $gist_to_update->getTags()->add($tagObject);
-          } elseif (!empty($result)) {
-            $gist_to_update->getTags()->remove($key);
-            $gist_to_update->getTags()->add($result);
+
+        $tag_instance = new Tags();
+
+        $tags_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Tags');
+
+        foreach ($tags as $tag) {
+
+          $tag_name = $tag['name'];
+          $tag_in_db = $tags_repository->findByExactName($tag_name);
+
+          if($tag_in_db instanceof $tag_instance) {
+            $gist_to_update->getTags()->add($tag_in_db);
+          } else {
+            // create a new tag.
+            $new_tag = new Tags();
+            $new_tag->setName($tag_name);
+            $em->persist($new_tag);
+            $gist_to_update->getTags()->add($new_tag);
+
           }
+
         }
+
       }
 
 
@@ -153,6 +224,17 @@ class GistRestController extends Controller implements TokenAuthenticationContro
     $json = $serializer->serialize($query_params, 'json');
 
     return $json;
+  }
+
+  /**
+   * TODO create this function as a service.
+   * @param string $name
+   * @return Tags
+   */
+  private function findTagByName($name)
+  {
+    $em = $this->getDoctrine()->getRepository('BetterGistsBundle:Tags');
+
   }
 
 }
