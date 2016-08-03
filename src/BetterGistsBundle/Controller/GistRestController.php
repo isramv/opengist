@@ -120,7 +120,7 @@ class GistRestController extends Controller implements TokenAuthenticationContro
   /**
    * Get single Gist.
    * @Route("/gists/{gist_id}", name="rest_gist_by_id")
-   * @Method({"GET", "POST"})
+   * @Method({"GET", "POST", "DELETE"})
    */
   public function getGistAction(Request $request, $gist_id)
   {
@@ -131,6 +131,7 @@ class GistRestController extends Controller implements TokenAuthenticationContro
     $request_method = $request->getMethod();
 
     $response = new Response();
+    $response->headers->set('Content-type','application/json');
 
     if($request_method === 'POST') {
 
@@ -187,27 +188,46 @@ class GistRestController extends Controller implements TokenAuthenticationContro
           $response->setContent($e->getMessage());
       }
       $saved_gist = $gist_repository->getGistById($gist_id, $uid, true);
-
       $json_gist = $this->jsonIndexResponse($saved_gist);
       $response->setContent($json_gist);
-      $response->headers->set('Content-type','application/json');
 
       return $response;
 
     }
-    else {
+    elseif ($request_method === "GET") {
 
       $em = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
       $gist = $em->getGistById($gist_id, $uid, TRUE);
 
       $json_gist = $this->jsonIndexResponse($gist);
-
-      $response->headers->set('Content-type','application/json');
       $response->setContent($json_gist);
 
       return $response;
 
+    } elseif ($request_method === 'DELETE') {
+
+      $gist_repo = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
+      $result = $gist_repo->getGistById($gist_id, $uid, FALSE);
+
+      if($result instanceof Gist) {
+        $em = $this->getDoctrine()->getManager();
+        try {
+          $em->remove($result);
+          $em->flush();
+        } catch (\Exception $e) {
+          $response->setContent($this->jsonIndexResponse($e->getMessage()));
+          return $response;
+        }
+        $response_message = array(
+          'id' => $gist_id,
+          'deleted' => 'TRUE'
+        );
+        $response->setContent($this->jsonIndexResponse($response_message));
+        return $response;
+      }
+
     }
+
   }
 
   /**
@@ -227,15 +247,10 @@ class GistRestController extends Controller implements TokenAuthenticationContro
   }
 
   /**
-   * TODO create this function as a service.
-   * @param string $name
-   * @return Tags
+   * @todo separate the delete update and create.
    */
-  private function findTagByName($name)
-  {
-    $em = $this->getDoctrine()->getRepository('BetterGistsBundle:Tags');
+  private function deleteGist() {
 
   }
-
 }
 
