@@ -94,9 +94,12 @@ class GistRestController extends Controller implements TokenAuthenticationContro
 
         // Persist Gist.
         $em->persist($gist);
-        $persisted_object = $em->flush();
-        $json_content = $this->jsonIndexResponse($persisted_object);
+        $em->flush();
 
+        $gid = $gist->getId();
+        $gist_repository = $this->getDoctrine()->getManager()->getRepository('BetterGistsBundle:Gist');
+        $gist_array = $gist_repository->getGistById($gid, $uid, TRUE);
+        $json_content = $this->jsonIndexResponse($gist_array);
 
       }
 
@@ -109,9 +112,8 @@ class GistRestController extends Controller implements TokenAuthenticationContro
     }
 
     $response = new Response();
-
-    $response->setContent($json_content);
     $response->headers->set('Content-type','application/json');
+    $response->setContent($json_content);
 
     return $response;
     
