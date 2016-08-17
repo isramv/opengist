@@ -2,6 +2,7 @@
 
 namespace BetterGistsBundle\DependencyInjection;
 
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 
@@ -12,6 +13,11 @@ class BPaginator
    * The number of items to skip on the query.
    */
   private $offset;
+
+  /**
+   *
+   */
+  private $user_id;
 
   /**
    * @var $limit
@@ -30,11 +36,12 @@ class BPaginator
    * @param integer $offset
    * @param integer $limit
    */
-  public function __construct(EntityRepository $repository, $offset = 0, $limit = 10)
+  public function __construct(EntityRepository $repository, $offset = 0, $limit = 10, $user_id = null)
   {
     $this->repository = $repository;
     $this->offset = $offset;
     $this->limit = $limit;
+    $this->user_id = $user_id;
   }
 
   /**
@@ -49,6 +56,10 @@ class BPaginator
    */
   public function getOffset() {
     return $this->offset;
+  }
+
+  public function setUserId($uid) {
+    $this->user_id = $uid;
   }
 
   /**
@@ -86,9 +97,14 @@ class BPaginator
    */
   public function countAllItems()
   {
+
     $repository = $this->getRepository();
     $queryBuilder = $repository->createQueryBuilder('x');
     $queryBuilder->select('COUNT(x.id) AS itemsCount');
+    if(!is_null($this->user_id)) {
+      $queryBuilder->join('x.author', 'author', 'WITH', 'author.id = ?2')
+      ->setParameter(2, $this->user_id);
+    }
     $dql = $queryBuilder->getQuery()->getResult();
     $items_count = $dql[0]["itemsCount"];
     return intval($items_count);
@@ -159,12 +175,19 @@ class BPaginator
    */
   private function queryRepository($offset, $limit)
   {
-    $results = $this->getRepository()
-      ->createQueryBuilder('x')
-      ->setFirstResult($offset)
+    $dql = $this->getRepository()
+      ->createQueryBuilder('x');
+
+    if(!is_null($this->user_id)) {
+      $dql->join('x.author', 'author', 'WITH', 'author.id = ?2')
+      ->setParameter(2, $this->user_id);
+    };
+
+    $dql->setFirstResult($offset)
       ->setMaxResults($limit)
-      ->addOrderBy('x.updated', 'DESC')
-      ->getQuery()->getResult();
+      ->addOrderBy('x.updated', 'DESC');
+
+    $results = $dql->getQuery()->getResult();
     return $results;
   }
 
