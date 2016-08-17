@@ -3,6 +3,7 @@
 namespace BetterGistsBundle\Repository;
 
 use BetterGistsBundle\Entity\Tags;
+use BetterGistsBundle\Entity\Gist;
 use Doctrine\ORM\EntityRepository;
 use BetterGistsBundle\BetterGistsBundle;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -88,5 +89,27 @@ class TagsRepository extends EntityRepository
 
     return false;
 
+  }
+
+  /**
+   * @param $user_id
+   */
+  public function findByIdAndUserId($tag_id, $user_id) {
+
+    $dql = "SELECT g.id AS gist_id, a.id AS author_id, t.name AS term_name,
+            t.id AS term_id
+            FROM BetterGistsBundle:Gist g
+            JOIN g.author a
+            JOIN g.tags t
+            WHERE a.id = :aid AND
+            t.id = :termid";
+    $em = $this->getEntityManager();
+    $result = $em->createQuery($dql)
+      ->setParameter(':aid', $user_id)
+      ->setParameter(':termid', $tag_id)
+      ->getResult();
+    dump($tag_id);
+    dump($user_id);
+    dump($result);
   }
 }

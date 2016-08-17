@@ -29,35 +29,13 @@ class TagsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $tags_repository = $em->getRepository('BetterGistsBundle:Tags');
 
-        // Custom paginator.
-        // page number validation param.
-        if(!is_null($request->query->get('page'))) {
-            if (!preg_match('/^[0-9]+$/', $request->query->get('page'))) {
-                $response = new Response();
-                $response->setStatusCode(400);
-                $response->setContent('Argument needs to be integer.');
-                return $response;
-            }
-        }
-        if($request->query->get('page')) {
-            $number_of_page_requested = $request->query->get('page') - 1;
-        } else {
-            $number_of_page_requested = 0;
-        }
-        $number_of_items_display = 10;
-        $tags_count = $tags_repository->countAllTags();
-        $total_of_items_in_db = intval($tags_count);
-        $number_of_pages = ($total_of_items_in_db / $number_of_items_display);
-        $round = ceil($number_of_pages);
-        $record_start = $number_of_page_requested * $number_of_items_display;
-        $tags_paginator = $tags_repository->getGistsCountByTagPaginator($record_start, $number_of_items_display);
 
         // new tags.
-
-
         $user_id = $this->get('security.token_storage')->getToken();
         $user = $user_id->getUser();
         $uid = $user->getId();
+
+        // @todo put this in the entity repository.
 
         $gist_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
         $qbg = $gist_repository->createQueryBuilder('gist')->select('gist.id AS id')
@@ -65,22 +43,19 @@ class TagsController extends Controller
         $result_gists = $qbg->getQuery()->getArrayResult();
 
         $qb = $tags_repository->createQueryBuilder('tags');
-        $result_tags = $qb->select('tags')
-          ->addSelect('gists.id')
+        $result_tags = $qb->select('tags.name AS tag_name, tags.id AS tag_id')
+          ->addSelect('COUNT(tags.name) AS number_of_gists ')
           ->join('tags.gists','gists')
           ->where($qb->expr()->in('gists.id', '?1'))
           ->setParameter(1, $result_gists)
+          ->groupBy('tag_name')
+          ->orderBy('number_of_gists', 'DESC')
           ->getQuery()->getArrayResult();
-        dump($result_tags);
-        // @todo finish this.
 
-        // new tags.
-
+        // @todo create a good version for the paginator.
 
         return $this->render('tags/index.html.twig', array(
-            'tags_paginator' => $tags_paginator,
-            'number_of_pages' => $round,
-            'current_page' => $number_of_page_requested + 1,
+            'tags' => $result_tags,
         ));
     }
 
@@ -118,12 +93,18 @@ class TagsController extends Controller
      */
     public function showAction(Tags $tag)
     {
-        $deleteForm = $this->createDeleteForm($tag);
+        // @todo create a tag repository to get gist by user id and tag_id.
+        $user_id = $this->get('security.token_storage')->getToken();
+        $user = $user_id->getUser();
+        $uid = $user->getId();
+
+        $tags_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Tags');
+        $tags_repository->findByIdAndUserId($tag->getId(), $uid);
+
         $gists = $tag->getGists()->getValues();
         return $this->render('tags/show.html.twig', array(
             'tag' => $tag,
             'gists' => $gists,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 

@@ -46,7 +46,6 @@ class Tags
         return $this->gists ?: $this->gists = new ArrayCollection();
     }
 
-
     /**
      * Get id
      *
