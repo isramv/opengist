@@ -51,6 +51,32 @@ class TagsController extends Controller
         $round = ceil($number_of_pages);
         $record_start = $number_of_page_requested * $number_of_items_display;
         $tags_paginator = $tags_repository->getGistsCountByTagPaginator($record_start, $number_of_items_display);
+
+        // new tags.
+
+
+        $user_id = $this->get('security.token_storage')->getToken();
+        $user = $user_id->getUser();
+        $uid = $user->getId();
+
+        $gist_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
+        $qbg = $gist_repository->createQueryBuilder('gist')->select('gist.id AS id')
+          ->join('gist.author','author','WITH','author.id = ?1')->setParameter(1, $uid);
+        $result_gists = $qbg->getQuery()->getArrayResult();
+
+        $qb = $tags_repository->createQueryBuilder('tags');
+        $result_tags = $qb->select('tags')
+          ->addSelect('gists.id')
+          ->join('tags.gists','gists')
+          ->where($qb->expr()->in('gists.id', '?1'))
+          ->setParameter(1, $result_gists)
+          ->getQuery()->getArrayResult();
+        dump($result_tags);
+        // @todo finish this.
+
+        // new tags.
+
+
         return $this->render('tags/index.html.twig', array(
             'tags_paginator' => $tags_paginator,
             'number_of_pages' => $round,
