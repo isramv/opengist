@@ -63,7 +63,12 @@ class GistController extends Controller
         }
         $gists_paginated = new BPaginator($gist_repository);
         $gists_paginated->setLimit(15);
-        $gists_paginated->setUserId(1);
+
+        $user_id = $this->get('security.token_storage')->getToken();
+        $user = $user_id->getUser();
+        $uid = $user->getId();
+
+        $gists_paginated->setUserId($uid);
         $gists = $gists_paginated->getPage($number_of_page_requested);
 
         return $this->render('gist/index.html.twig', array(
