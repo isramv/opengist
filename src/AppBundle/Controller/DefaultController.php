@@ -12,7 +12,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return phpinfo();
+//        return phpinfo();
+      return $this->redirectToRoute('gist_index');
 //        return $this->render('AppBundle:Default:index.html.twig');
     }
 }
