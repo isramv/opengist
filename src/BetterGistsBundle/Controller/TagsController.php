@@ -99,12 +99,12 @@ class TagsController extends Controller
         $uid = $user->getId();
 
         $tags_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Tags');
-        $tags_repository->findByIdAndUserId($tag->getId(), $uid);
+        $result = $tags_repository->findByIdAndUserId($tag->getId(), $uid);
 
         $gists = $tag->getGists()->getValues();
         return $this->render('tags/show.html.twig', array(
             'tag' => $tag,
-            'gists' => $gists,
+            'gists' => $result,
         ));
     }
 

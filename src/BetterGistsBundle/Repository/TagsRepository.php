@@ -96,7 +96,8 @@ class TagsRepository extends EntityRepository
    */
   public function findByIdAndUserId($tag_id, $user_id) {
 
-    $dql = "SELECT g.id AS gist_id, a.id AS author_id, t.name AS term_name,
+    $dql = "SELECT g.id AS gist_id, g.title AS gist_title,
+            a.id AS author_id, t.name AS term_name,
             t.id AS term_id
             FROM BetterGistsBundle:Gist g
             JOIN g.author a
@@ -108,8 +109,6 @@ class TagsRepository extends EntityRepository
       ->setParameter(':aid', $user_id)
       ->setParameter(':termid', $tag_id)
       ->getResult();
-    dump($tag_id);
-    dump($user_id);
-    dump($result);
+    return $result;
   }
 }

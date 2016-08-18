@@ -12,7 +12,7 @@
             <tbody>
             {% for gist in gists %}
                 <tr>
-                  <td><a href="{{ path('gist_show', { 'id': gist.id}) }}">{{ gist.title }}</a></td>
+                  <td><a href="{{ path('gist_show', { 'id': gist.gist_id}) }}">{{ gist.gist_title }}</a></td>
                 </tr>
             {% endfor %}
             </tbody>
