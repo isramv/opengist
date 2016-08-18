@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Vich\UploaderBundle\VichUploaderBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new AppBundle\AppBundle(),
+            new AppBundle\UserBundle\BetterGistUserBundle(),
             new BetterGistsBundle\BetterGistsBundle(),
             new \Nelmio\CorsBundle\NelmioCorsBundle()
         );
