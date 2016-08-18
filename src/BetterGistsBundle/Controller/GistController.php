@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use BetterGistsBundle\Entity\Gist;
 use BetterGistsBundle\Form\GistType;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -126,16 +127,24 @@ class GistController extends Controller
      */
     public function showAction(Gist $gist)
     {
-        $parsedown = new \Parsedown();
-        $output = $parsedown->setMarkupEscaped(true)->text($gist->getBody());
 
-        $gist->setBody($output);
-        $deleteForm = $this->createDeleteForm($gist);
+        if($this->isGranted('edit', $gist)) {
+          $parsedown = new \Parsedown();
+          $output = $parsedown->setMarkupEscaped(true)->text($gist->getBody());
 
-        return $this->render('gist/show.html.twig', array(
+          $gist->setBody($output);
+          $deleteForm = $this->createDeleteForm($gist);
+
+          return $this->render('gist/show.html.twig', array(
             'gist' => $gist,
             'delete_form' => $deleteForm->createView(),
-        ));
+          ));
+        }
+        else {
+          return new AccessDeniedException();
+        }
+
+
     }
 
     /**
