@@ -3,8 +3,10 @@
 namespace BetterGistsBundle\EventListener;
 
 use BetterGistsBundle\Controller\TokenAuthenticationController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -46,15 +48,30 @@ class TokenListener
       // JWT
       $header = new Header($token_key);
       $jwt = new JwtBetterGist($header);
+      $jwt->verifyRequestString($authorization_code, $jwt);
       try {
         $jwt->verifyRequestString($authorization_code, $jwt);
       } catch (\Exception $e) {
-        $error_message = $e->getMessage();
-      }
-      if(isset($error_message)) {
-        throw new \Exception($error_message);
+        $event->getRequest()->attributes->set('error_token', $e);
       }
     }
+  }
+
+  /**
+   * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
+   */
+  public function onKernelResponse(FilterResponseEvent $event) {
+
+    if(!is_null($event->getRequest()->attributes->get('exception'))) {
+      $error = array(
+        'status' => 'ERROR',
+        'message' => 'Authentication failed'
+      );
+      $response = $event->getResponse();
+      $response->setContent(json_encode($error));
+      $response->headers->set('Content-Type', 'application/json');
+    }
+
   }
 }
 

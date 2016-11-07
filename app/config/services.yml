@@ -12,6 +12,7 @@ services:
         class: BetterGistsBundle\EventListener\TokenListener
         tags:
           - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+          - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
     app.gist_voter:
         class: BetterGistsBundle\Security\GistVoter
         tags:
