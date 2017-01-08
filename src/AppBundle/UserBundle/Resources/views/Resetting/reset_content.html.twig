@@ -1,0 +1,11 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="login-form">
+    {{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'uk-form uk-form-stacked' } }) }}
+    {{ form_widget(form) }}
+    <div class="uk-form-row">
+        <input type="submit" value="{{ 'resetting.reset.submit'|trans }}" />
+    </div>
+    {{ form_end(form) }}
+</div>
+
