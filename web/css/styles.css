@@ -53,6 +53,11 @@ label {
 pre {
   background: #ffffff; }
 
+pre.sf-dump samp {
+  white-space: pre !important;
+  background: none;
+  border: none; }
+
 .uk-form-width-medium {
   width: 400px; }
 

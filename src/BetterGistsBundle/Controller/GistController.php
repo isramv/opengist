@@ -8,6 +8,7 @@ use BetterGistsBundle\Repository\GistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -144,6 +145,30 @@ class GistController extends Controller
           return new AccessDeniedException();
         }
 
+
+    }
+
+    /**
+     * Edit the gist with ReactJS.
+     *
+     * @Route("/{id}/editJS", name="gist_edit_react")
+     * @Method({"GET" , "POST"})
+     */
+
+    public function editReactAction(Request $request, Gist $gist)
+    {
+      $em = $this->getDoctrine()->getManager();
+
+
+      $response = $this->render(':gist:edit-react.html.twig', array('gist' => $gist));
+      $cookie = new Cookie('auth', 'super valuable');
+      $response->headers->setCookie($cookie);
+
+      $jwt = $this->get('app.jwt_issuer');
+      $jwt->setUsername('isramv');
+      $result = $jwt->getJwt();
+
+      return $response;
 
     }
 
