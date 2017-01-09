@@ -157,19 +157,20 @@ class GistController extends Controller
 
     public function editReactAction(Request $request, Gist $gist)
     {
-      $em = $this->getDoctrine()->getManager();
-
-
-      $response = $this->render(':gist:edit-react.html.twig', array('gist' => $gist));
-      $cookie = new Cookie('auth', 'super valuable');
-      $response->headers->setCookie($cookie);
-
+      // JWT Token to use with ReactJS.
+      $username = $this->get('security.token_storage')->getToken()->getUsername();
       $jwt = $this->get('app.jwt_issuer');
-      $jwt->setUsername('isramv');
-      $result = $jwt->getJwt();
+      $jwt->setUsername($username);
+      $jwtToken = $jwt->getJwt();
 
+      // response.
+      $response = $this->render(':gist:edit-react.html.twig',
+        array(
+          'gist' => $gist,
+          'jwt' => $jwtToken
+        )
+      );
       return $response;
-
     }
 
     /**

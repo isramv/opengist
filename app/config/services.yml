@@ -21,3 +21,5 @@ services:
     app.jwt_issuer:
         class: BetterGistsBundle\DependencyInjection\jwtIssuer
         arguments: ['username']
+        calls:
+            - [setContainer, ["@service_container"]]
