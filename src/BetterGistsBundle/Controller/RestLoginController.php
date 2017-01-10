@@ -54,31 +54,10 @@ class RestLoginController extends Controller
     if($response->isOk()) {
 
       $username = $request->request->get('username');
-      $password = $request->request->get('password');
 
-      $file_locator = new FileLocator(__DIR__.'/../conf');
-      $token_config = $file_locator->locate('token_config.yml');
-      $key = Yaml::parse($token_config);
-      $token_key = $key['token_config']['phrase'];
-      $token_key_id = $key['token_config']['kid'];
-      $header = new Header($token_key);
-      $jwt_encode = new JwtBetterGist($header);
-      $claim_key_id = new Claim\Custom($token_key_id, 'kid');
-      $claim_username = new Claim\Custom($username, 'username');
-
-      $user_repository = $this->getDoctrine()->getRepository('AppBundle:User');
-      $user = $user_repository->findOneByUsername($username);
-      $user_id = $user->getId();
-      $user_id_claim = new Claim\Custom((string)$user_id, 'uid');
-
-      $jwt_encode
-        ->addClaim($claim_key_id)
-        ->addClaim($claim_username)
-        ->addClaim($user_id_claim)
-        ->issuedAt(time())
-        ->notBefore(time()-600)
-        ->expireTime(time()+3600000);
-      $token = $jwt_encode->encode();
+      $jwt = $this->get('app.jwt_issuer');
+      $jwt->setUsername($username);
+      $token = $jwt->getJwt();
 
       $response_array = array(
         'message' => 'welcome',
