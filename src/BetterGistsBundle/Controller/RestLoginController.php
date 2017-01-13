@@ -80,7 +80,7 @@ class RestLoginController extends Controller
 
   /**
    * @param array $array_to_convert
-   * @return string|\Symfony\Component\Serializer\Encoder\scalar
+   * @return string \Symfony\Component\Serializer\Encoder\scalar
    */
   private function arrayToJSON($array_to_convert) {
 
