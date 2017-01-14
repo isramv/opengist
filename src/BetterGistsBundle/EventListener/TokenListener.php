@@ -23,6 +23,13 @@ use Symfony\Component\Yaml\Yaml;
 
 class TokenListener
 {
+
+  private $phrase;
+
+  public function __construct($phrase) {
+    $this->phrase = $phrase;
+  }
+
   public function onKernelController(FilterControllerEvent $event)
   {
 
@@ -35,22 +42,14 @@ class TokenListener
     if($controller[0] instanceof TokenAuthenticationController) {
 
       $request = $event->getRequest();
-      $authorization_code = $request->headers->get('Authorization');
 
-      // Getting the keys
-      $file_locator = new FileLocator(__DIR__.'/../conf');
-      $token_config = $file_locator->locate('token_config.yml');
-      $key = Yaml::parse($token_config);
-      $token_key = $key['token_config']['phrase'];
-      // TODO have several key_ids and phrases.
-      $token_key_id = $key['token_config']['kid'];
+      $auth_string = is_null($request->headers->get('authorization')) ? $request->headers->get('x-custom-auth') : $request->headers->get('authorization');
 
-      // JWT
-      $header = new Header($token_key);
+      $header = new Header($this->phrase);
       $jwt = new JwtBetterGist($header);
-      $jwt->verifyRequestString($authorization_code, $jwt);
+
       try {
-        $jwt->verifyRequestString($authorization_code, $jwt);
+        $jwt->verifyRequestString($auth_string, $jwt);
       } catch (\Exception $e) {
         $event->getRequest()->attributes->set('error_token', $e);
       }

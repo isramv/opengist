@@ -97,7 +97,8 @@ class JwtBetterGist extends Jwt
   }
   public function verifyRequest(Request $request, JwtBetterGist $jwt)
   {
-    $auth_code = $request->headers->get('authorization');
+    $auth_code = is_null($request->headers->get('authorization')) ? $request->headers->get('x-custom-auth') : $request->headers->get('authorization');
+
     if(is_null($auth_code)) {
       throw new \Exception('no authorization code');
     }
