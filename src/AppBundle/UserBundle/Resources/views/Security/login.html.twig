@@ -1,4 +1,4 @@
-{% extends "BetterGistUserBundle::layout.html.twig" %}
+{% extends "@BetterGistUser/layout.html.twig" %}
 
 {% trans_default_domain 'FOSUserBundle' %}
 
@@ -38,7 +38,7 @@
     </form>
   </div>
   <div class="uk-container uk-container-center">
-    <div class="forgot-container"><a href="{{ path('fos_user_resetting_request') }}">Forgot Password ?</a></div>
+    <div class="forgot-container"><a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a></div>
   </div>
 
 

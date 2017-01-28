@@ -12,11 +12,6 @@ better_gists_rest_login:
     type:     annotation
     prefix:   /api
 
-better_gists_rest:
-    resource: "@BetterGistsBundle/Controller/GistRestController.php"
-    type:     annotation
-    prefix:   /api/v1
-
 better_gists_tags:
     resource: "@BetterGistsBundle/Controller/TagsController.php"
     type:     annotation
@@ -31,3 +26,8 @@ upload:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+#better_gists_rest:
+#    resource: "@BetterGistsBundle/Controller/GistRestController.php"
+#    type:     annotation
+#    prefix:   /api/v1
