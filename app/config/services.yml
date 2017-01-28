@@ -10,11 +10,11 @@ services:
     jwt.requestparser:
         class:  BetterGistsBundle\DependencyInjection\JwtRequestParser
         arguments: ['%token_phrase%']
-#    app.gist_voter:
-#        class: BetterGistsBundle\Security\GistVoter
-#        tags:
-#          - { name: security.voter }
-#        public: false
+    app.gist_voter:
+        class: BetterGistsBundle\Security\GistVoter
+        tags:
+          - { name: security.voter }
+        public: false
     app.jwt_issuer:
         class: BetterGistsBundle\DependencyInjection\jwtIssuer
         arguments: ['username']

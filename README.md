@@ -1,4 +1,7 @@
-myapp
+bettergist.io
 =====
 
-MyApp is super cool.
+Source for the bettergist.io project.
+
+## Install and Update:
+
