@@ -14,9 +14,6 @@
   .rc-content-right {
     text-align: right; }
 
-.rc-block {
-  padding-top: 40px; }
-
 .rc-container {
   margin: 20px 0; }
 
@@ -106,3 +103,21 @@ input#gist_title {
 
 #fos_user_resetting_form {
   margin-bottom: 25px; }
+
+.logo_container {
+  text-align: center;
+  padding: 40px; }
+  .logo_container .main_logo {
+    width: 250px;
+    height: auto; }
+
+.logo_container_main {
+  background: #f7f7f7;
+  text-align: left;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e6e6e6; }
+  .logo_container_main .main_logo {
+    width: 150px;
+    height: auto;
+    padding-top: 5px; }

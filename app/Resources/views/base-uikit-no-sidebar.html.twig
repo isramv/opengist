@@ -14,6 +14,9 @@
 <body>
 {# top navbar. #}
 <header class="rc-block">
+    {% block logo %}
+      {% embed "::logo.html.twig" %}{% endembed %}
+    {% endblock %}
     <div class="uk-container uk-container-center">
       <ul class="uk-tab">
         <li class="{{ (app.request.requestUri == path('gist_index')) ? 'uk-active' }}"><a href="{{ path('gist_index') }}">Gists</a></li>

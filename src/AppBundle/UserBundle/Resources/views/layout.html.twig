@@ -1,7 +1,14 @@
 {% extends 'base-uikit.html.twig' %}
 
-{% block title %} Welcome to BetterGists {% endblock %}
+{% block title %} Welcome to bettergist.io {% endblock %}
 
 {% block content %}
-  {% block fos_user_content %}{% endblock %}
+
+  <div class="logo_container">
+    <img src="{{ asset('images/bettergist_io.svg') }}" class="main_logo"/>
+  </div>
+
+  {% block fos_user_content %}
+
+  {% endblock %}
 {% endblock %}
