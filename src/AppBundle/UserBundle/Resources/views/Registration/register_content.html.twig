@@ -1,0 +1,64 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+<div class="login-form">
+    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register uk-form uk-form-stacked'}}) }}
+
+    <div class="uk-form-row">
+        {% if form.email.vars.errors | length > 0 %}
+            <div class="uk-alert uk-alert-danger">
+                {{ form_errors(form.email) }}
+            </div>
+        {% endif %}
+        <div class="uk-form-label">
+            {{ form_label(form.email) }}
+        </div>
+        <div class="uk-form-controls">
+            {{ form_widget(form.email) }}
+        </div>
+    </div>
+
+    <div class="uk-form-row">
+        {% if form.username.vars.errors | length > 0 %}
+            <div class="uk-alert uk-alert-danger">
+                {{ form_errors(form.username) }}
+            </div>
+        {% endif %}
+        <div class="uk-form-label">
+            {{ form_label(form.username) }}
+        </div>
+        <div class="uk-form-controls">
+            {{ form_widget(form.username) }}
+        </div>
+    </div>
+
+    <div class="uk-form-row">
+
+        {% if form.plainPassword.children.first.vars.errors | length > 0 %}
+            <div class="uk-alert uk-alert-danger">
+                {{ form_errors(form.plainPassword) }}
+                {{ form_errors(form.plainPassword.children.first) }}
+                {{ form_errors(form.plainPassword.children.second) }}
+            </div>
+        {% endif %}
+        <div class="uk-form-label">
+            {{ form_label(form.plainPassword.children.first) }}
+        </div>
+        <div class="uk-form-controls">
+            {{ form_widget(form.plainPassword.children.first) }}
+        </div>
+        <div class="uk-form-label">
+            {{ form_label(form.plainPassword.children.second) }}
+        </div>
+        <div class="uk-form-controls">
+            {{ form_widget(form.plainPassword.children.second) }}
+        </div>
+    </div>
+
+    <div class="uk-form-row">
+        <input type="submit" value="{{ 'registration.submit'|trans }}" />
+    </div>
+
+    {{ form_end(form) }}
+
+</div>
