@@ -210,7 +210,7 @@ class BPaginator
       $dql->addOrderBy('x.updated', 'DESC');
     }
 
-    $results = $dql->getQuery()->getResult();
+    $results = $dql->getQuery()->getArrayResult(Query::HYDRATE_ARRAY);
 
     return $results;
   }

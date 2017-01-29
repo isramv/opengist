@@ -115,54 +115,45 @@ class RestGistController extends Controller implements TokenAuthenticationContro
       $query_params_from_request = $request->query->all();
 
       $gist_repo = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
-      $qb = $gist_repo->createQueryBuilder('gist');
+
       $order_by = array();
 
       // Now accepts query parameters like updated, created, and title for orderBy.
 
       if(isset($query_params_from_request['updated'])) {
         if ($query_params_from_request['updated'] === 'ASC') {
-          $qb->orderBy('gist.updated', 'ASC');
           $order_by = array('updated', 'ASC');
         } else if ($query_params_from_request['updated'] === 'DESC') {
-          $qb->orderBy('gist.updated', 'DESC');
           $order_by = array('updated', 'DESC');
         }
       }
 
       if(isset($query_params_from_request['created'])) {
         if ($query_params_from_request['created'] === 'ASC') {
-          $qb->orderBy('gist.created', 'ASC');
           $order_by = array('created', 'ASC');
         } else if ($query_params_from_request['created'] === 'DESC') {
-          $qb->orderBy('gist.created', 'DESC');
           $order_by = array('created', 'DESC');
         }
       }
 
       if(isset($query_params_from_request['title'])) {
         if ($query_params_from_request['title'] === 'ASC') {
-          $qb->orderBy('gist.title', 'ASC');
           $order_by = array('title', 'ASC');
         } else if ($query_params_from_request['title'] === 'DESC') {
-          $qb->orderBy('gist.title', 'DESC');
           $order_by = array('title', 'DESC');
         }
       }
 
       $pager = new BPaginator($gist_repo);
       $pager->setUserId($uid);
-      $pager->setLimit(15);
       $pager->setOrderBy($order_by);
-      $pager->getPage(1);
 
-      $qb->andWhere('gist.author = :author');
-      $qb->setParameter(':author', $uid);
-      $qb->setMaxResults(5);
+      // todo implement the logic for the pager.
 
-      $result = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
+        $pager->setLimit(15);
+        $result = $pager->getPage(1);
 
-      // Response.
+      // JSON Response.
       $json_content = $this->jsonIndexResponse($result);
 
     }
