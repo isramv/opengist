@@ -16,14 +16,6 @@ better_gists_tags:
     resource: "@BetterGistsBundle/Controller/TagsController.php"
     type:     annotation
 
-upload_product:
-    resource: "@UploadBundle/Controller/ProductController.php"
-    type:     annotation
-
-upload:
-    resource: "@UploadBundle/Resources/config/routing.yml"
-    prefix:   /upload
-
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 

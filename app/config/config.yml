@@ -2,7 +2,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@UploadBundle/Resources/config/services.yml" }
     - { resource: "@AppBundle/Resources/config/services.yml" }
     - { resource: "@BetterGistsBundle/Resources/config/services.yml" }
 
@@ -97,16 +96,6 @@ swiftmailer:
     encryption: "%mailer_encryption%"
     auth_mode: "%mailer_auth_mode%"
     spool:     { type: memory }
-
-# Vich Uploader configuration.
-vich_uploader:
-    db_driver: orm
-
-    mappings:
-        product_images:
-            uri_prefix:         /images/products
-            upload_destination: %kernel.root_dir%/../web/images/products
-            namer:              vich_uploader.namer_uniqid
 
 services:
     fos_user.doctrine_registry:
