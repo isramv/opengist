@@ -31,6 +31,11 @@ class BPaginator
   private $repository;
 
   /**
+   * @var array
+   */
+  private $orderBy;
+
+  /**
    * BPaginator constructor.
    * @param EntityRepository $repository
    * @param integer $offset
@@ -69,12 +74,24 @@ class BPaginator
     $this->limit = $limit;
   }
 
+  public function setOrderBy(array $orderBy) {
+    $this->orderBy = $orderBy;
+  }
+
   /**
    * @return integer
    */
   public function getLimit()
   {
     return $this->limit;
+  }
+
+  /**
+   * @return array
+   */
+  public function getOrderBy()
+  {
+    return $this->orderBy;
   }
 
   /**
@@ -183,11 +200,18 @@ class BPaginator
       ->setParameter(2, $this->user_id);
     };
 
-    $dql->setFirstResult($offset)
-      ->setMaxResults($limit)
-      ->addOrderBy('x.updated', 'DESC');
+    $dql->setFirstResult($offset)->setMaxResults($limit);
+
+    if(!is_null($this->orderBy)) {
+      $orderBy = 'x.'.$this->orderBy[0];
+      $orderByDirection = $this->orderBy[1];
+      $dql->addOrderBy($orderBy, $orderByDirection);
+    } else if (is_null($this->orderBy)) {
+      $dql->addOrderBy('x.updated', 'DESC');
+    }
 
     $results = $dql->getQuery()->getResult();
+
     return $results;
   }
 

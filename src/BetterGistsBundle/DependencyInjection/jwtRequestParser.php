@@ -24,7 +24,7 @@ class JwtRequestParser {
     try {
       $jwt->verifyRequestString($auth_string, $jwt);
     } catch (\Exception $e) {
-      throw new Exception($e);
+      throw new \Exception($e);
     }
 
     $decoded = $jwt->decode($auth_string);
