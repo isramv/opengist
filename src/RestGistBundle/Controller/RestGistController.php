@@ -113,26 +113,35 @@ class RestGistController extends Controller implements TokenAuthenticationContro
        * Query builder test.
        */
 
-      $gist_repo = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
+      $query_params_from_request = $request->query->all();
 
-      $query_params = $request->query->all();
+      $gist_repo = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
 
       $qb = $gist_repo->createQueryBuilder('gist');
 
-      if ($query_params['updated'] === 'ASC') {
-        $qb->orderBy('gist.updated', 'ASC');
-      } else if ($query_params['updated'] === 'DESC') {
-        $qb->orderBy('gist.updated', 'DESC');
+      if(isset($query_params['updated'])) {
+        if ($query_params['updated'] === 'ASC') {
+          $qb->orderBy('gist.updated', 'ASC');
+        } else if ($query_params['updated'] === 'DESC') {
+          $qb->orderBy('gist.updated', 'DESC');
+        }
+      }
+
+      if(isset($query_params['created'])) {
+        if ($query_params['created'] === 'ASC') {
+          $qb->orderBy('gist.created', 'ASC');
+        } else if ($query_params['created'] === 'DESC') {
+          $qb->orderBy('gist.created', 'DESC');
+        }
       }
 
       $qb->andWhere('gist.author = :author');
       $qb->setParameter(':author', $uid);
-      $qb->setMaxResults(2);
+      $qb->setMaxResults(1);
 
       $result = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
 
-      // ----------------------- //
-
+      // Response.
       $json_content = $this->jsonIndexResponse($result);
 
     }
