@@ -1,8 +1,8 @@
 <?php
 
-namespace BetterGistsBundle\EventListener;
+namespace RestGistBundle\EventListener;
 
-use BetterGistsBundle\Controller\TokenAuthenticationController;
+use RestGistBundle\Controller\TokenAuthenticationController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
