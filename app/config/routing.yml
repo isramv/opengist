@@ -27,6 +27,10 @@ upload:
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
+rest_gist:
+    resource: "@RestGistBundle/Controller"
+    type:     annotation
+
 #better_gists_rest:
 #    resource: "@BetterGistsBundle/Controller/GistRestController.php"
 #    type:     annotation

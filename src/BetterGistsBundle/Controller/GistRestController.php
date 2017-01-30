@@ -2,6 +2,8 @@
 
 namespace BetterGistsBundle\Controller;
 
+// todo migrate to RestGistBundle.
+
 use BetterGistsBundle\Entity\Gist;
 use BetterGistsBundle\Entity\Tags;
 use Doctrine\ORM\Query;

@@ -17,12 +17,14 @@
     {% block logo %}
       {% embed "::logo.html.twig" %}{% endembed %}
     {% endblock %}
+    {% block navigation %}
     <div class="uk-container uk-container-center">
       <ul class="uk-tab">
         <li class="{{ (app.request.requestUri == path('gist_index')) ? 'uk-active' }}"><a href="{{ path('gist_index') }}">Gists</a></li>
         <li class="{{ (app.request.requestUri == path('tags_index')) ? 'uk-active' }}"><a href="{{ path('tags_index') }}">Tags</a></li>
       </ul>
     </div>
+    {% endblock %}
 </header>
 <div class="uk-container uk-container-center">
   {% block content %}{% endblock %}
