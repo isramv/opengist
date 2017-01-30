@@ -2,6 +2,7 @@
 
 namespace RestGistBundle\Controller;
 
+use BetterGistsBundle\DependencyInjection\GistPaginator;
 use BetterGistsBundle\Entity\Gist;
 use BetterGistsBundle\Entity\Tags;
 use Doctrine\ORM\Query;
@@ -35,15 +36,19 @@ use BetterGistsBundle\DependencyInjection\BPaginator;
 class RestGistController extends Controller implements TokenAuthenticationController
 {
   private $pager_default = 15;
+
   /**
    * Index function.
    * @Route("/gists", name="rest_gist_index")
    * @Method({"GET", "POST"})
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @return \Symfony\Component\HttpFoundation\Response
    */
   public function indexRestAction(Request $request)
   {
     $uid = $this->get('jwt.requestparser')->getUserIdFromRequest($request);
     $request_method = $request->getMethod();
+    $json_content = '';
 
     if($request_method === "POST") {
 
@@ -112,55 +117,12 @@ class RestGistController extends Controller implements TokenAuthenticationContro
 
     } elseif ($request_method === "GET") {
 
-      $query_params_from_request = $request->query->all();
-
       $gist_repo = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
 
-      $order_by = array();
-
-      // Now accepts query parameters like updated, created, and title for orderBy.
-
-      if(isset($query_params_from_request['updated'])) {
-        if ($query_params_from_request['updated'] === 'ASC') {
-          $order_by = array('updated', 'ASC');
-        } else if ($query_params_from_request['updated'] === 'DESC') {
-          $order_by = array('updated', 'DESC');
-        }
-      }
-
-      if(isset($query_params_from_request['created'])) {
-        if ($query_params_from_request['created'] === 'ASC') {
-          $order_by = array('created', 'ASC');
-        } else if ($query_params_from_request['created'] === 'DESC') {
-          $order_by = array('created', 'DESC');
-        }
-      }
-
-      if(isset($query_params_from_request['title'])) {
-        if ($query_params_from_request['title'] === 'ASC') {
-          $order_by = array('title', 'ASC');
-        } else if ($query_params_from_request['title'] === 'DESC') {
-          $order_by = array('title', 'DESC');
-        }
-      }
-
-      $pager = new BPaginator($gist_repo, $uid);
-
-      if(count($order_by) !== 0) {
-        $pager->setOrderBy($order_by);
-      }
-
-      // TODO implement logic for number of items.
-
+      $pager = new GistPaginator($gist_repo, $uid);
+      $pager->handleRequestParams($request->query->all());
       $pager->setLimit(15);
-
-      if (isset($query_params_from_request['page'])) {
-        if(is_numeric($query_params_from_request['page'])) {
-          $result = $pager->getPage($query_params_from_request['page']);
-        }
-      } else if (!isset($query_params_from_request['page'])) {
-        $result = $pager->getPage(1);
-      }
+      $result = $pager->getResults();
 
       // populate tags of each result.
       foreach ($result['items'] as $key => $gist) {
@@ -172,6 +134,7 @@ class RestGistController extends Controller implements TokenAuthenticationContro
           $tags[$key] = array($tag->getId() => $tag->getName());
         }
         $result['items'][$key]['tags'] = $tags;
+
       }
 
       // JSON Response.
@@ -191,6 +154,9 @@ class RestGistController extends Controller implements TokenAuthenticationContro
    * Get single Gist.
    * @Route("/gists/{gist_id}", name="rest_gist_by_id")
    * @Method({"GET", "POST", "DELETE"})
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param $gist_id
+   * @return \Symfony\Component\HttpFoundation\Response
    */
   public function getGistAction(Request $request, $gist_id)
   {
