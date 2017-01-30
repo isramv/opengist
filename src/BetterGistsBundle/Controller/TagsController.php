@@ -125,8 +125,6 @@ class TagsController extends Controller
             return $this->redirectToRoute('tags_edit', array('id' => $tag->getId()));
         }
 
-        // TODO: style this page.
-
         return $this->render('tags/edit.html.twig', array(
             'tag' => $tag,
             'edit_form' => $editForm->createView(),
