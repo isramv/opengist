@@ -45,8 +45,10 @@ class TagsController extends Controller {
 
     $pager->handleOrderByFromRequestParams($request->query->all());
 
-    if (isset($query_params_from_request['page']) && is_numeric($query_params_from_request['page'])) {
-      $result_tags = $pager->getPage($query_params_from_request['page']);
+    $page_requested = $request->query->get('page');
+
+    if (isset($page_requested) && is_numeric($page_requested)) {
+      $result_tags = $pager->getPage($page_requested);
     }
     else {
       $result_tags = $pager->getPage(1);

@@ -42,7 +42,6 @@ class TagPaginator extends BPaginator {
    */
   public function handleOrderByFromRequestParams($request_params)
   {
-
     foreach ($request_params as $key => $name) {
       if ($key === 'number_of_gists' && ($name === 'DESC' || $name === 'ASC')) {
         $this->setOrderBy(array($key => $name));

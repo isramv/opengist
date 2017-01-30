@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use AppBundle\Entity\User;
-use BetterGistsBundle\DependencyInjection\BPaginator;
+use BetterGistsBundle\DependencyInjection\GistPaginator;
 use Psecio\Jwt\Header;
 use Psecio\Jwt\Claim;
 use BetterGistsBundle\DependencyInjection\JwtBetterGist;
@@ -50,7 +50,6 @@ class GistController extends Controller {
     $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
 
     // page number validation param.
-
     if (!is_null($request->query->get('page'))) {
       if (!preg_match('/^[0-9]+$/', $request->query->get('page'))) {
         $response = new Response();
@@ -70,61 +69,16 @@ class GistController extends Controller {
     $user = $user_id->getUser();
     $uid = $user->getId();
 
-    $pager = new BPaginator($gist_repository, $uid);
-    $query_params_from_request = $request->query->all();
-
-    $order_by = array();
-
-    // TODO refactor this code.
-    // Now accepts query parameters like updated, created, and title for orderBy.
-    if (isset($query_params_from_request['updated'])) {
-      if ($query_params_from_request['updated'] === 'ASC') {
-        $order_by = array('updated', 'ASC');
-      }
-      else {
-        if ($query_params_from_request['updated'] === 'DESC') {
-          $order_by = array('updated', 'DESC');
-        }
-      }
-    }
-
-    if (isset($query_params_from_request['created'])) {
-      if ($query_params_from_request['created'] === 'ASC') {
-        $order_by = array('created', 'ASC');
-      }
-      else {
-        if ($query_params_from_request['created'] === 'DESC') {
-          $order_by = array('created', 'DESC');
-        }
-      }
-    }
-
-    if (isset($query_params_from_request['title'])) {
-      if ($query_params_from_request['title'] === 'ASC') {
-        $order_by = array('title', 'ASC');
-      }
-      else {
-        if ($query_params_from_request['title'] === 'DESC') {
-          $order_by = array('title', 'DESC');
-        }
-      }
-    }
-
-    if (count($order_by) !== 0) {
-      $pager->setOrderBy($order_by);
-    }
-
+    $pager = new GistPaginator($gist_repository, $uid);
+    $pager->handleRequestParams($request->query->all());
     $pager->setLimit(15);
+    $gists = $pager->getResults();
 
-    $gists = $pager->getPage($number_of_page_requested);
-
+    // Populate tags of each result.
     foreach ($gists['items'] as $key => $gist) {
-
-      // populate tags of each result.
       $each = $gist_repository->find($gist['id']);
       $gists['items'][$key]['tags'] = $each->getTags()->getValues();
       $gists['items'][$key]['getUpdatedString'] = $each->getUpdatedString();
-
     }
 
     return $this->render('@BetterGists/gist/index.html.twig', array(

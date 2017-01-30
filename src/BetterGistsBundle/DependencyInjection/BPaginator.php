@@ -167,7 +167,7 @@ class BPaginator
    * @param integer $page_requested
    * @return integer
    */
-  private function queryOffset($page_requested)
+  public function queryOffset($page_requested)
   {
     $number_of_pages = $this->getLimit();
     $query_offset = ($page_requested - 1) * $number_of_pages;
