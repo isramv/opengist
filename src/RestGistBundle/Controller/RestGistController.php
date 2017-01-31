@@ -153,6 +153,7 @@ class RestGistController extends Controller implements TokenAuthenticationContro
       }
 
       // TODO implement logic for number of items.
+
       $pager->setLimit(15);
 
       if (isset($query_params_from_request['page'])) {
@@ -161,6 +162,18 @@ class RestGistController extends Controller implements TokenAuthenticationContro
         }
       } else if (!isset($query_params_from_request['page'])) {
         $result = $pager->getPage(1);
+      }
+
+      // populate tags of each result.
+      foreach ($result['items'] as $key => $gist) {
+
+        $each = $gist_repo->find($gist['id']);
+        $tags = $each->getTags()->getValues();
+
+        foreach ($tags as $key => $tag) {
+          $tags[$key] = array($tag->getId() => $tag->getName());
+        }
+        $result['items'][$key]['tags'] = $tags;
       }
 
       // JSON Response.

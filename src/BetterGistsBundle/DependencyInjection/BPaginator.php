@@ -5,6 +5,7 @@ namespace BetterGistsBundle\DependencyInjection;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
+use BetterGistsBundle\Entity\Tags as Tags;
 
 class BPaginator
 {
@@ -209,9 +210,6 @@ class BPaginator
     } else if (is_null($this->orderBy)) {
       $dql->addOrderBy('x.updated', 'DESC');
     }
-
-    $dql->addSelect('tags');
-    $dql->leftJoin('x.tags', 'tags');
 
     $results = $dql->getQuery()->getArrayResult(Query::HYDRATE_ARRAY);
 

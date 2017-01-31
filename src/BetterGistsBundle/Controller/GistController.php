@@ -6,6 +6,7 @@ namespace BetterGistsBundle\Controller;
 use BetterGistsBundle\Entity\Tags;
 use BetterGistsBundle\Repository\GistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -63,15 +64,24 @@ class GistController extends Controller
         } else {
             $number_of_page_requested = 1;
         }
-        $gists_paginated = new BPaginator($gist_repository);
-        $gists_paginated->setLimit(15);
 
         $user_id = $this->get('security.token_storage')->getToken();
         $user = $user_id->getUser();
         $uid = $user->getId();
 
-        $gists_paginated->setUserId($uid);
-        $gists = $gists_paginated->getPage($number_of_page_requested);
+        $pager = new BPaginator($gist_repository);
+        $pager->setLimit(15);
+        $pager->setUserId($uid);
+
+        $gists = $pager->getPage($number_of_page_requested);
+
+        foreach ($gists['items'] as $key => $gist) {
+
+          // populate tags of each result.
+          $each = $gist_repository->find($gist['id']);
+          $gists['items'][$key]['tags'] = $each->getTags()->getValues();
+
+        }
 
         return $this->render('gist/index.html.twig', array(
             'gists' => $gists
