@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -146,12 +147,21 @@ class RestGistController extends Controller implements TokenAuthenticationContro
 
       $pager = new BPaginator($gist_repo);
       $pager->setUserId($uid);
-      $pager->setOrderBy($order_by);
 
-      // todo implement the logic for the pager.
+      if(count($order_by) !== 0) {
+        $pager->setOrderBy($order_by);
+      }
 
-        $pager->setLimit(15);
+      // TODO implement logic for number of items.
+      $pager->setLimit(15);
+
+      if (isset($query_params_from_request['page'])) {
+        if(is_numeric($query_params_from_request['page'])) {
+          $result = $pager->getPage($query_params_from_request['page']);
+        }
+      } else if (!isset($query_params_from_request['page'])) {
         $result = $pager->getPage(1);
+      }
 
       // JSON Response.
       $json_content = $this->jsonIndexResponse($result);
