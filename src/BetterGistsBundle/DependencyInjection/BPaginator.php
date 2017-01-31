@@ -210,6 +210,9 @@ class BPaginator
       $dql->addOrderBy('x.updated', 'DESC');
     }
 
+    $dql->addSelect('tags');
+    $dql->leftJoin('x.tags', 'tags');
+
     $results = $dql->getQuery()->getArrayResult(Query::HYDRATE_ARRAY);
 
     return $results;
