@@ -3,6 +3,7 @@
 namespace BetterGistsBundle\Repository;
 
 use BetterGistsBundle\Entity\Gist;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 

@@ -42,8 +42,6 @@ class RestGistController extends Controller implements TokenAuthenticationContro
 
     if($request_method === "POST") {
 
-      // TODO create gist REST.
-
       $all = $request->request->all();
       if(isset($all)) {
 
@@ -109,8 +107,32 @@ class RestGistController extends Controller implements TokenAuthenticationContro
 
     } elseif ($request_method === "GET") {
 
-      $gist_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
-      $result = $gist_repository->getGistsByUserId($uid);
+
+      /**
+       * Todo tranform this in class.
+       * Query builder test.
+       */
+
+      $gist_repo = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
+
+      $query_params = $request->query->all();
+
+      $qb = $gist_repo->createQueryBuilder('gist');
+
+      if ($query_params['updated'] === 'ASC') {
+        $qb->orderBy('gist.updated', 'ASC');
+      } else if ($query_params['updated'] === 'DESC') {
+        $qb->orderBy('gist.updated', 'DESC');
+      }
+
+      $qb->andWhere('gist.author = :author');
+      $qb->setParameter(':author', $uid);
+      $qb->setMaxResults(2);
+
+      $result = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
+
+      // ----------------------- //
+
       $json_content = $this->jsonIndexResponse($result);
 
     }
