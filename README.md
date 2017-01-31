@@ -1,7 +1,6 @@
-bettergist.io
-=====
+# opengist
 
-Source for the bettergist.io project.
+This a experimental and prof of concept project to test Symfony 2.8
 
-## Install and Update:
+### Also helps as source for the bettergist.io project.
 

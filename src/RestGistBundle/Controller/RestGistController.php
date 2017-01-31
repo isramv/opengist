@@ -8,19 +8,23 @@ use Doctrine\ORM\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use RestGistBundle\Controller\TokenAuthenticationController;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+
 // JWT.
 use Psecio\Jwt\Header;
 use Psecio\Jwt\Claim;
 use BetterGistsBundle\DependencyInjection\JwtBetterGist;
+
 // JSON Encoders.
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+
 // Entity Repository.
 use Doctrine\ORM\EntityRepository;
 
