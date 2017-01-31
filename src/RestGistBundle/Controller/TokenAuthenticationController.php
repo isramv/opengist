@@ -1,6 +1,6 @@
 <?php
 
-namespace BetterGistsBundle\Controller;
+namespace RestGistBundle\Controller;
 
 interface TokenAuthenticationController
 {

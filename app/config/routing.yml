@@ -31,7 +31,7 @@ rest_gist:
     resource: "@RestGistBundle/Controller"
     type:     annotation
 
-#better_gists_rest:
-#    resource: "@BetterGistsBundle/Controller/GistRestController.php"
-#    type:     annotation
-#    prefix:   /api/v1
+better_gists_rest:
+    resource: "@RestGistBundle/Controller/RestGistController.php"
+    type:     annotation
+    prefix:   /api/v1
