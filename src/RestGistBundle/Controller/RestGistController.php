@@ -29,7 +29,6 @@ use Symfony\Component\Serializer\Serializer;
 // Entity Repository.
 use Doctrine\ORM\EntityRepository;
 
-// BPaginator.
 // @todo crete the service.
 use BetterGistsBundle\DependencyInjection\BPaginator;
 
@@ -145,8 +144,7 @@ class RestGistController extends Controller implements TokenAuthenticationContro
         }
       }
 
-      $pager = new BPaginator($gist_repo);
-      $pager->setUserId($uid);
+      $pager = new BPaginator($gist_repo, $uid);
 
       if(count($order_by) !== 0) {
         $pager->setOrderBy($order_by);

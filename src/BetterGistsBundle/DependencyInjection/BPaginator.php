@@ -39,10 +39,11 @@ class BPaginator
   /**
    * BPaginator constructor.
    * @param EntityRepository $repository
+   * @param integer $user_id
    * @param integer $offset
    * @param integer $limit
    */
-  public function __construct(EntityRepository $repository, $offset = 0, $limit = 10, $user_id = null)
+  public function __construct(EntityRepository $repository, $user_id, $offset = 0, $limit = 10)
   {
     $this->repository = $repository;
     $this->offset = $offset;
@@ -64,6 +65,9 @@ class BPaginator
     return $this->offset;
   }
 
+  /**
+   * @param $uid
+   */
   public function setUserId($uid) {
     $this->user_id = $uid;
   }
@@ -75,6 +79,9 @@ class BPaginator
     $this->limit = $limit;
   }
 
+  /**
+   * @param array $orderBy
+   */
   public function setOrderBy(array $orderBy) {
     $this->orderBy = $orderBy;
   }
@@ -111,6 +118,7 @@ class BPaginator
 
   /**
    * Count the items on the repository.
+   * requires an author.id to work as it is.
    * @return integer;
    */
   public function countAllItems()
@@ -138,6 +146,7 @@ class BPaginator
   }
 
   /**
+   * this method binds everything together.
    * @param integer $page_requested
    * @return array
    */
@@ -153,25 +162,6 @@ class BPaginator
       'offset' => $offset,
       'limit' => $limit,
       'items' => $this->queryRepository($offset, $limit)
-    );
-  }
-
-  /**
-   * Returns a PHP Array of values instead of Entity Objects.
-   * @param integer $page_requested
-   * @return array
-   */
-  public function getPageArray($page_requested)
-  {
-    $offset = $this->queryOffset($page_requested);
-    $limit = $this->getLimit();
-
-    return array(
-      'number_of_pages' => $this->getNumberOfPages(),
-      'page_requested' => $page_requested,
-      'offset' => $offset,
-      'limit' => $limit,
-      'items' => $this->queryRepositoryArray($offset, $limit)
     );
   }
 
@@ -213,24 +203,6 @@ class BPaginator
 
     $results = $dql->getQuery()->getArrayResult(Query::HYDRATE_ARRAY);
 
-    return $results;
-  }
-
-  /**
-   * @param integer $offset
-   * @param integer $limit
-   * @return array
-   */
-  private function queryRepositoryArray($offset, $limit)
-  {
-    $results = $this->getRepository()
-      ->createQueryBuilder('x')
-      ->leftJoin('x.tags','tags')
-      ->select('x, tags')
-      ->groupBy('x.id')
-      ->setFirstResult($offset)
-      ->setMaxResults($limit)
-      ->getQuery()->getArrayResult(Query::HYDRATE_ARRAY);
     return $results;
   }
 }
