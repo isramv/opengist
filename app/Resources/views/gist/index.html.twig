@@ -8,7 +8,7 @@
         <thead>
             <tr>
                 <th class="gist-table__title" data-order="title">Title</th>
-                {#<th>Tags</th>#}
+                <th>Tags</th>
                 <th class="gist-table__created asc" data-order="created">Created</th>
                 <th class="gist-table__updated" data-order="updated">Updated</th>
             </tr>
@@ -17,15 +17,13 @@
         {% for gist in gists.items %}
             <tr>
                 <td><a href="{{ path('gist_show', { 'id': gist.id }) }}">{{ gist.title }}</a></td>
-                {#<td>#}
-                    {#{% for tag in gist.tags %}#}
-                        {#<a class="uk-button uk-button-mini" href="{{ path('tags_show', {'id': tag.id}) }}">{{ tag.name }}</a></li>#}
-                    {#{% endfor %}#}
-                {#</td>#}
+                <td>
+                    {% for tag in gist.tags %}
+                        <a class="uk-button uk-button-mini" href="{{ path('tags_show', {'id': tag.id}) }}">{{ tag.name }}</a></li>
+                    {% endfor %}
+                </td>
                 <td>{{ gist.created|date('d M Y') }}</td>
-                {# TODO fix this. #}
-                {#{{ gist.getUpdatedString() }}#}
-                <td>{{ gist.updated|date('d M Y') }}</td>
+                <td>{{ gist.getUpdatedString }}</td>
             </tr>
         {% endfor %}
         </tbody>

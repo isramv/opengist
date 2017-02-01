@@ -52,7 +52,7 @@ class GistController extends Controller
         // page number validation param.
 
         if(!is_null($request->query->get('page'))) {
-            if (!preg_match('/^[0-9]+$/', $request->query->get('page'))) {
+          if (!preg_match('/^[0-9]+$/', $request->query->get('page'))) {
                 $response = new Response();
                 $response->setStatusCode(400);
                 $response->setContent('Argument needs to be integer.');
@@ -70,6 +70,42 @@ class GistController extends Controller
         $uid = $user->getId();
 
         $pager = new BPaginator($gist_repository);
+
+        // Todo create a order by service.
+        $query_params_from_request = $request->query->all();
+
+        $order_by = array();
+
+        // Now accepts query parameters like updated, created, and title for orderBy.
+
+        if(isset($query_params_from_request['updated'])) {
+          if ($query_params_from_request['updated'] === 'ASC') {
+            $order_by = array('updated', 'ASC');
+          } else if ($query_params_from_request['updated'] === 'DESC') {
+            $order_by = array('updated', 'DESC');
+          }
+        }
+
+        if(isset($query_params_from_request['created'])) {
+          if ($query_params_from_request['created'] === 'ASC') {
+            $order_by = array('created', 'ASC');
+          } else if ($query_params_from_request['created'] === 'DESC') {
+            $order_by = array('created', 'DESC');
+          }
+        }
+
+        if(isset($query_params_from_request['title'])) {
+          if ($query_params_from_request['title'] === 'ASC') {
+            $order_by = array('title', 'ASC');
+          } else if ($query_params_from_request['title'] === 'DESC') {
+            $order_by = array('title', 'DESC');
+          }
+        }
+
+        if(count($order_by) !== 0) {
+          $pager->setOrderBy($order_by);
+        }
+
         $pager->setLimit(15);
         $pager->setUserId($uid);
 
@@ -80,6 +116,7 @@ class GistController extends Controller
           // populate tags of each result.
           $each = $gist_repository->find($gist['id']);
           $gists['items'][$key]['tags'] = $each->getTags()->getValues();
+          $gists['items'][$key]['getUpdatedString'] = $each->getUpdatedString();
 
         }
 
