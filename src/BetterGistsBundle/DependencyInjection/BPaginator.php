@@ -2,10 +2,8 @@
 
 namespace BetterGistsBundle\DependencyInjection;
 
-use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
-use BetterGistsBundle\Entity\Tags as Tags;
 
 class BPaginator
 {

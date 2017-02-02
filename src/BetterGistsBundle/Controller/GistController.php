@@ -69,9 +69,6 @@ class GistController extends Controller
         $user = $user_id->getUser();
         $uid = $user->getId();
 
-
-
-        // Todo create a order by service.
         $pager = new BPaginator($gist_repository, $uid);
         $query_params_from_request = $request->query->all();
 
