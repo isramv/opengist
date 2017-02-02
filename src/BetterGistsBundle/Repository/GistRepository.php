@@ -112,4 +112,21 @@ class GistRepository extends EntityRepository
     // todo fix the no result behaviour.
     // todo return error response.
   }
+
+  /**
+   * Returns an array of gists ids, with no extra information.
+   * this is useful when fetching Tags.
+   * @param $user_id
+   * @return array
+   */
+  public function getGistIdsByUserId($user_id)
+  {
+    $em = $this->getEntityManager()->getRepository('BetterGistsBundle:Gist');
+    $dql = $em->createQueryBuilder('gist')->select('gist.id AS id')
+      ->join('gist.author','author','WITH','author.id = ?1')->setParameter(1, $user_id);
+
+    return $dql->getQuery()->getArrayResult();
+
+  }
+
 }

@@ -27,25 +27,23 @@ class TagsController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $tags_repo = $em->getRepository('BetterGistsBundle:Tags');
-
+        // Get user id.
         $user_id = $this->get('security.token_storage')->getToken();
         $user = $user_id->getUser();
         $uid = $user->getId();
 
-        $gist_repo = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
-        $qbg = $gist_repo->createQueryBuilder('gist')->select('gist.id AS id')
-          ->join('gist.author','author','WITH','author.id = ?1')->setParameter(1, $uid);
-        $result_gists = $qbg->getQuery()->getArrayResult();
+        // Entities repositories
+        $em = $this->getDoctrine()->getManager();
+        $gist_entity_repository = $em->getRepository('BetterGistsBundle:Gist');
+        $tags_entity_repository = $em->getRepository('BetterGistsBundle:Tags');
 
+        $gists_ids = $gist_entity_repository->getGistIdsByUserId($uid);
 
+        $pager = new TagPaginator($tags_entity_repository, $uid, 15);
+        $pager->setGistIds($gists_ids);
 
-        $query_params_from_request = $request->query->all();
+        $pager->handleOrderByFromRequestParams($request->query->all());
 
-        $pager = new TagPaginator($tags_repo, $uid);
-        $pager->setGistIds($result_gists);
-        $pager->setLimit(15);
         if (isset($query_params_from_request['page']) && is_numeric($query_params_from_request['page'])) {
           $result_tags = $pager->getPage($query_params_from_request['page']);
         } else {
