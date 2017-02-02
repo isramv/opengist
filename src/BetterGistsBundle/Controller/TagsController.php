@@ -2,6 +2,7 @@
 
 namespace BetterGistsBundle\Controller;
 
+use BetterGistsBundle\DependencyInjection\TagPaginator;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,35 +28,32 @@ class TagsController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $tags_repository = $em->getRepository('BetterGistsBundle:Tags');
+        $tags_repo = $em->getRepository('BetterGistsBundle:Tags');
 
-
-        // new tags.
         $user_id = $this->get('security.token_storage')->getToken();
         $user = $user_id->getUser();
         $uid = $user->getId();
 
-        // @todo put this in the entity repository.
-
-        $gist_repository = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
-        $qbg = $gist_repository->createQueryBuilder('gist')->select('gist.id AS id')
+        $gist_repo = $this->getDoctrine()->getRepository('BetterGistsBundle:Gist');
+        $qbg = $gist_repo->createQueryBuilder('gist')->select('gist.id AS id')
           ->join('gist.author','author','WITH','author.id = ?1')->setParameter(1, $uid);
         $result_gists = $qbg->getQuery()->getArrayResult();
 
-        $qb = $tags_repository->createQueryBuilder('tags');
-        $result_tags = $qb->select('tags.name AS tag_name, tags.id AS tag_id')
-          ->addSelect('COUNT(tags.name) AS number_of_gists ')
-          ->join('tags.gists','gists')
-          ->where($qb->expr()->in('gists.id', '?1'))
-          ->setParameter(1, $result_gists)
-          ->groupBy('tag_name')
-          ->orderBy('number_of_gists', 'DESC')
-          ->getQuery()->getArrayResult();
 
-        // @todo create a good version for the paginator.
+
+        $query_params_from_request = $request->query->all();
+
+        $pager = new TagPaginator($tags_repo, $uid);
+        $pager->setGistIds($result_gists);
+        $pager->setLimit(15);
+        if (isset($query_params_from_request['page']) && is_numeric($query_params_from_request['page'])) {
+          $result_tags = $pager->getPage($query_params_from_request['page']);
+        } else {
+          $result_tags = $pager->getPage(1);
+        }
 
         return $this->render('tags/index.html.twig', array(
-            'tags' => $result_tags,
+            'pager' => $result_tags,
         ));
     }
 

@@ -32,7 +32,7 @@ class BPaginator
   /**
    * @var array
    */
-  private $orderBy;
+  public $orderBy;
 
   /**
    * BPaginator constructor.
@@ -179,7 +179,7 @@ class BPaginator
    * @param integer $limit
    * @return array
    */
-  private function queryRepository($offset, $limit)
+  public function queryRepository($offset, $limit)
   {
     $dql = $this->getRepository()
       ->createQueryBuilder('x');

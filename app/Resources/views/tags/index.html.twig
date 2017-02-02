@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for tag in tags %}
+        {% for tag in pager.items %}
             <tr>
                 <td><a href="{{ path('tags_show', { 'id': tag.tag_id }) }}">{{ tag.tag_name }}</a></td>
                 <td>{{ tag.number_of_gists }}</td>
@@ -18,7 +18,7 @@
         {% endfor %}
         </tbody>
     </table>
-    {#{% for i in 1..number_of_pages %}#}
-        {#<a class="uk-button {{ current_page == i ? 'rc-button-active' }}" href="{{ path('tags_index', {'page': i}) }}">{{ i }}</a>#}
-    {#{% endfor %}#}
+    {% for i in 1..pager.number_of_pages %}
+        <a class="uk-button {{ pager.page_requested == i ? 'rc-button-active' }}" href="{{ path('tags_index', {'page': i}) }}">{{ i }}</a>
+    {% endfor %}
 {% endblock %}
