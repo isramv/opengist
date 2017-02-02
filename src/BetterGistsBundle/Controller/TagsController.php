@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use BetterGistsBundle\Entity\Tags;
 use BetterGistsBundle\Form\TagsType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * Tags controller.
@@ -105,12 +106,13 @@ class TagsController extends Controller
 
     /**
      * Displays a form to edit an existing Tags entity.
-     *
-     * @Route("/{id}/edit", name="tags_edit")
-     * @Method({"GET", "POST"})
+     * this route is disabled prepend the @ to Route and Method.
+     * Route("/{id}/edit", name="tags_edit")
+     * Method({"GET", "POST"})
      */
     public function editAction(Request $request, Tags $tag)
     {
+
         $deleteForm = $this->createDeleteForm($tag);
         $editForm = $this->createForm('BetterGistsBundle\Form\TagsType', $tag);
         $editForm->handleRequest($request);
@@ -134,9 +136,10 @@ class TagsController extends Controller
 
     /**
      * Deletes a Tags entity.
-     *
-     * @Route("/{id}", name="tags_delete")
-     * @Method("DELETE")
+     * Displays a form to edit an existing Tags entity.
+     * this route is disabled prepend the @ to Route and Method.
+     * Route("/{id}", name="tags_delete")
+     * Method("DELETE")
      */
     public function deleteAction(Request $request, Tags $tag)
     {
