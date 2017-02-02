@@ -140,6 +140,11 @@ class GistController extends Controller
             $em = $this->getDoctrine()->getManager();
             foreach($gist->getTags() as $key=>$tag) {
                 $valueToSearch = $tag->getName();
+
+                // TODO: Tags should have an author id.
+                // so users don't mess with other users tags.
+                // or remove edit of tags for the users.
+
                 $result = $em->getRepository('BetterGistsBundle:Tags')->findOneByName($valueToSearch);
                 if(empty($result)) {
                     $em->persist($tag);

@@ -89,7 +89,6 @@ class TagsController extends Controller
      */
     public function showAction(Tags $tag)
     {
-        // @todo create a tag repository to get gist by user id and tag_id.
         $user_id = $this->get('security.token_storage')->getToken();
         $user = $user_id->getUser();
         $uid = $user->getId();
@@ -123,6 +122,8 @@ class TagsController extends Controller
 
             return $this->redirectToRoute('tags_edit', array('id' => $tag->getId()));
         }
+
+        // TODO: style this page.
 
         return $this->render('tags/edit.html.twig', array(
             'tag' => $tag,
@@ -163,7 +164,6 @@ class TagsController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('tags_delete', array('id' => $tag->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }

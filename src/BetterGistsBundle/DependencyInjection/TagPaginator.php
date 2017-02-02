@@ -2,7 +2,6 @@
 
 namespace BetterGistsBundle\DependencyInjection;
 
-use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityRepository;
 
 class TagPaginator extends BPaginator {
@@ -71,21 +70,13 @@ class TagPaginator extends BPaginator {
       ->groupBy('tag_name');
     $dql->setFirstResult($offset)->setMaxResults($limit);
 
-    // todo implement order by.
-    // order by number of gists.
-    $dql->orderBy('number_of_gists', 'DESC');
-    // order by name.
-    // $dql->orderBy('x.name', 'ASC');
-
-
     if(!is_null($this->getOrderBy())) {
-      dump('not null');
       $orderBy = $this->getOrderBy();
       $key = key($orderBy);
       $value = $orderBy[$key];
-      dump($key);
-      dump($value);
       $dql->orderBy($key, $value);
+    } else if (is_null($this->getOrderBy())) {
+      $dql->orderBy('number_of_gists', 'DESC');
     }
 
     $results = $dql->getQuery()->getArrayResult();
