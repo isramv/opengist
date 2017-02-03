@@ -1,4 +1,4 @@
-{% extends 'base-uikit-no-sidebar.html.twig' %}
+{% extends '@BetterGists/base-uikit-no-sidebar.html.twig' %}
 
 {% block title %}
     {% if gist.title is not null %}
@@ -8,7 +8,7 @@
     {% endif %}
 {% endblock %}
 
-{% form_theme form 'uikit/fields.html.twig' %}
+{% form_theme form '@BetterGists/uikit/fields.html.twig' %}
 
 {% block body %}
     <h1 class="page-title">Gist</h1>
@@ -73,7 +73,7 @@
         });
     </script>
 
-    <link rel="stylesheet" href="{{ asset("bower_components/simplemde/dist/simplemde.min.css") }}"></link>
+    <link rel="stylesheet" href="{{ asset("bower_components/simplemde/dist/simplemde.min.css") }}"/>
     <script src="{{ asset("bower_components/simplemde/dist/simplemde.min.js") }}"></script>
     <script type="text/javascript">
         // simpleMDE editor Javascript.
