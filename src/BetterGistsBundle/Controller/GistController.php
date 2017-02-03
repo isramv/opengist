@@ -75,8 +75,8 @@ class GistController extends Controller {
 
     $order_by = array();
 
+    // TODO refactor this code.
     // Now accepts query parameters like updated, created, and title for orderBy.
-
     if (isset($query_params_from_request['updated'])) {
       if ($query_params_from_request['updated'] === 'ASC') {
         $order_by = array('updated', 'ASC');
@@ -184,7 +184,7 @@ class GistController extends Controller {
   /**
    * Finds and displays a Gist entity.
    *
-   * @Route("/{id}", name="gist_show")
+   * @Route("/{id}", name="gist_show", requirements={"id": "\d+"})
    * @Method("GET")
    * @param \BetterGistsBundle\Entity\Gist $gist
    * @return \Symfony\Component\HttpFoundation\Response|\Symfony\Component\Security\Core\Exception\AccessDeniedException
@@ -212,7 +212,7 @@ class GistController extends Controller {
   /**
    * Edit the gist with Vue.js
    *
-   * @Route("/{id}/editJS", name="gist_edit_js")
+   * @Route("/{id}/editJS", name="gist_edit_js", requirements={"id": "\d+"})
    * @Method({"GET" , "POST"})
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @param \BetterGistsBundle\Entity\Gist $gist
@@ -239,7 +239,7 @@ class GistController extends Controller {
   /**
    * Displays a form to edit an existing Gist entity.
    *
-   * @Route("/{id}/edit", name="gist_edit")
+   * @Route("/{id}/edit", name="gist_edit", requirements={"id": "\d+"})
    * @Method({"GET", "POST"})
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @param \BetterGistsBundle\Entity\Gist $gist
@@ -280,7 +280,7 @@ class GistController extends Controller {
 
   /**
    * Confirms the deletion of the gist.
-   * @Route("/delete/{id}", name="gist_confirm_delete")
+   * @Route("/delete/{id}", name="gist_confirm_delete", requirements={"id": "\d+"})
    * @Method("GET")
    * @param \BetterGistsBundle\Entity\Gist $gist
    * @return \Symfony\Component\HttpFoundation\Response
@@ -301,8 +301,11 @@ class GistController extends Controller {
   /**
    * Deletes a Gist entity.
    *
-   * @Route("/{id}", name="gist_delete")
+   * @Route("/{id}", name="gist_delete", requirements={"id": "\d+"})
    * @Method("DELETE")
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \BetterGistsBundle\Entity\Gist $gist
+   * @return \Symfony\Component\HttpFoundation\RedirectResponse
    */
   public function deleteAction(Request $request, Gist $gist) {
     $form = $this->createDeleteForm($gist);

@@ -86,8 +86,7 @@ class TagsController extends Controller {
 
   /**
    * Finds and displays a Tags entity.
-   *
-   * @Route("/{id}", name="tags_show")
+   * @Route("/{id}", name="tags_show", requirements={"id": "\d+"})
    * @Method("GET")
    * @param \BetterGistsBundle\Entity\Tags $tag
    * @return \Symfony\Component\HttpFoundation\Response
@@ -111,7 +110,7 @@ class TagsController extends Controller {
   /**
    * Displays a form to edit an existing Tags entity.
    * this route is disabled prepend the @ to Route and Method.
-   * Route("/{id}/edit", name="tags_edit")
+   * Route("/{id}/edit", name="tags_edit", requirements={"id": "\d+"})
    * Method({"GET", "POST"})
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @param \BetterGistsBundle\Entity\Tags $tag
@@ -142,7 +141,7 @@ class TagsController extends Controller {
    * Deletes a Tags entity.
    * Displays a form to edit an existing Tags entity.
    * this route is disabled prepend the @ to Route and Method.
-   * Route("/{id}", name="tags_delete")
+   * Route("/{id}", name="tags_delete", requirements={"id": "\d+"})
    * Method("DELETE")
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @param \BetterGistsBundle\Entity\Tags $tag
@@ -163,7 +162,6 @@ class TagsController extends Controller {
 
   /**
    * Creates a form to delete a Tags entity.
-   *
    * @param Tags $tag The Tags entity
    * @return \Symfony\Component\Form\Form The form
    */
