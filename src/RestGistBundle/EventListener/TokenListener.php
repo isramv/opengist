@@ -62,8 +62,10 @@ class TokenListener
   public function onKernelResponse(FilterResponseEvent $event) {
 
     $request = $event->getRequest();
+    $request_uri = $request->getRequestUri();
+    preg_match('/\/api\//', $request_uri, $output_array);
 
-    if(!is_null($request->headers->get('x-custom-auth')) || !is_null($request->headers->get('authorization'))) {
+    if(!is_null($request->headers->get('x-custom-auth')) || !is_null($request->headers->get('authorization')) || count($output_array) === 1) {
         if(!is_null($event->getRequest()->attributes->get('exception'))) {
         $error = array(
           'status' => 'ERROR',
