@@ -61,16 +61,19 @@ class TokenListener
    */
   public function onKernelResponse(FilterResponseEvent $event) {
 
-    if(!is_null($event->getRequest()->attributes->get('exception'))) {
-      $error = array(
-        'status' => 'ERROR',
-        'message' => 'Authentication failed'
-      );
-      $response = $event->getResponse();
-      $response->setContent(json_encode($error));
-      $response->headers->set('Content-Type', 'application/json');
-    }
+    $request = $event->getRequest();
 
+    if(!is_null($request->headers->get('x-custom-auth')) || !is_null($request->headers->get('authorization'))) {
+        if(!is_null($event->getRequest()->attributes->get('exception'))) {
+        $error = array(
+          'status' => 'ERROR',
+          'message' => 'Authentication failed'
+        );
+        $response = $event->getResponse();
+        $response->setContent(json_encode($error));
+        $response->headers->set('Content-Type', 'application/json');
+      }
+    }
   }
 }
 
