@@ -1,0 +1,26 @@
+{% extends '@BetterGists/base-uikit-no-sidebar.html.twig' %}
+
+{% block title %}Tags{% endblock %}
+
+{% block body %}
+    <h1 class="page-title">Tags</h1>
+    <table class="uk-table uk-table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Posts tagged</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tag in pager.items %}
+            <tr>
+                <td><a href="{{ path('tags_show', { 'id': tag.tag_id }) }}">{{ tag.tag_name }}</a></td>
+                <td>{{ tag.number_of_gists }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% for i in 1..pager.number_of_pages %}
+        <a class="uk-button {{ pager.page_requested == i ? 'rc-button-active' }}" href="{{ path('tags_index', {'page': i}) }}">{{ i }}</a>
+    {% endfor %}
+{% endblock %}

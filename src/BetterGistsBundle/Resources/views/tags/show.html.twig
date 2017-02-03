@@ -1,0 +1,21 @@
+{% extends '@BetterGists/base-uikit-no-sidebar.html.twig' %}
+
+{% block body %}
+    <h1 class="page-title">Gist tagged with: <b>{{ tag.name }}</b></h1>
+    <div class="rc-content">
+        <table class="uk-table uk-table-striped">
+            <thead>
+            <tr>
+                <th>Gist title</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for gist in gists %}
+                <tr>
+                  <td><a href="{{ path('gist_show', { 'id': gist.gist_id}) }}">{{ gist.gist_title }}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
