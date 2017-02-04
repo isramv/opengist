@@ -4,6 +4,20 @@
 {% block body %}
     <h1 class="page-title">Gists</h1>
     <a class="uk-button" href="{{ path('gist_new') }}"><span class="uk-icon-file-o"></span> New Gist</a>
+
+    {# datatables experiment #}
+    <table id="dataTable" class="uk-table uk-table-striped gist-table">
+        <thead>
+        <tr>
+            <th class="gist-table__title" data-order="title">Title</th>
+            <th>Tags</th>
+            <th class="gist-table__created asc" data-order="created">Created</th>
+            <th class="gist-table__updated" data-order="updated">Updated</th>
+        </tr>
+        </thead>
+    </table>
+    {# datatables experiment #}
+
     <table class="uk-table uk-table-striped gist-table">
         <thead>
             <tr>
@@ -19,7 +33,7 @@
                 <td><a href="{{ path('gist_show', { 'id': gist.id }) }}">{{ gist.title }}</a></td>
                 <td>
                     {% for tag in gist.tags %}
-                        <a class="uk-button uk-button-mini" href="{{ path('tags_show', {'id': tag.id}) }}">{{ tag.name }}</a></li>
+                        <a class="uk-button uk-button-mini" href="{{ path('tags_show', {'id': tag.id}) }}">{{ tag.name }}</a>
                     {% endfor %}
                 </td>
                 <td>{{ gist.created|date('d M Y') }}</td>
@@ -34,6 +48,40 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('src/vendor/DataTables/datatables.js') }}" type="text/javascript"></script>
+    <script>
+      $(document).ready(
+        function() {
+          $('#dataTable').DataTable({
+            processing: true,
+            ajax: {
+              url: 'datatables',
+              dataSrc: 'items'
+            },
+            columns: [
+              { data: 'title'},
+              { data: 'tags'},
+              { data: 'created'},
+              { data: 'getUpdatedString'}
+            ],
+            columnDefs: [
+              {
+                render: function(data, type, row) {
+                  var tags = [];
+                  $.each(data, function(i, tag) {
+                    tags.push('<a class="uk-button uk-button-mini" href="/tags/'+ tag.id +'">'+ tag.name +'</a>');
+                  });
+                  return tags.join(',');
+                },
+                targets: 1
+              }
+            ]
+          });
+
+
+        }
+      );
+    </script>
 {% endblock %}
 
 

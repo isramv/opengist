@@ -29,6 +29,7 @@ use Psecio\Jwt\Header;
 use Psecio\Jwt\Claim;
 use BetterGistsBundle\DependencyInjection\JwtBetterGist;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -49,22 +50,6 @@ class GistController extends Controller {
     $em = $this->getDoctrine()->getManager();
     $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
 
-    // page number validation param.
-    if (!is_null($request->query->get('page'))) {
-      if (!preg_match('/^[0-9]+$/', $request->query->get('page'))) {
-        $response = new Response();
-        $response->setStatusCode(400);
-        $response->setContent('Argument needs to be integer.');
-        return $response;
-      }
-    }
-    if ($request->query->get('page')) {
-      $number_of_page_requested = intval($request->query->get('page'));
-    }
-    else {
-      $number_of_page_requested = 1;
-    }
-
     $user_id = $this->get('security.token_storage')->getToken();
     $user = $user_id->getUser();
     $uid = $user->getId();
@@ -84,6 +69,58 @@ class GistController extends Controller {
     return $this->render('@BetterGists/gist/index.html.twig', array(
       'gists' => $gists
     ));
+  }
+  /**
+   * Lists all Gist entities.
+   *
+   * @Route("/datatables", name="gist_datatables_index")
+   * @Method("GET")
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @return \Symfony\Component\HttpFoundation\Response
+   */
+  public function indexDatatableAction(Request $request)
+  {
+
+    $em = $this->getDoctrine()->getManager();
+    $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
+
+    $user_id = $this->get('security.token_storage')->getToken();
+    $user = $user_id->getUser();
+    $uid = $user->getId();
+
+    $pager = new GistPaginator($gist_repository, $uid);
+    $pager->handleRequestParams($request->query->all());
+    $pager->setLimit(15);
+    $gists = $pager->getResults();
+
+    // JSON Serializer.
+    $encoder = array(new JsonEncoder());
+    $normalizer = array(new ObjectNormalizer());
+    $serializer = new Serializer($normalizer, $encoder);
+
+    // Populate tags of each result.
+    foreach ($gists['items'] as $key => $gist) {
+
+      $gists['items'][$key]['updated'] = $gist['updated']->getTimestamp();
+      $gists['items'][$key]['created'] = $gist['created']->getTimestamp();
+      $each = $gist_repository->find($gist['id']);
+      $array_tags = array();
+      foreach($each->getTags()->toArray() as $tag) {
+        $array_tags []= array('name' => $tag->getName(),
+        'id' => $tag->getId());
+      };
+      $gists['items'][$key]['tags'] = $array_tags;
+      $gists['items'][$key]['getUpdatedString'] = $each->getUpdatedString();
+    }
+
+    $json = $serializer->serialize($gists, 'json');
+
+    $response = new Response();
+    $response->headers->set('Content-type','application/json');
+    $response->setContent($json);
+
+    return $response;
+
   }
 
   /**
