@@ -119,9 +119,6 @@ class GistDatatablesPaginator extends  BPaginator
       $dql->orderBy($key, $value);
     }
 
-    // limit
-    $dql->setMaxResults($this->getLimit());
-
     $results = $dql->getQuery()->getArrayResult(Query::HYDRATE_ARRAY);
 
     return $results;

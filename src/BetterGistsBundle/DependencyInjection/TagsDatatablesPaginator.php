@@ -37,18 +37,55 @@ class TagsDatatablesPaginator extends BPaginator {
   }
 
   /**
-   * This abstraction makes easier the handle of logic that handles the orderBy.
    * @param $request_params
    */
-  public function handleOrderByFromRequestParams($request_params)
+  public function handleRequestParams($request_params)
   {
-    foreach ($request_params as $key => $name) {
-      if ($key === 'number_of_gists' && ($name === 'DESC' || $name === 'ASC')) {
-        $this->setOrderBy(array($key => $name));
-      } else if ($key === 'tag_name' && ($name === 'DESC' || $name === 'ASC')) {
-        $this->setOrderBy(array($key => $name));
+    // set the Page Number.
+    if(isset($request_params['draw']) && is_numeric($request_params['draw'])) {
+      $this->setPageNumber((int) $request_params['draw']);
+    }
+
+    // set Order By.
+    $order_params = array();
+    if(isset($request_params['order'])) {
+      $order = $request_params['order'][0];
+      $column_key = (int) $order['column'];
+      $column_name = $request_params['columns'][$column_key]['name'];
+      $order_params = array($column_name => $order['dir']);
+    }
+    if(count($order_params) > 0) {
+      foreach ($order_params as $key => $value) {
+        if ($key === 'number_of_gists' && ($value === 'desc' || $value === 'asc')) {
+          $this->setOrderBy(array('x.'.$key => $value));
+        } else if ($key === 'tag_name' && ($value === 'desc' || $value === 'asc')) {
+          $this->setOrderBy(array('x.'.$key => $value));
+        }
       }
     }
+    // Offset
+    $this->setOffset($request_params['start']);
+
+    // Max Results
+    $this->setLimit($request_params['length']);
+  }
+
+  /**
+   * @return array
+   */
+  public function getResults() {
+
+    dump($this->getPageNumber());
+    dump($this->countAllItems());
+    dump($this->getOffset());
+    dump($this->getLimit());
+
+    return array(
+      'draw' => $this->getPageNumber(),
+      'recordsTotal' => $this->countAllItems(),
+      'recordsFiltered' => $this->countAllItems(),
+      'items' => $this->queryRepository($this->getOffset(), $this->getLimit())
+    );
   }
 
   /**
@@ -67,6 +104,7 @@ class TagsDatatablesPaginator extends BPaginator {
       ->where($dql->expr()->in('gists.id', '?1'))
       ->setParameter(1, $this->getGistIds())
       ->groupBy('tag_name');
+
     $dql->setFirstResult($offset)->setMaxResults($limit);
 
     if(!is_null($this->getOrderBy())) {
@@ -74,8 +112,6 @@ class TagsDatatablesPaginator extends BPaginator {
       $key = key($orderBy);
       $value = $orderBy[$key];
       $dql->orderBy($key, $value);
-    } else if (is_null($this->getOrderBy())) {
-      $dql->orderBy('number_of_gists', 'DESC');
     }
 
     $results = $dql->getQuery()->getArrayResult();
@@ -83,5 +119,4 @@ class TagsDatatablesPaginator extends BPaginator {
     return $results;
 
   }
-
 }
