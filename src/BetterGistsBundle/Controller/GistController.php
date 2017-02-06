@@ -74,7 +74,7 @@ class GistController extends Controller {
    * Lists all Gist entities.
    *
    * @Route("/datatables", name="gist_datatables_index")
-   * @Method("POST")
+   * @Method({"POST","GET"})
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @return \Symfony\Component\HttpFoundation\Response
    */
@@ -89,11 +89,13 @@ class GistController extends Controller {
     $uid = $token->getId();
 
     $pager = new GistDatatablesPaginator($gist_repository, $uid);
-    $pager->handleRequestParams($request->request->all());
+    if($request->getMethod() === 'POST') {
+      $pager->handleRequestParams($request->request->all());
+    } else if($request->getMethod('GET')) {
+      $pager->handleRequestParams($request->query->all());
+    }
+
     $gists = $pager->getResults();
-
-    // Read POST params.
-
 
     // JSON Serializer.
     $encoder = array(new JsonEncoder());

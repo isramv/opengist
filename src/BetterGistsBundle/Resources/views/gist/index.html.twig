@@ -35,16 +35,16 @@
           Mustache.parse(link_template, ['{!', '!}']);
           Mustache.parse(link_template_url, ['{!', '!}']);
 
-
           $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-            pageLength: 15,
+            pageLength: 10,
             searching: false,
+            stateSave: true,
             ajax: {
               url: 'datatables',
               dataSrc: 'items',
-              type: 'POST'
+              type: 'GET'
             },
             columns: [
               { name: 'title', title: 'Title', data: { 'title' : 'id' }},
