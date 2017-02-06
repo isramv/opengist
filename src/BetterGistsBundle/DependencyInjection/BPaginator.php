@@ -34,6 +34,11 @@ class BPaginator
    */
   public $orderBy;
 
+
+  private $page_number = 1;
+
+
+
   /**
    * BPaginator constructor.
    * @param EntityRepository $repository
@@ -57,11 +62,12 @@ class BPaginator
   }
 
   /**
-   * @return integer
+   * @param int $page_number
    */
-  public function getOffset() {
-    return $this->offset;
+  public function setPageNumber($page_number) {
+    $this->setPageNumber($page_number);
   }
+
 
   /**
    * @param $uid
@@ -82,6 +88,13 @@ class BPaginator
    */
   public function setOrderBy(array $orderBy) {
     $this->orderBy = $orderBy;
+  }
+
+  /**
+   * @return integer
+   */
+  public function getOffset() {
+    return $this->offset;
   }
 
   /**
@@ -112,6 +125,10 @@ class BPaginator
    */
   public function setRepository($repository) {
     $this->repository = $repository;
+  }
+
+  public function getPageNumber() {
+    return $this->page_number;
   }
 
   /**
