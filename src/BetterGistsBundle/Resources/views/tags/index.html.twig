@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1 class="page-title">Tags</h1>
-    <table class="uk-table uk-table-striped">
+    <table id="dataTable" class="uk-table uk-table-striped" width="100%">
         <thead>
             <tr>
                 <th>Name</th>
@@ -12,15 +12,48 @@
             </tr>
         </thead>
         <tbody>
-        {% for tag in pager.items %}
-            <tr>
-                <td><a href="{{ path('tags_show', { 'id': tag.tag_id }) }}">{{ tag.tag_name }}</a></td>
-                <td>{{ tag.number_of_gists }}</td>
-            </tr>
-        {% endfor %}
         </tbody>
     </table>
-    {% for i in 1..pager.number_of_pages %}
-        <a class="uk-button {{ pager.page_requested == i ? 'rc-button-active' }}" href="{{ path('tags_index', {'page': i}) }}">{{ i }}</a>
-    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('src/vendor/DataTables/datatables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('src/vendor/mustache.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('src/vendor/dataTables.uikit.min.js') }}" type="text/javascript"></script>
+    <script id="link-template-url" type="x-tmpl-mustache">
+        <a href="{{ app.request.baseUrl }}/tags/{! tag_id !}">{! tag_name !}</a>
+    </script>
+    <script>
+        $(document).ready(function() {
+            var link_template_url = $('#link-template-url').html();
+            Mustache.parse(link_template_url, ['{!', '!}']);
+
+            $('#dataTable').DataTable({
+                processing: true,
+                serverSide: true,
+                pageLength: 10,
+                searching: false,
+                stateSave: true,
+                order: [[1, 'desc']],
+                ajax: {
+                    url: 'datatable',
+                    dataSrc: 'items',
+                    type: 'GET'
+                },
+                columns: [
+                    { name: 'tag_name', title: 'Title', data: { tagname: 'tag_name', tagid: 'tag_id' } },
+                    { name: 'number_of_gists', title: 'Number of Gists', data: 'number_of_gists'}
+                ],columnDefs: [
+                    {
+                        render: function(data) {
+                            return Mustache.render(link_template_url, data);
+                        },
+                        targets: 0
+                    }
+                ]
+            });
+
+        });
+    </script>
 {% endblock %}

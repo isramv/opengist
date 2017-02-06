@@ -41,9 +41,10 @@ class TagsDatatablesPaginator extends BPaginator {
    */
   public function handleRequestParams($request_params)
   {
+
     // set the Page Number.
     if(isset($request_params['draw']) && is_numeric($request_params['draw'])) {
-      $this->setPageNumber((int) $request_params['draw']);
+      $this->setPageNumber($request_params['draw']);
     }
 
     // set Order By.
@@ -57,28 +58,24 @@ class TagsDatatablesPaginator extends BPaginator {
     if(count($order_params) > 0) {
       foreach ($order_params as $key => $value) {
         if ($key === 'number_of_gists' && ($value === 'desc' || $value === 'asc')) {
-          $this->setOrderBy(array('x.'.$key => $value));
+          $this->setOrderBy(array($key => $value));
         } else if ($key === 'tag_name' && ($value === 'desc' || $value === 'asc')) {
-          $this->setOrderBy(array('x.'.$key => $value));
+          $this->setOrderBy(array($key => $value));
         }
       }
     }
     // Offset
-    $this->setOffset($request_params['start']);
+    $this->setOffset((int) $request_params['start']);
 
     // Max Results
-    $this->setLimit($request_params['length']);
+    $this->setLimit((int) $request_params['length']);
+
   }
 
   /**
    * @return array
    */
   public function getResults() {
-
-    dump($this->getPageNumber());
-    dump($this->countAllItems());
-    dump($this->getOffset());
-    dump($this->getLimit());
 
     return array(
       'draw' => $this->getPageNumber(),
@@ -96,8 +93,9 @@ class TagsDatatablesPaginator extends BPaginator {
    */
   public function queryRepository($offset, $limit) {
 
-    $dql = $this->getRepository()->createQueryBuilder('x');
+    $repo = $this->getRepository();
 
+    $dql = $repo->createQueryBuilder('x');
     $dql->select('x.name AS tag_name, x.id AS tag_id')
       ->addSelect('COUNT(x.name) AS number_of_gists ')
       ->join('x.gists','gists')

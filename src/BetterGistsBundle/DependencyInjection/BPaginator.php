@@ -35,7 +35,7 @@ class BPaginator
   public $orderBy;
 
 
-  private $page_number = 1;
+  private $page_number;
 
 
 
@@ -65,7 +65,7 @@ class BPaginator
    * @param int $page_number
    */
   public function setPageNumber($page_number) {
-    $this->setPageNumber($page_number);
+    $this->$page_number = $page_number;
   }
 
 
