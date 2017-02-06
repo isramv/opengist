@@ -4,9 +4,8 @@
 {% block body %}
     <h1 class="page-title">Gists</h1>
     <a class="uk-button" href="{{ path('gist_new') }}"><span class="uk-icon-file-o"></span> New Gist</a>
-
-    {# datatables experiment #}
-    <table id="dataTable" class="uk-table uk-table-striped gist-table">
+    <div style="padding: 5px;"></div>
+    <table id="dataTable" class="uk-table uk-table-striped gist-table" width="100%">
         <thead>
         <tr>
             <th class="gist-table__title" data-order="title">Title</th>
@@ -16,72 +15,62 @@
         </tr>
         </thead>
     </table>
-    {# datatables experiment #}
-
-    <table class="uk-table uk-table-striped gist-table">
-        <thead>
-            <tr>
-                <th class="gist-table__title" data-order="title">Title</th>
-                <th>Tags</th>
-                <th class="gist-table__created asc" data-order="created">Created</th>
-                <th class="gist-table__updated" data-order="updated">Updated</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for gist in gists.items %}
-            <tr>
-                <td><a href="{{ path('gist_show', { 'id': gist.id }) }}">{{ gist.title }}</a></td>
-                <td>
-                    {% for tag in gist.tags %}
-                        <a class="uk-button uk-button-mini" href="{{ path('tags_show', {'id': tag.id}) }}">{{ tag.name }}</a>
-                    {% endfor %}
-                </td>
-                <td>{{ gist.created|date('d M Y') }}</td>
-                <td>{{ gist.getUpdatedString }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% for i in 1..gists.number_of_pages %}
-        <a class="uk-button {{ gists.page_requested == i ? 'rc-button-active' }}" href="{{ path('gist_index', {'page': i}) }}">{{ i }}</a>
-    {% endfor %}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('src/vendor/DataTables/datatables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('src/vendor/mustache.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('src/vendor/dataTables.uikit.min.js') }}" type="text/javascript"></script>
+    <script id="link-template" type="x-tmpl-mustache">
+        <a class="uk-button uk-button-mini" href="{{ app.request.baseUrl }}/tags/{! id !}">{! name !}</a>
+    </script>
+    <script id="link-template-url" type="x-tmpl-mustache">
+        <a href="{{ app.request.baseUrl }}/gist/{! id !}">{! title !}</a>
+    </script>
     <script>
-      $(document).ready(
-        function() {
+      $(document).ready(function() {
+
+          var link_template_url = $('#link-template-url').html();
+          var link_template = $('#link-template').html();
+          Mustache.parse(link_template, ['{!', '!}']);
+          Mustache.parse(link_template_url, ['{!', '!}']);
+
+
           $('#dataTable').DataTable({
             processing: true,
+            serverSide: true,
+            pageLength: 15,
+            searching: false,
             ajax: {
               url: 'datatables',
-              dataSrc: 'items'
+              dataSrc: 'items',
+              type: 'POST'
             },
             columns: [
-              { data: 'title'},
+              { name: 'title', title: 'Title', data: { 'title' : 'id' }},
               { data: 'tags'},
-              { data: 'created'},
-              { data: 'getUpdatedString'}
+              { name: 'created', title: 'Created', data: 'created'},
+              { name: 'updated', title: 'Updated', data: 'getUpdatedString'}
             ],
             columnDefs: [
               {
-                render: function(data, type, row) {
-                  var tags = [];
+                render: function(data) {
+                  return Mustache.render(link_template_url, data);
+                },
+                targets: 0
+              },
+              {
+                render: function(data) {
+                  var tags = '';
                   $.each(data, function(i, tag) {
-                    tags.push('<a class="uk-button uk-button-mini" href="/tags/'+ tag.id +'">'+ tag.name +'</a>');
+                    tags += Mustache.render(link_template, tag);
                   });
-                  return tags.join(',');
+                  return tags;
                 },
                 targets: 1
               }
             ]
           });
-
-
-        }
-      );
+      });
     </script>
 {% endblock %}
-
-

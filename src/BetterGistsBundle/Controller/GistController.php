@@ -31,7 +31,7 @@ use BetterGistsBundle\DependencyInjection\JwtBetterGist;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Yaml\Yaml;
-
+use BetterGistsBundle\DependencyInjection\GistDatatablesPaginator;
 /**
  * Gist controller.
  *
@@ -74,24 +74,26 @@ class GistController extends Controller {
    * Lists all Gist entities.
    *
    * @Route("/datatables", name="gist_datatables_index")
-   * @Method("GET")
+   * @Method("POST")
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @return \Symfony\Component\HttpFoundation\Response
    */
-  public function indexDatatableAction(Request $request)
+  public function indexDatatablesAction(Request $request)
   {
 
     $em = $this->getDoctrine()->getManager();
     $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
 
-    $user_id = $this->get('security.token_storage')->getToken();
-    $user = $user_id->getUser();
-    $uid = $user->getId();
+    $user_token = $this->get('security.token_storage')->getToken();
+    $token = $user_token->getUser();
+    $uid = $token->getId();
 
-    $pager = new GistPaginator($gist_repository, $uid);
-    $pager->handleRequestParams($request->query->all());
-    $pager->setLimit(15);
+    $pager = new GistDatatablesPaginator($gist_repository, $uid);
+    $pager->handleRequestParams($request->request->all());
     $gists = $pager->getResults();
+
+    // Read POST params.
+
 
     // JSON Serializer.
     $encoder = array(new JsonEncoder());
@@ -101,8 +103,18 @@ class GistController extends Controller {
     // Populate tags of each result.
     foreach ($gists['items'] as $key => $gist) {
 
-      $gists['items'][$key]['updated'] = $gist['updated']->getTimestamp();
-      $gists['items'][$key]['created'] = $gist['created']->getTimestamp();
+      if(!is_null($gist['updated'])) {
+
+        /** @var \DateTime $updated */
+        $updated = $gist['updated'];
+
+        $gists['items'][$key]['updated'] = $updated->getTimestamp();
+
+      }
+      /** @var \DateTime $created */
+      $created = $gist['created'];
+
+      $gists['items'][$key]['created'] = $created->format('d M Y');
       $each = $gist_repository->find($gist['id']);
       $array_tags = array();
       foreach($each->getTags()->toArray() as $tag) {
