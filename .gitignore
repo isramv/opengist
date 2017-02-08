@@ -15,4 +15,4 @@ node_modules/
 ReactApp/
 bower_components/
 !uikit/
-!web/src/js/vendor
+!web/src/js/vendor/
