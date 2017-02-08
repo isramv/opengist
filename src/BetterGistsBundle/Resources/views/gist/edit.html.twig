@@ -11,6 +11,7 @@
 {% form_theme form '@BetterGists/uikit/fields.html.twig' %}
 
 {% block body %}
+
     <h1 class="page-title">Gist</h1>
     <div class="rc-content-lean-bottom">
         {% if gist.id is not null %}
@@ -37,14 +38,12 @@
             <input class="uk-button" type="submit" value="Save">
             {{ form_end(form) }}
         </div>
-        {# Here goes the simplemde implementation. #}
 
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {#<script src="{{ asset("bower_components/EpicEditor/epiceditor/js/epiceditor.js") }}"></script>#}
     <script type="text/javascript">
         var $addTagLink = $('<a class="uk-button" href="#" class="add_tag_link"><span class="uk-icon-plus"></span> Add a tag</a>');
         var $newLinkLi = $('<div class="rc-content"></div>').append($addTagLink);
@@ -72,12 +71,16 @@
            $(this).parent('.tag-li').remove();
         });
     </script>
-
+    <script src="{{ asset("src/vendor/highlight.min.js") }}"></script>
+    <link rel="stylesheet" href="{{ asset("css/vendor/highlight/github.min.css") }}">
     <link rel="stylesheet" href="{{ asset("bower_components/simplemde/dist/simplemde.min.css") }}"/>
     <script src="{{ asset("bower_components/simplemde/dist/simplemde.min.js") }}"></script>
     <script type="text/javascript">
-        // simpleMDE editor Javascript.
-        var simplemde = new SimpleMDE();
+        var simplemde = new SimpleMDE({
+            renderingConfig: {
+                singleLineBreaks: false,
+                codeSyntaxHighlighting: true,
+            }
+        });
     </script>
 {% endblock %}
-
