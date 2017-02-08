@@ -18,9 +18,9 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('src/vendor/DataTables/datatables.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('src/vendor/mustache.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('src/vendor/dataTables.uikit.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('src/js/vendor/Gists_files/datatables.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('src/js/vendor/mustache.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('src/js/vendor/DataTables/dataTables.uikit.min.js') }}" type="text/javascript"></script>
     <script id="link-template" type="x-tmpl-mustache">
         <a class="uk-button uk-button-mini" href="{{ app.request.baseUrl }}/tags/{! id !}">{! name !}</a>
     </script>

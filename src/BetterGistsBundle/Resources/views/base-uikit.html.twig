@@ -4,10 +4,9 @@
   <meta charset="UTF-8" />
   <title>{% block title %}Welcome!{% endblock %}</title>
   {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset("vendor/uikit/css/uikit.css") }}"/>
-    <link rel="stylesheet" href="{{ asset("vendor/uikit/css/uikit.almost-flat.css") }}"/>
-    <link rel="stylesheet" href="{{ asset("css/styles.css") }}"/>
-    <link rel="stylesheet" href="{{ asset("vendor/uikit/css/components/datepicker.css") }}"/>
+    <link rel="stylesheet" href="{{ asset("src/uikit/css/uikit.css") }}"/>
+    <link rel="stylesheet" href="{{ asset("src/uikit/css/uikit.almost-flat.css") }}"/>
+    <link rel="stylesheet" href="{{ asset("src/css/styles.css") }}"/>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
   {% endblock %}
 </head>
@@ -21,9 +20,8 @@
 
 </div>
 {% block javascripts %}
-  <script src="{{ asset("vendor/jquery/jquery.min.js") }}"></script>
-  <script src="{{ asset("vendor/uikit/js/uikit.js") }}"></script>
-  <script src="{{ asset("vendor/uikit/js/components/datepicker.js") }}"></script>
+  <script src="{{ asset("src/js/vendor/jquery/jquery.min.js") }}"></script>
+  <script src="{{ asset("src/uikit/js/uikit.js") }}"></script>
 {% endblock %}
 </body>
 </html>
