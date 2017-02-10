@@ -31,9 +31,10 @@
                 <label>Tags:</label>
                 <ul class="tags uk-list" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
                     {% for tag in form.tags  %}
-                        <li class="tag-li">{{ form_row(tag.name) }}</li>
+                        <li class="tag-li">{{ form_row(tag.name) }} <a href="#" class="remove-tag"><span class="uk-icon-close"></span></a></li>
                     {% endfor %}
                 </ul>
+                <div class="rc-content"><a class="uk-button add_tag_button" href="#"><span class="uk-icon-plus"></span> Add a tag</a></div>
             </div>
             <input class="uk-button" type="submit" value="Save">
             {{ form_end(form) }}
@@ -45,30 +46,32 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        var $addTagLink = $('<a class="uk-button" href="#" class="add_tag_link"><span class="uk-icon-plus"></span> Add a tag</a>');
-        var $newLinkLi = $('<div class="rc-content"></div>').append($addTagLink);
-        jQuery(document).ready(function() {
-            var $collectionHolder = $('ul.tags');
-            $collectionHolder.append($newLinkLi);
-            $collectionHolder.data('index', $collectionHolder.find(':input').length);
-            $addTagLink.on('click', function(e) {
+        $(document).ready(function () {
+
+            var collection_container = $('ul.tags');
+            var number_of_items_in_collection = collection_container.find(':input').length;
+            collection_container.data('index', number_of_items_in_collection);
+
+            // event for add tag form.
+            $('.add_tag_button').on('click', function (e) {
                 e.preventDefault();
-                addTagForm($collectionHolder, $newLinkLi);
+                addTagForm();
             });
-        });
-        function addTagForm($collectionHolder, $newLinkLi) {
-            var prototype = $collectionHolder.data('prototype');
-            var index = $collectionHolder.data('index');
-            var newForm = prototype.replace(/__name__/g, index);
-            $collectionHolder.data('index', index + 1);
-            var $newFormLi = $('<li class="tag-li"></li>').append(newForm);
-            $newFormLi.append('<a href="#" class="remove-tag"><span class="uk-icon-close"></span></a>');
-            $newLinkLi.before($newFormLi);
-        }
-        // Custom add tags.
-        var tags = $('ul.tags li').append('<a href="#" class="remove-tag"><span class="uk-icon-close"></span></a>');
-        $('.remove-tag').bind('click', function(e) {
-           $(this).parent('.tag-li').remove();
+            // event for remove.
+            $(collection_container).on('click', '.remove-tag', function () {
+                $(this).parent('.tag-li').remove();
+            });
+
+            function addTagForm() {
+                var form_item_template = collection_container.data('prototype');
+                var new_form_item = form_item_template.replace(/__name__/g, collection_container.data('index'));
+                var remove_tag_template = '<a href="#" class="remove-tag"><span class="uk-icon-close"></span></a>';
+                new_form_item = $('<li class="tag-li"></li>').append(new_form_item).append(remove_tag_template);
+                collection_container.append(new_form_item);
+                // Increase the collection container data.
+                collection_container.data('index', collection_container.data('index') + 1);
+            }
+
         });
     </script>
     <script src="{{ asset("src/js/vendor/highlight.min.js") }}"></script>
