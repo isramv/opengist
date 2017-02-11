@@ -41,24 +41,35 @@
                 {{ form_errors(form.plainPassword.children.second) }}
             </div>
         {% endif %}
-        <div class="uk-form-label">
-            {{ form_label(form.plainPassword.children.first) }}
+        <div class="uk-form-row">
+            <div class="uk-form-label">
+                {{ form_label(form.plainPassword.children.first) }}
+            </div>
+            <div class="uk-form-controls">
+                {{ form_widget(form.plainPassword.children.first) }}
+            </div>
         </div>
-        <div class="uk-form-controls">
-            {{ form_widget(form.plainPassword.children.first) }}
-        </div>
-        <div class="uk-form-label">
-            {{ form_label(form.plainPassword.children.second) }}
-        </div>
-        <div class="uk-form-controls">
-            {{ form_widget(form.plainPassword.children.second) }}
+        <div class="uk-form-row">
+            <div class="uk-form-label">
+                {{ form_label(form.plainPassword.children.second) }}
+            </div>
+            <div class="uk-form-controls">
+                {{ form_widget(form.plainPassword.children.second) }}
+            </div>
         </div>
     </div>
-
-    <div class="uk-form-row">
+    <div class="uk-form-row rc-align-center">
         <input type="submit" value="{{ 'registration.submit'|trans }}" />
     </div>
 
     {{ form_end(form) }}
 
 </div>
+
+{% block extra_content %}
+    <div class="uk-container uk-container-center rc-align-center">
+        <div class="uk-button-group">
+            <a class="uk-button" href="{{ path('fos_user_security_login') }}">Log in</a>
+        </div>
+    </div>
+{% endblock %}

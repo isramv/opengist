@@ -32,15 +32,17 @@
           <input type="checkbox" id="remember_me" name="_remember_me" value="on" /> <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
         </div>
       </div>
-      <div class="uk-form-row">
+      <div class="uk-form-row rc-align-center">
         <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
       </div>
     </form>
   </div>
-  <div class="uk-container uk-container-center">
-    <div class="forgot-container"><a href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a></div>
+  <div class="uk-container uk-container-center rc-align-center">
+    <div class="uk-button-group">
+      <a class="uk-button" href="{{ path('fos_user_registration_register') }}">Register</a>
+      <a class="uk-button" href="{{ path('fos_user_resetting_request') }}">Forgot Password?</a>
+    </div>
   </div>
-
 
 {% endblock fos_user_content %}
 

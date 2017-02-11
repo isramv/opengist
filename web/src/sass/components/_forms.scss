@@ -28,6 +28,10 @@ input#gist_title {
     border: 0;
     padding: 6px 12px;
     border-radius: 2px;
+    cursor: pointer;
+    &:hover {
+      background-color: #285c8a;
+    }
   }
   input[type="text"],
   input[type="email"],
@@ -43,4 +47,15 @@ input#gist_title {
     border: 1px solid #ccc;
     border-radius: 4px;
   }
+}
+.uk-form {
+  > .uk-form-row {
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+.rc-align-center {
+  text-align: center;
+  margin: 1em 0;
 }

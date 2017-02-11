@@ -83,7 +83,10 @@ input#gist_title {
     border-color: #2e6da4;
     border: 0;
     padding: 6px 12px;
-    border-radius: 2px; }
+    border-radius: 2px;
+    cursor: pointer; }
+    .login-form input[type="submit"]:hover {
+      background-color: #285c8a; }
   .login-form input[type="text"],
   .login-form input[type="email"],
   .login-form input[type="password"] {
@@ -97,6 +100,13 @@ input#gist_title {
     background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px; }
+
+.uk-form > .uk-form-row:last-of-type {
+  margin-bottom: 0; }
+
+.rc-align-center {
+  text-align: center;
+  margin: 1em 0; }
 
 .forgot-container {
   text-align: center;
