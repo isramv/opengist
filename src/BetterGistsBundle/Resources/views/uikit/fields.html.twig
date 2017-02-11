@@ -1,7 +1,7 @@
 {% block form_widget_simple %}
   <div class="uk-form-controls">
     {%- set type = type|default('text') -%}
-    {%- set classes = 'uk-form-large' -%}
+    {%- set classes = 'uk-form' -%}
     <input class="{{ classes }}" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
   </div>
 {% endblock %}

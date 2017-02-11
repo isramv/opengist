@@ -70,7 +70,7 @@ input#gist_title {
 .remove-tag {
   position: relative;
   z-index: 1;
-  left: 50px; }
+  left: 22px; }
 
 .rc-button-active {
   background: #dadada; }
@@ -122,6 +122,18 @@ input#gist_title {
   background-color: #f77777; }
   .rc-button-pink:hover {
     background-color: #e07575; }
+
+.rc-button-success {
+  background-color: #70e69f; }
+  .rc-button-success:hover {
+    background-color: #069000; }
+
+input.rc-button-primary {
+  background-color: #00a8e6;
+  color: #fff; }
+  input.rc-button-primary:hover {
+    background-color: #0571bf;
+    color: #fff; }
 
 .forgot-container {
   text-align: center;
