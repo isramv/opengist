@@ -1,5 +1,15 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
+{% block title %}Registration{% endblock %}
+
 {% block fos_user_content %}
-{% include "FOSUserBundle:Registration:register_content.html.twig" %}
+  {% include "FOSUserBundle:Registration:register_content.html.twig" %}
 {% endblock fos_user_content %}
+
+{% block body %}
+  <div class="uk-container uk-container-center rc-align-center">
+    <div class="uk-button-group">
+      <a class="uk-button rc-button-green" href="{{ path('fos_user_security_login') }}">Return to login.</a>
+    </div>
+  </div>
+{% endblock %}

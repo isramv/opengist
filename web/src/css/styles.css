@@ -41,6 +41,9 @@ ul.tags {
 .dataTables_wrapper .row.uk-grid.dt-merge-grid {
   margin-top: 10px; }
 
+.rc-auth {
+  background: #f7f7f7; }
+
 h1.page-title {
   margin: 15px 0;
   line-height: 1em;
@@ -74,12 +77,11 @@ input#gist_title {
 
 .login-form {
   width: 350px;
-  padding-top: 50px;
-  margin: 0 auto;
-  background: #ececec;
-  border: 2px solid #c3c3c3;
+  margin: 0 auto 50px;
+  background: #fff;
+  border: 1px solid #dadada;
   padding: 20px;
-  border-radius: 5px; }
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
   .login-form input[type="submit"] {
     color: #fff;
     background-color: #337ab7;
@@ -110,6 +112,16 @@ input#gist_title {
 .rc-align-center {
   text-align: center;
   margin: 1em 0; }
+
+.rc-button-green {
+  background-color: #67e4c4; }
+  .rc-button-green:hover {
+    background-color: #62debe; }
+
+.rc-button-pink {
+  background-color: #f77777; }
+  .rc-button-pink:hover {
+    background-color: #e07575; }
 
 .forgot-container {
   text-align: center;

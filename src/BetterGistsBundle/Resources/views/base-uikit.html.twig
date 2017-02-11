@@ -13,8 +13,10 @@
 <body>
 <div class="uk-container uk-container-center">
   <div class="rc-block">
+    {% block header %}{% endblock %}
     {% block content %}{% endblock %}
     {% block body %}{% endblock %}
+    {% block footer %}{% endblock %}
   </div>
 </div>
 

@@ -1,12 +1,34 @@
-{% extends '@BetterGists/base-uikit.html.twig' %}
-
-{% block title %} Welcome to opengist.io {% endblock %}
-
-{% block content %}
-
-  <div class="logo_container">
-    <img src="{{ asset('images/opengist.svg') }}" class="main_logo"/>
+<!DOCTYPE html>
+<html class="rc-auth">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Welcome{% endblock %}</title>
+  {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("src/uikit/css/uikit.css") }}"/>
+    <link rel="stylesheet" href="{{ asset("src/css/styles.css") }}"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+  {% endblock %}
+</head>
+<body>
+<div class="uk-container uk-container-center">
+  <div class="rc-block">
+    {% block header %}
+      <div class="logo_container">
+        <a href="{{ path('fos_user_security_login') }}"><img src="{{ asset('images/opengist.svg') }}" class="main_logo"/></a>
+      </div>
+    {% endblock %}
+    {% block content %}
+      {% block fos_user_content %}{% endblock %}
+    {% endblock %}
+    {% block body %}{% endblock %}
+    {% block footer %}{% endblock %}
   </div>
+</div>
 
-  {% block fos_user_content %}{% endblock %}
+</div>
+{% block javascripts %}
+  <script src="{{ asset("src/js/vendor/jquery/jquery.min.js") }}"></script>
+  <script src="{{ asset("src/uikit/js/uikit.js") }}"></script>
 {% endblock %}
+</body>
+</html>

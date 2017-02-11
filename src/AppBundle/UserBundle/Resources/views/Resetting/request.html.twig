@@ -1,6 +1,15 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
-{% block fos_user_content %}
+{% block title %}Request a new password.{% endblock %}
 
-{% include "FOSUserBundle:Resetting:request_content.html.twig" %}
+{% block fos_user_content %}
+  {% include "FOSUserBundle:Resetting:request_content.html.twig" %}
 {% endblock fos_user_content %}
+
+{% block body %}
+  <div class="uk-container uk-container-center rc-align-center">
+    <div class="uk-button-group">
+      <a class="uk-button rc-button-green" href="{{ path('fos_user_security_login') }}">Return to login.</a>
+    </div>
+  </div>
+{% endblock %}
