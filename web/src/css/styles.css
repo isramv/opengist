@@ -56,6 +56,17 @@ label {
 pre {
   background: #ffffff; }
 
+body {
+  font-family: 'Nunito', sans-serif; }
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold; }
+
 pre.sf-dump samp {
   white-space: pre !important;
   background: none;
