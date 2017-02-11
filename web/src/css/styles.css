@@ -38,6 +38,9 @@ ul.tags {
 .uk-block-muted {
   padding: 15px 0; }
 
+.dataTables_wrapper .row.uk-grid.dt-merge-grid {
+  margin-top: 10px; }
+
 h1.page-title {
   margin: 15px 0;
   line-height: 1em;

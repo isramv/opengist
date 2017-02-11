@@ -58,7 +58,8 @@
                 addTagForm();
             });
             // event for remove.
-            $(collection_container).on('click', '.remove-tag', function () {
+            $(collection_container).on('click', '.remove-tag', function (e) {
+                e.preventDefault();
                 $(this).parent('.tag-li').remove();
             });
 
