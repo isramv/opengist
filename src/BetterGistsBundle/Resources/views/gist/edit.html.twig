@@ -28,7 +28,7 @@
                 {{ form_widget(form.body) }}
             </div>
             <div class="rc-content">
-                <label>Tags:</label>
+                {{ form_label(form.tags) }}
                 <ul class="tags uk-list" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
                     {% for tag in form.tags  %}
                         <li class="tag-li">{{ form_row(tag.name) }} <a href="#" class="remove-tag"><span class="uk-icon-close"></span></a></li>
