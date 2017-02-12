@@ -1,8 +1,10 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+{% form_theme form '@BetterGists/uikit/fields.html.twig' %}
+
+<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit uk-form">
     {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+    <div class="rc-submit-container">
+        <input class="uk-button uk-button-large rc-button-primary" type="submit" value="{{ 'profile.edit.submit'|trans }}" />
     </div>
 </form>

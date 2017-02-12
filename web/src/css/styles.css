@@ -175,6 +175,9 @@ input.rc-button-primary {
     background-color: #0571bf;
     color: #fff; }
 
+.rc-submit-container {
+  margin-top: 15px; }
+
 .forgot-container {
   text-align: center;
   padding: 15px 10px; }
