@@ -1,0 +1,14 @@
+{% extends '@BetterGists/base-uikit-no-sidebar.html.twig' %}
+
+{% block navigation %}
+  <ul class="uk-tab">
+    <li class="{{ (app.request.requestUri == path('fos_user_change_password')) ? 'uk-active' }}"><a href="{{ path('fos_user_change_password') }}">Change Password</a></li>
+    <li class="{{ (app.request.requestUri == path('fos_user_profile_edit')) ? 'uk-active' }}"><a href="{{ path('fos_user_profile_edit') }}">Edit Profile</a></li>
+  </ul>
+{% endblock %}
+
+{% block content %}
+  <div class="rc-container">
+    {% block fos_user_content %}{% endblock %}
+  </div>
+{% endblock %}

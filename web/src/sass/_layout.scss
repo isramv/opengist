@@ -68,3 +68,38 @@ ul.tags {
 .rc-auth {
   background: #f7f7f7;
 }
+
+.rc-app-header {
+  background: #f7f7f7;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.rc-app-content {
+  padding-top: 20px;
+}
+
+.logo_container_main {
+  text-align: left;
+
+  .main_logo {
+    width: 150px;
+    height: auto;
+    padding: 10px;
+  }
+}
+
+.rc-user-navigation {
+  padding: 14px 20px;
+  text-align: right;
+  a {
+    color: #868686;
+    margin-right: 10px;
+    &:last-of-type {
+      margin-right: 0;
+    }
+    &:hover {
+      text-decoration: none;
+      color: #444;
+    }
+  }
+}

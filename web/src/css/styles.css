@@ -47,6 +47,32 @@ ul.tags {
 .rc-auth {
   background: #f7f7f7; }
 
+.rc-app-header {
+  background: #f7f7f7;
+  border-bottom: 1px solid #e6e6e6; }
+
+.rc-app-content {
+  padding-top: 20px; }
+
+.logo_container_main {
+  text-align: left; }
+  .logo_container_main .main_logo {
+    width: 150px;
+    height: auto;
+    padding: 10px; }
+
+.rc-user-navigation {
+  padding: 14px 20px;
+  text-align: right; }
+  .rc-user-navigation a {
+    color: #868686;
+    margin-right: 10px; }
+    .rc-user-navigation a:last-of-type {
+      margin-right: 0; }
+    .rc-user-navigation a:hover {
+      text-decoration: none;
+      color: #444; }
+
 h1.page-title {
   margin: 15px 0;
   line-height: 1em;
@@ -162,14 +188,3 @@ input.rc-button-primary {
   .logo_container .main_logo {
     width: 250px;
     height: auto; }
-
-.logo_container_main {
-  background: #f7f7f7;
-  text-align: left;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #e6e6e6; }
-  .logo_container_main .main_logo {
-    width: 150px;
-    height: auto;
-    padding-top: 5px; }
