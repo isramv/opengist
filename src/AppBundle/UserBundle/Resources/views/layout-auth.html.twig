@@ -2,6 +2,7 @@
 
 {% block navigation %}
   <ul class="uk-tab">
+    <li class="{{ (app.request.requestUri == path('fos_user_profile_show')) ? 'uk-active' }}"><a href="{{ path('fos_user_profile_show') }}">Profile</a></li>
     <li class="{{ (app.request.requestUri == path('fos_user_change_password')) ? 'uk-active' }}"><a href="{{ path('fos_user_change_password') }}">Change Password</a></li>
     <li class="{{ (app.request.requestUri == path('fos_user_profile_edit')) ? 'uk-active' }}"><a href="{{ path('fos_user_profile_edit') }}">Edit Profile</a></li>
   </ul>
