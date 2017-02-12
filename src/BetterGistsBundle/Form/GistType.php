@@ -4,7 +4,9 @@ namespace BetterGistsBundle\Form;
 
 use BetterGistsBundle\Entity\Tags;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,7 +27,7 @@ class GistType extends AbstractType
               'entry_type' => TagsType::class,
               'allow_add' => true,
               'allow_delete' => true,
-            ));
+            ))->add('save', SubmitType::class);
     }
     
     /**

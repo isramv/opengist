@@ -123,8 +123,13 @@
     {%- endif -%}
     {# if submit add class primary #}
     {% if type == 'submit' %}
-      {% set extraclass = 'uk-button-primary' %}
+      {% set classes = ['uk-button-large','uk-button-primary','rc-button-primary'] %}
     {% endif %}
-    <button class="uk-button {{ extraclass }}" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>
+    <button class="uk-button {{ classes|join(' ') }}" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>
   </div>
 {%- endblock button_widget -%}
+
+{%- block submit_widget -%}
+  {%- set type = type|default('submit') -%}
+  {{ block('button_widget') }}
+{%- endblock submit_widget -%}

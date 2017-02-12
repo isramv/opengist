@@ -27,6 +27,7 @@
             <div>
                 {{ form_widget(form.body) }}
             </div>
+
             <div class="rc-content">
                 {{ form_label(form.tags) }}
                 <ul class="tags uk-list" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}">
@@ -36,7 +37,7 @@
                 </ul>
                 <div class="rc-content"><a class="uk-button add_tag_button rc-button-green" href="#"><span class="uk-icon-plus"></span> Add a tag</a></div>
             </div>
-            <input class="uk-button uk-button-large rc-button-primary" type="submit" value="Save">
+
             {{ form_end(form) }}
         </div>
 
