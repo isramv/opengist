@@ -68,6 +68,8 @@ class GistDatatablesPaginator extends  BPaginator
           $this->setOrderBy(array('x.'.$key => $value));
         } else if ($key === 'title' && ($value === 'desc' || $value === 'asc')) {
           $this->setOrderBy(array('x.'.$key => $value));
+        } else if ($key === 'isPublic' && ($value === 'desc' || $value === 'asc')) {
+          $this->setOrderBy(array('x.'.$key => $value));
         }
       }
     }

@@ -22,6 +22,7 @@ class GistType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('isPublic')
             ->add('body')
             ->add('tags', CollectionType::class, array(
               'entry_type' => TagsType::class,

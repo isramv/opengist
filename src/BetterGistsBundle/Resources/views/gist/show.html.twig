@@ -7,6 +7,9 @@
         <a class="uk-button" href="{{ path('gist_confirm_delete', { 'id': gist.id}) }}"><span class="uk-icon-trash"></span> Delete</a>
     </div>
     <div class="rc-content-right rc-content-lean-bottom">
+        {% if gist.isPublic  %}
+            <span class="uk-icon-eye"></span> Gist is public.
+        {% endif %}
         <span class="uk-icon-tags"></span> Tags:
         {% for tag in gist.tags %}
             <a class="uk-button uk-button-mini" href="{{ path('tags_show', {'id': tag.id}) }}">{{ tag.name }}</a>
