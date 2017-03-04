@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Welcome!{% endblock %}</title>
+  {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("src/uikit/css/uikit.css") }}"/>
+    <link rel="stylesheet" href="{{ asset("src/css/styles.css") }}"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito|Quicksand:400,500,700&amp;subset=latin-ext" rel="stylesheet">
+  {% endblock %}
+</head>
+<body>
+{# top navbar. #}
+{% block header %}
+  <header class="rc-block rc-app-header">
+    <div class="rc-app-header_container">
+      <div class="uk-grid">
+        <div class="uk-width-1-1">
+          {% block logo %}
+            {% embed "BetterGistsBundle::logo.html.twig" %}{% endembed %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock %}
+<div class="uk-container uk-container-center rc-app-content">
+  {% block navigation %}{% endblock %}
+  {% block content %}{% endblock %}
+  {% block body %}{% endblock %}
+</div>
+{% block footer %}
+{% endblock %}
+</div>
+{% block javascripts %}
+  <script src="{{ asset("src/js/vendor/jquery/jquery.min.js") }}"></script>
+  <script src="{{ asset("src/uikit/js/uikit.js") }}"></script>
+{% endblock %}
+</body>
+</html>

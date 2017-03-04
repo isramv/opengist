@@ -3,16 +3,25 @@ app:
     type:     annotation
     prefix:   /
 
-better_gists:
+gists:
     resource: "@BetterGistsBundle/Controller/GistController.php"
     type:     annotation
 
-better_gists_rest_login:
+gist_public:
+    resource: "@BetterGistsBundle/Controller/GistPublicController.php"
+    type:     annotation
+
+gists_rest_login:
     resource: "@BetterGistsBundle/Controller/RestLoginController.php"
     type:     annotation
     prefix:   /api
 
-better_gists_tags:
+gists_rest:
+    resource: "@RestGistBundle/Controller/RestGistController.php"
+    type:     annotation
+    prefix:   /api/v1
+
+gists_tags:
     resource: "@BetterGistsBundle/Controller/TagsController.php"
     type:     annotation
 
@@ -23,7 +32,3 @@ rest_gist:
     resource: "@RestGistBundle/Controller"
     type:     annotation
 
-better_gists_rest:
-    resource: "@RestGistBundle/Controller/RestGistController.php"
-    type:     annotation
-    prefix:   /api/v1

@@ -1,0 +1,13 @@
+{% extends '@BetterGists/public_gist/base-uikit-public.html.twig' %}
+
+{% block content %}
+  <h1>These are {{ username }} public Gists</h1>
+
+  <ul class="uk-list">
+    {% for item in public_gists %}
+      <li><a href="{{ item.id }}">{{ item.title }}</a></li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}
+
