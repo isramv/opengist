@@ -71,6 +71,13 @@ class Gist
     private $created;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_public", type="boolean", nullable=true)
+     */
+    private $isPublic;
+
+    /**
      * Gist constructor.
      */
     public function __construct()
@@ -229,5 +236,23 @@ class Gist
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /**
+     * Set isPublic
+     * @param boolean $isPublic
+     */
+    public function setIsPublic($isPublic)
+    {
+      $this->isPublic = $isPublic;
+    }
+
+    /**
+     * GetIsPublic
+     * @return bool
+     */
+    public function getIsPublic()
+    {
+      return $this->isPublic;
     }
 }
