@@ -25,7 +25,6 @@ class AppKernel extends Kernel
             new AppBundle\UserBundle\BetterGistUserBundle(),
             new BetterGistsBundle\BetterGistsBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new FOS\RestBundle\FOSRestBundle(),
             new RestGistBundle\RestGistBundle()
         );
 
