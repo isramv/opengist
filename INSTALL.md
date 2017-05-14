@@ -32,4 +32,4 @@ Answer the questions:
 - `token_phrase`: ChangeThisForASecureStringForJWTAuthentication
 - `secret (ThisTokenIsNotSoSecretChangeIt)`: AlsoChangeThisForASecureString
 
-
+![should_see_something_like](https://www.evernote.com/l/Ar-EAIR7_rRKeJAoHnl83oeu4bY4gkKg22UB/image.png)
