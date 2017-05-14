@@ -38,7 +38,7 @@ Answer the questions:
 
 ![browser](https://www.evernote.com/l/Ar8lAuSaZ6VC46XqPv4SoCHOh_0AxJruI7sB/image.png)
 
-# Creating the symfony Database:
+# Creating the opengist Database:
 
 you should be login into the vagrant vm.
 
