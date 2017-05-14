@@ -10,9 +10,23 @@ Clone the repo:
 
 `cd opengistvm`
 
-Copy the following config file in the root of opengistvm folder.
+Copy the following [config file](https://gist.github.com/isramv/7320d6ea0c3215fb5fe11449b8884c9e) in the root of opengistvm folder.
+
+Then execute:
+
+`vagrant up`
+
+`vagrant provision`
+
+When everything finishes go to:
 
 `http://dashboard.opengist.dev/` << more configuration information will be available here.
+
+ssh into you vagrant machine:
+
+`vagrant ssh`
+
+`cd /var/www/opengist`
 
 `composer install`
 
