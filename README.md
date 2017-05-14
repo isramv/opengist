@@ -2,10 +2,10 @@
 
 This webapp help you manage your own gist server
 
+[Installing locally using Vagrant](INSTALL.md)
+
 ![screen_shot](https://www.evernote.com/l/Ar-wrMe8oPVFpofo9x3AOU37D-vt2RRfN9AB/image.png)
 
-Local installation with vagrant: [INSTALL.md](INSTALL.md)
+# TODO
 
-This a experimental and prof of concept project to test Symfony 2.8
-
-
+- Update to symfony 3.0
