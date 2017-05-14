@@ -1,4 +1,4 @@
-# Install local development
+# Installing locally using Vagrant.
 
 I recommned the drupal-vm and easy to setup vm which is highly configurable.
 
