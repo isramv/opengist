@@ -53,3 +53,16 @@ Creating database schema...
 Database schema created successfully!
 ```
 
+# Creating your first user
+
+`php app/console fos:user:create`
+
+Fill the questionarie with your own information.
+
+```
+Please choose a username:admin
+Please choose an email:admin@example.com
+Please choose a password:
+Created user admin
+```
+
