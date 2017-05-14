@@ -1,8 +1,8 @@
 # Installing locally using Vagrant.
 
-I recommned the drupal-vm and easy to setup vm which is highly configurable.
+I recommned the drupalvm is easy to setup and highly configurable.
 
-- [drupal-vm](https://github.com/geerlingguy/drupal-vm)
+- [drupalvm](https://github.com/geerlingguy/drupal-vm)
 
 Clone the repo:
 
