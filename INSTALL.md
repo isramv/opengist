@@ -65,4 +65,7 @@ Please choose an email:admin@example.com
 Please choose a password:
 Created user admin
 ```
+Now you should be able to access the app:
+
+![gist_screenshot](https://www.evernote.com/l/Ar-AtgP6M41K045pR-lSD48ZWEaCUExxrDMB/image.png)
 
