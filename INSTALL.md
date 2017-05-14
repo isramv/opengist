@@ -33,3 +33,7 @@ Answer the questions:
 - `secret (ThisTokenIsNotSoSecretChangeIt)`: AlsoChangeThisForASecureString
 
 ![should_see_something_like](https://www.evernote.com/l/Ar-EAIR7_rRKeJAoHnl83oeu4bY4gkKg22UB/image.png)
+
+# Test in the browser
+
+![browser](https://www.evernote.com/l/Ar8lAuSaZ6VC46XqPv4SoCHOh_0AxJruI7sB/image.png)
