@@ -12,6 +12,8 @@ Clone the repo:
 
 Copy the following config file in the root of opengistvm folder.
 
+`http://dashboard.opengist.dev/` << more configuration information will be available here.
+
 `composer install`
 
 Answer the questions:
@@ -68,4 +70,8 @@ Created user admin
 Now you should be able to access the app:
 
 ![gist_screenshot](https://www.evernote.com/l/Ar-AtgP6M41K045pR-lSD48ZWEaCUExxrDMB/image.png)
+
+# Development environment.
+
+If you are using this instructions you should be able to access `http://opengist.dev/app_dev.php/`
 
