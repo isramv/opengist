@@ -37,3 +37,19 @@ Answer the questions:
 # Test in the browser
 
 ![browser](https://www.evernote.com/l/Ar8lAuSaZ6VC46XqPv4SoCHOh_0AxJruI7sB/image.png)
+
+# Creating the symfony Database:
+
+you should be login into the vagrant vm.
+
+if not use `vagrant ssh` and then, inside your vagrant machine go to the root of your web folder:
+
+`cd /var/www/opengist`
+
+`php app/console doctrine:schema:create`
+
+```
+Creating database schema...
+Database schema created successfully!
+```
+
