@@ -14,6 +14,8 @@ Copy the following [config file](https://gist.github.com/isramv/7320d6ea0c3215fb
 
 `curl -O https://gist.githubusercontent.com/isramv/7320d6ea0c3215fb5fe11449b8884c9e/raw/ead711938f152f67c9e69cfd265bc04b4e5358c1/config.yml`
 
+`git clone git@github.com:isramv/opengist.git opengist`
+
 Then execute:
 
 `vagrant up`
