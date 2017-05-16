@@ -5,7 +5,8 @@
   "main": "gulpfile.js",
   "dependencies": {
     "bourbon": "^4.2.6",
-    "sass-mq": "^3.3.0-beta.3"
+    "sass-mq": "^3.3.0-beta.3",
+    "simplemde": "^1.11.2"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
@@ -19,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://bitbucket.org/isramv/myapp"
+    "url": "git+https://github.com/isramv/opengist"
   },
   "keywords": [
     "gulp",
