@@ -18,8 +18,8 @@ parameters:
     mailer_encryption:  ~
     mailer_auth_mode: login
 
-    token_kid: ~
-    token_phrase: ~
+    # A secret key that's used to authenticate JWT request.
+    token_phrase: ThisTokenIsNotSoSecretChangeIt
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret: ThisTokenIsNotSoSecretChangeIt
