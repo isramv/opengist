@@ -191,3 +191,9 @@ input.rc-button-primary {
   .logo_container .main_logo {
     width: 250px;
     height: auto; }
+
+:not(pre) > code, :not(pre) > kbd, :not(pre) > samp {
+  white-space: initial; }
+
+.uk-container .hljs {
+  background: #fff; }

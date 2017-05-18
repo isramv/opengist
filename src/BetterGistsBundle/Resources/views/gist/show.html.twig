@@ -21,3 +21,15 @@
         </div>
     </div>
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('/src/js/vendor/highlight.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset("src/css/vendor_css/highlight/github.min.css") }}">
+    <script>
+        $(document).ready(function() {
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+{% endblock %}
