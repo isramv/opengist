@@ -2,6 +2,8 @@
 
 This webapp help you manage your own gist server
 
+![screen_shot](https://www.evernote.com/l/Ar_Ss2Vm5GVKq60_N-6oqtwM0zZP9aNXSs4B/image.png)
+
 [Installing locally using Vagrant](INSTALL.md)
 
 ![screen_shot](https://www.evernote.com/l/Ar-wrMe8oPVFpofo9x3AOU37D-vt2RRfN9AB/image.png)
