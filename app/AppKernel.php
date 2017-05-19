@@ -25,7 +25,8 @@ class AppKernel extends Kernel
             new AppBundle\UserBundle\BetterGistUserBundle(),
             new BetterGistsBundle\BetterGistsBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new RestGistBundle\RestGistBundle()
+            new RestGistBundle\RestGistBundle(),
+            new \FS\SolrBundle\FSSolrBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

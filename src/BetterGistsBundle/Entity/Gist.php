@@ -12,10 +12,13 @@ use Doctrine\ORM\Mapping\OneToOne;
 use AppBundle\Entity\User as FosUser;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use FS\SolrBundle\Doctrine\Annotation as Solr;
+use FS\SolrBundle\Doctrine\Annotation\Id;
+use FS\SolrBundle\Doctrine\Annotation\Field;
 
 /**
  * Gist
- *
+ * @Solr\Document()
  * @ORM\Table(name="gist")
  * @ORM\Entity(repositoryClass="BetterGistsBundle\Repository\GistRepository")
  */
@@ -23,7 +26,7 @@ class Gist
 {
     /**
      * @var int
-     *
+     * @Solr\Id()
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -32,18 +35,19 @@ class Gist
 
     /**
      * @var string
-     *
+     * @Solr\Field(type="string")
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
 
     /**
      * @var string
-     *
+     * @Solr\Field(type="text")
      * @ORM\Column(name="body", type="text", nullable=true)
      */
     private $body;
 
+    // TODO implement Solr Object Relations.
     /**
      * @ManyToMany(targetEntity="Tags", inversedBy="gists")
      * @JoinTable(name="tags_gists")
