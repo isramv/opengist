@@ -48,17 +48,6 @@ class GistController extends Controller {
    */
   public function indexAction(Request $request) {
 
-
-    $solr = $this->get('solr.client');
-
-    $solr_query = $this->get('solr.client')->createQuery('BetterGistsBundle:Gist');
-    $solr_query->addSearchTerm('title', 'font');
-//    dump($solr_query->getResult());
-
-    $result = $solr_query->getResult();
-    dump($result);
-
-
     $em = $this->getDoctrine()->getManager();
     $gist_repository = $em->getRepository('BetterGistsBundle:Gist');
 
