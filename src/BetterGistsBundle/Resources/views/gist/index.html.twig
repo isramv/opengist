@@ -6,10 +6,7 @@
     <a class="uk-button" href="{{ path('gist_new') }}"><span class="uk-icon-file-o"></span> New Gist</a>
     <div style="padding: 5px;"></div>
     {% block search %}
-      <div class="uk-form-row">
-        <div class="uk-form-controls">
-          <input type="text" class="uk-form">
-        </div>
+      <div id="search_box">
       </div>
     {% endblock %}
     <table id="dataTable" class="uk-table uk-table-striped gist-table" width="100%">
