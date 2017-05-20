@@ -40,7 +40,8 @@
         <li class="{{ (app.request.requestUri == path('tags_index')) ? 'uk-active' }}"><a href="{{ path('tags_index') }}">Tags</a></li>
       </ul>
   {% endblock %}
-  {% block content %}{% endblock %}
+  {% block content %}
+  {% endblock %}
   {% block body %}{% endblock %}
 </div>
 {% block footer %}

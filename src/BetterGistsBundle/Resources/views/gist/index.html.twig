@@ -5,6 +5,13 @@
     <h1 class="page-title">Gists</h1>
     <a class="uk-button" href="{{ path('gist_new') }}"><span class="uk-icon-file-o"></span> New Gist</a>
     <div style="padding: 5px;"></div>
+    {% block search %}
+      <div class="uk-form-row">
+        <div class="uk-form-controls">
+          <input type="text" class="uk-form">
+        </div>
+      </div>
+    {% endblock %}
     <table id="dataTable" class="uk-table uk-table-striped gist-table" width="100%">
         <thead>
         <tr>
@@ -39,7 +46,7 @@
           $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-            pageLength: 10,
+            pageLength: 25,
             searching: false,
             stateSave: true,
             ajax: {

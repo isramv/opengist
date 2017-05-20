@@ -32,3 +32,6 @@ rest_gist:
     resource: "@RestGistBundle/Controller"
     type:     annotation
 
+search_gist:
+    resource: "@RestGistBundle/Controller/SearchGistController.php"
+    type:     annotation
